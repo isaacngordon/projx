@@ -10,44 +10,44 @@ fn main() {
         .version("1.0")
         .about("Project Management CLI")
         .subcommand(
-            Command::new("create")
-                .about("Commands related to creation")
+            Command::new("template")
+                .about("Commands related to templates")
                 .subcommand(
-                    Command::new("project")
-                        .about("Creates a new project")
-                        .arg(Arg::new("template-key").required(true))
-                        .arg(Arg::new("project-name").required(true))
+                    Command::new("add")
+                        .about("Adds a new template")
+                        .arg(Arg::new("name").required(true))
+                        .arg(Arg::new("file").short('f').long("file").required(true))
                 )
                 .subcommand(
-                    Command::new("template")
+                    Command::new("create")
                         .about("Creates a new template")
                         .arg(Arg::new("name").required(true))
                 )
         )
         .subcommand(
-            Command::new("add")
-                .about("Commands related to adding")
+            Command::new("project")
+                .about("Commands related to projects")
                 .subcommand(
-                    Command::new("template")
-                        .about("Adds a new template")
-                        .arg(Arg::new("name").required(true))
-                        .arg(Arg::new("file").short('f').long("file").required(true))
+                    Command::new("create")
+                        .about("Creates a new project")
+                        .arg(Arg::new("template-key").required(true))
+                        .arg(Arg::new("project-name").required(true))
                 )
         )
         .get_matches();
 
     match matches.subcommand() {
-        Some(("create", create_matches)) => {
-            match create_matches.subcommand() {
-                Some(("project", project_matches)) => create_project(project_matches),
-                Some(("template", template_matches)) => create_template(template_matches),
-                _ => eprintln!("Unknown create command"),
+        Some(("template", template_matches)) => {
+            match template_matches.subcommand() {
+                Some(("add", add_matches)) => add_template(add_matches),
+                Some(("create", create_matches)) => create_template(create_matches),
+                _ => eprintln!("Unknown template command"),
             }
         }
-        Some(("add", add_matches)) => {
-            match add_matches.subcommand() {
-                Some(("template", template_matches)) => add_template(template_matches),
-                _ => eprintln!("Unknown add command"),
+        Some(("project", project_matches)) => {
+            match project_matches.subcommand() {
+                Some(("create", create_matches)) => create_project(create_matches),
+                _ => eprintln!("Unknown project command"),
             }
         }
         _ => eprintln!("Unknown command"),
