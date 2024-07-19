@@ -23,13 +23,13 @@ pub fn add_template(matches: &ArgMatches) {
                 println!("Operation cancelled.");
                 std::process::exit(1);
             }
-            println!("Added template with name: {} using current directory: {}", name, current_dir.display());
+            println!("Adding template \"{}\" using current directory: {}", name, current_dir.display());
         }
         (Some(file), None) => {
-            println!("Added template with name: {} using file: {}", name, file);
+            println!("Adding template \"{}\" using file: {}", name, file);
         }
         (None, Some(dir)) => {
-            println!("Added template with name: {} using directory: {}", name, dir);
+            println!("Adding template \"{}\" using directory: {}", name, dir);
         }
     }
 
