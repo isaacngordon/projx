@@ -52,9 +52,6 @@ pub fn add_template(matches: &ArgMatches) {
         (Some(file), None) => {
             println!("add template command executed with name: {} and file: {}", name, file);
         }
-        (Some(file), None) => {
-            println!("add template command executed with name: {} and file: {}", name, file);
-        }
         (None, Some(dir)) => {
             println!("add template command executed with name: {} and directory: {}", name, dir);
         }
