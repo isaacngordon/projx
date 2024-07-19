@@ -66,6 +66,7 @@ pub fn add_template(matches: &ArgMatches) {
         }
     };
     println!("Template will consist of {} files.", files_to_copy.len());
+    println!("Files to copy: {:?}", files_to_copy);
 
     // Determine the path to the templates directory based on the build configuration.
     let path_to_templates= get_path_to_templates();
@@ -97,6 +98,7 @@ pub fn add_template(matches: &ArgMatches) {
 
     // Create the projx.toml file and write the metadata.
     write_projx_toml_file(&projx_toml, &name, &description, &author);
+    copy_files_to_template(&files_to_copy, &template_dir);
 
 }
 
@@ -116,6 +118,16 @@ fn crawl_directory(dir: &PathBuf, files: &mut Vec<PathBuf>) {
         } else {
             files.push(path);
         }
+    }
+}
+
+fn copy_files_to_template(files: &Vec<PathBuf>, template_dir: &PathBuf) {
+    for (index, file) in files.iter().enumerate() {
+        let file_name = file.file_name().unwrap();
+        let dest = template_dir.join(file_name);
+        println!("[{} of {}] Copying {} to {}", index + 1, files.len(), file.display(), dest.display());
+        fs::copy(file, dest).unwrap();
+        println!("[{} of {}] Copied.", index + 1, files.len());
     }
 }
 
