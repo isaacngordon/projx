@@ -3,13 +3,14 @@ use clap::ArgMatches;
 use std::fs;
 use std::path::PathBuf;
 use std::env;
+use dirs;
 
 pub fn add_template(matches: &ArgMatches) {
     let name = matches.get_one::<String>("name").unwrap();
     let path_to_templates = if cfg!(debug_assertions) {
         PathBuf::from("src/templates")
     } else {
-        let mut home_dir = env::home_dir().unwrap();
+        let mut home_dir = dirs::home_dir().unwrap();
         home_dir.push(".projx/templates");
         home_dir
     };
@@ -30,6 +31,7 @@ pub fn add_template(matches: &ArgMatches) {
     } else if !projx_toml.exists() {
         fs::File::create(&projx_toml).unwrap();
     }
+    let file = matches.get_one::<String>("file");
     let dir = matches.get_one::<String>("dir");
 
     match (file, dir) {
@@ -47,6 +49,9 @@ pub fn add_template(matches: &ArgMatches) {
                 std::process::exit(1);
             }
             println!("add template command executed with name: {} and directory: {}", name, current_dir.display());
+        }
+        (Some(file), None) => {
+            println!("add template command executed with name: {} and file: {}", name, file);
         }
         (Some(file), None) => {
             println!("add template command executed with name: {} and file: {}", name, file);
