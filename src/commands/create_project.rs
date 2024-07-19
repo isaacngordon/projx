@@ -1,5 +1,6 @@
 // src/commands/create_project.rs
 use clap::ArgMatches;
+use std::path::PathBuf;
 
 pub fn create_project(matches: &ArgMatches) {
     let template_key = matches.get_one::<String>("template-key").unwrap();
