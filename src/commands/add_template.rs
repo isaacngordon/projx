@@ -104,15 +104,12 @@ pub fn add_template(matches: &ArgMatches) {
         author.trim().to_string()
     };
 
-    // Create the projx.toml file and write the commands for each section.
-    // Create the projx.toml file if the template directory exists but the file does not.
-    let mut file = fs::File::create(&projx_toml).unwrap();
-
     // Write the metadata to the projx.toml file.
     writeln!(file, "name = \"{}\"", name).unwrap();
     writeln!(file, "description = \"{}\"", description).unwrap();
     writeln!(file, "version = \"1.0.0\"").unwrap();
     writeln!(file, "author = \"{}\"\n", author).unwrap();
+
     let sections = ["preinstall", "install", "start", "build", "deploy"];
     // Create the projx.toml file and write the commands for each section.
     // Create the projx.toml file if the template directory exists but the file does not.
