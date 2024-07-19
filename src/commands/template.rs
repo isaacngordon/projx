@@ -126,8 +126,8 @@ fn copy_files_to_template(files: &Vec<PathBuf>, template_dir: &PathBuf) {
         let file_name = file.file_name().unwrap();
         let dest = template_dir.join(file_name);
         println!("[{} of {}] Copying {} to {}", index + 1, files.len(), file.display(), dest.display());
-        fs::copy(file, dest).unwrap();
-        println!("[{} of {}] Copied.", index + 1, files.len());
+        fs::copy(file, &dest).unwrap();
+        println!("[{} of {}] Copied {} to {}", index + 1, files.len(), file.display(), dest.display());
     }
 }
 
