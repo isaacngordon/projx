@@ -19,6 +19,8 @@ fn main() {
                         .arg(Arg::new("file").short('f').long("file"))
                         .arg(Arg::new("dir").short('d').long("dir"))
                         .arg(Arg::new("destination").short('d').long("destination"))
+                
+                )
                 .subcommand(
                     Command::new("create")
                         .about("Creates a new template")
