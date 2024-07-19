@@ -3,6 +3,7 @@ use clap::ArgMatches;
 use std::fs;
 use std::path::PathBuf;
 use dirs;
+use std::io::{self, Write};
 
 /// Adds a new template based on the provided arguments.
 /// 
@@ -67,13 +68,31 @@ pub fn add_template(matches: &ArgMatches) {
         // Create the template directory and projx.toml file if the directory does not exist.
         fs::create_dir(&template_dir).unwrap();
         println!("Created template directory at: {}", template_dir.display());
+        fn get_command_list(section_name: &str) -> Vec<String> {
+            let mut commands = Vec::new();
+            println!("Enter commands for [{}] section. Press Enter without typing anything to finish.", section_name);
+            loop {
+                let mut input = String::new();
+                io::stdin().read_line(&mut input).unwrap();
+                let command = input.trim().to_string();
+                if command.is_empty() {
+                    break;
+                }
+                commands.push(command);
+            }
+            commands
+        }
+
+        let sections = ["preinstall", "install", "start", "build", "deploy"];
         let mut file = fs::File::create(&projx_toml).unwrap();
-        use std::io::Write;
-        writeln!(file, "[preinstall]\ncommands = []\n").unwrap();
-        writeln!(file, "[install]\ncommands = []\n").unwrap();
-        writeln!(file, "[start]\ncommands = []\n").unwrap();
-        writeln!(file, "[build]\ncommands = []\n").unwrap();
-        writeln!(file, "[deploy]\ncommands = []\n").unwrap();
+        for section in &sections {
+            let commands = get_command_list(section);
+            writeln!(file, "[{}]\ncommands = [", section).unwrap();
+            for command in commands {
+                writeln!(file, "\"{}\",", command).unwrap();
+            }
+            writeln!(file, "]\n").unwrap();
+        }
         println!("Created projx.toml file at: {}", projx_toml.display());
     } else if !projx_toml.exists() {
         // Create the projx.toml file if the template directory exists but the file does not.
