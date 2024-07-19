@@ -18,12 +18,8 @@ fn main() {
                         .arg(Arg::new("name").required(true))
                         .arg(Arg::new("file").short('f').long("file"))
                         .arg(Arg::new("dir").short('d').long("dir"))
-                        .arg(Arg::new("destination").short('d').long("destination"))
                 
                 )
-                .arg(Arg::new("destination").short('d').long("destination"))
-                .arg(Arg::new("destination").short('d').long("destination"))
-                .arg(Arg::new("destination").short('d').long("destination"))
                 .subcommand(
                     Command::new("create")
                         .about("Creates a new template")
@@ -38,6 +34,7 @@ fn main() {
                         .about("Creates a new project")
                         .arg(Arg::new("template-key").required(true))
                         .arg(Arg::new("project-name").required(true))
+                        .arg(Arg::new("destination").short('d').long("destination"))
                 )
         )
         .get_matches();
