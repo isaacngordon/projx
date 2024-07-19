@@ -1,9 +1,8 @@
 mod commands;
 
 use clap::{Arg, Command};
-use commands::add_template::add_template;
+use commands::template::{add_template,create_template};
 use commands::create_project::create_project;
-use commands::create_template::create_template;
 
 fn main() {
     let matches = Command::new("projx")

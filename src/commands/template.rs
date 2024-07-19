@@ -6,35 +6,6 @@ use std::fs;
 use std::io::{self, Write};
 use std::path::PathBuf;
 
-/// Prompts the user to enter a description for the provided item.
-/// 
-/// # Arguments
-/// 
-/// * `to_describe` - A String containing the name of the item to describe.
-fn prompt_description(to_describe: String) -> String {
-    println!("Enter a description for the {}: ", to_describe);
-    let mut description = String::new();
-    io::stdin().read_line(&mut description).unwrap();
-    description.trim().to_string()
-}
-
-/// Prompt the user for the author.
-/// 
-/// # Arguments
-/// 
-/// * `of_item` - A String containing the name of the item to describe.
-fn prompt_author(of_item: &str) -> String {
-    println!("Enter the author of the {} (optional, default is system user):", of_item);
-    let mut author = String::new();
-    io::stdin().read_line(&mut author).unwrap();
-    let author = if author.trim().is_empty() {
-        whoami::realname()
-    } else {
-        author.trim().to_string()
-    };
-    author
-}
-
 
 /// Adds a new template based on the provided arguments.
 ///
@@ -115,6 +86,67 @@ pub fn add_template(matches: &ArgMatches) {
 
 }
 
+/// Creates a new template based on prompts to the user and with an LLM.
+pub fn create_template(matches: &ArgMatches) {
+    let name = matches.get_one::<String>("name").unwrap();
+    println!("create template command executed with name: {}", name);
+}
+
+/// Prompts the user to enter a description for the provided item.
+/// 
+/// # Arguments
+/// 
+/// * `to_describe` - A String containing the name of the item to describe.
+fn prompt_description(to_describe: String) -> String {
+    println!("Enter a description for the {}: ", to_describe);
+    let mut description = String::new();
+    io::stdin().read_line(&mut description).unwrap();
+    description.trim().to_string()
+}
+
+/// Prompt the user for the author.
+/// 
+/// # Arguments
+/// 
+/// * `of_item` - A String containing the name of the item to describe.
+fn prompt_author(of_item: &str) -> String {
+    println!("Enter the author of the {} (optional, default is system user):", of_item);
+    let mut author = String::new();
+    io::stdin().read_line(&mut author).unwrap();
+    let author = if author.trim().is_empty() {
+        whoami::realname()
+    } else {
+        author.trim().to_string()
+    };
+    author
+}
+
+/// Function to prompt the user for commands for each section.
+/// 
+/// # Arguments
+/// 
+/// * `section_name` - A String containing the name of the section to prompt for commands.
+fn prompt_command_list(command_name: &str) -> Vec<String> {
+    let mut commands = Vec::new();
+    // Prompt the user to enter commands for the given section.
+    println!(
+        "Enter commands for [{}] section. Press Enter without typing anything to finish.",
+        command_name
+    );
+    loop {
+        // Read user input for commands.
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).unwrap();
+        let command = input.trim().to_string();
+        // Break the loop if the input is empty.
+        if command.is_empty() {
+            break;
+        }
+        commands.push(command);
+    }
+    commands
+}
+
 /// Function to get the path to the templates directory.
 /// 
 /// # Returns
@@ -158,7 +190,7 @@ fn write_projx_toml_file(projx_toml: &PathBuf, name: &str, description: &str, au
     let sections = ["preinstall", "install", "start", "build", "deploy"];
     for section in &sections {
         // Get the list of commands for the current section.
-        let commands = get_command_list(section);
+        let commands = prompt_command_list(section);
         // Write the section header and commands to the projx.toml file.
         writeln!(file, "[{}]\ncommands = [", section).unwrap();
         for command in commands {
@@ -171,28 +203,3 @@ fn write_projx_toml_file(projx_toml: &PathBuf, name: &str, description: &str, au
     println!("Created projx.toml file at: {}", projx_toml.display());
 }
 
-/// Function to prompt the user for commands for each section.
-/// 
-/// # Arguments
-/// 
-/// * `section_name` - A String containing the name of the section to prompt for commands.
-fn get_command_list(section_name: &str) -> Vec<String> {
-    let mut commands = Vec::new();
-    // Prompt the user to enter commands for the given section.
-    println!(
-        "Enter commands for [{}] section. Press Enter without typing anything to finish.",
-        section_name
-    );
-    loop {
-        // Read user input for commands.
-        let mut input = String::new();
-        io::stdin().read_line(&mut input).unwrap();
-        let command = input.trim().to_string();
-        // Break the loop if the input is empty.
-        if command.is_empty() {
-            break;
-        }
-        commands.push(command);
-    }
-    commands
-}
