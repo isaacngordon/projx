@@ -4,6 +4,8 @@ use clap::ArgMatches;
 pub fn create_project(matches: &ArgMatches) {
     let template_key = matches.get_one::<String>("template-key").unwrap();
     let project_name = matches.get_one::<String>("project-name").unwrap();
+    let destination = matches.get_one::<String>("destination");
+
     // Ensure the template directory exists
     let path_to_templates = if cfg!(debug_assertions) {
         PathBuf::from("src/templates")
@@ -20,6 +22,18 @@ pub fn create_project(matches: &ArgMatches) {
         std::process::exit(1);
     }
 
-    println!("create project command executed with template-key: {} and project-name: {}", template_key, project_name);
+    // Determine the destination directory based on the provided argument or default paths.
+    let destination_dir = if let Some(dest) = destination {
+        PathBuf::from(dest)
+    } else if cfg!(debug_assertions) {
+        eprintln!("Error: Destination must be provided in development mode.");
+        std::process::exit(1);
+    } else {
+        let mut home_dir = dirs::home_dir().unwrap();
+        home_dir.push(".projx/projects");
+        home_dir.join(project_name)
+    };
+
+    println!("create project command executed with template-key: {}, project-name: {}, and destination: {}", template_key, project_name, destination_dir.display());
 }
 
