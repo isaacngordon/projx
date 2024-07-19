@@ -22,6 +22,7 @@ fn main() {
                 
                 )
                 .arg(Arg::new("destination").short('d').long("destination"))
+                .arg(Arg::new("destination").short('d').long("destination"))
                 .subcommand(
                     Command::new("create")
                         .about("Creates a new template")
