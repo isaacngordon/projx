@@ -67,11 +67,23 @@ pub fn add_template(matches: &ArgMatches) {
         // Create the template directory and projx.toml file if the directory does not exist.
         fs::create_dir(&template_dir).unwrap();
         println!("Created template directory at: {}", template_dir.display());
-        fs::File::create(&projx_toml).unwrap();
+        let mut file = fs::File::create(&projx_toml).unwrap();
+        use std::io::Write;
+        writeln!(file, "[preinstall]\ncommands = []\n").unwrap();
+        writeln!(file, "[install]\ncommands = []\n").unwrap();
+        writeln!(file, "[start]\ncommands = []\n").unwrap();
+        writeln!(file, "[build]\ncommands = []\n").unwrap();
+        writeln!(file, "[deploy]\ncommands = []\n").unwrap();
         println!("Created projx.toml file at: {}", projx_toml.display());
     } else if !projx_toml.exists() {
         // Create the projx.toml file if the template directory exists but the file does not.
-        fs::File::create(&projx_toml).unwrap();
+        let mut file = fs::File::create(&projx_toml).unwrap();
+        use std::io::Write;
+        writeln!(file, "[preinstall]\ncommands = []\n").unwrap();
+        writeln!(file, "[install]\ncommands = []\n").unwrap();
+        writeln!(file, "[start]\ncommands = []\n").unwrap();
+        writeln!(file, "[build]\ncommands = []\n").unwrap();
+        writeln!(file, "[deploy]\ncommands = []\n").unwrap();
         println!("Created projx.toml file at: {}", projx_toml.display());
     }
 }
