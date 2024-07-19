@@ -1,14 +1,14 @@
 // src/commands/add_template.rs
 use clap::ArgMatches;
-use std::fs;
-use std::path::PathBuf;
 use dirs;
+use std::fs;
 use std::io::{self, Write};
+use std::path::PathBuf;
 
 /// Adds a new template based on the provided arguments.
-/// 
+///
 /// # Arguments
-/// 
+///
 /// * `matches` - A reference to the ArgMatches containing the command line arguments.
 pub fn add_template(matches: &ArgMatches) {
     // Retrieve the template name from the command line arguments.
@@ -35,7 +35,11 @@ pub fn add_template(matches: &ArgMatches) {
                 std::process::exit(1);
             }
             // If confirmed, proceed with using the current directory as the template.
-            println!("Adding template \"{}\" using current directory: {}", name, current_dir.display());
+            println!(
+                "Adding template \"{}\" using current directory: {}",
+                name,
+                current_dir.display()
+            );
         }
         (Some(file), None) => {
             // If a file is provided, use it as the template.
@@ -59,7 +63,10 @@ pub fn add_template(matches: &ArgMatches) {
     // Create the templates directory if it does not exist.
     if !path_to_templates.exists() {
         fs::create_dir_all(&path_to_templates).unwrap();
-        println!("Created templates directory at: {}", path_to_templates.display());
+        println!(
+            "Created templates directory at: {}",
+            path_to_templates.display()
+        );
     }
 
     // Create the template directory and projx.toml file if they do not exist.
@@ -108,21 +115,23 @@ pub fn add_template(matches: &ArgMatches) {
 }
 
 // Function to prompt the user for commands for each section.
-        fn get_command_list(section_name: &str) -> Vec<String> {
-            let mut commands = Vec::new();
-            // Prompt the user to enter commands for the given section.
-            println!("Enter commands for [{}] section. Press Enter without typing anything to finish.", section_name);
-            loop {
-                // Read user input for commands.
-                let mut input = String::new();
-                io::stdin().read_line(&mut input).unwrap();
-                let command = input.trim().to_string();
-                // Break the loop if the input is empty.
-                if command.is_empty() {
-                    break;
-                }
-                commands.push(command);
-            }
-            commands
+fn get_command_list(section_name: &str) -> Vec<String> {
+    let mut commands = Vec::new();
+    // Prompt the user to enter commands for the given section.
+    println!(
+        "Enter commands for [{}] section. Press Enter without typing anything to finish.",
+        section_name
+    );
+    loop {
+        // Read user input for commands.
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).unwrap();
+        let command = input.trim().to_string();
+        // Break the loop if the input is empty.
+        if command.is_empty() {
+            break;
         }
-
+        commands.push(command);
+    }
+    commands
+}

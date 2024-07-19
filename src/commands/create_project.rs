@@ -18,9 +18,15 @@ pub fn create_project(matches: &ArgMatches) {
 
     let template_dir = path_to_templates.join(template_key);
 
-    println!("Looking for template directory at: {}", template_dir.display());
+    println!(
+        "Looking for template directory at: {}",
+        template_dir.display()
+    );
     if !template_dir.exists() {
-        eprintln!("Error: Template directory '{}' does not exist.", template_key);
+        eprintln!(
+            "Error: Template directory '{}' does not exist.",
+            template_key
+        );
         std::process::exit(1);
     }
 
@@ -40,4 +46,3 @@ pub fn create_project(matches: &ArgMatches) {
     println!("Template directory path: {}", template_dir.display());
     println!("Destination directory path: {}", destination_dir.display());
 }
-
