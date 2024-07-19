@@ -24,7 +24,7 @@ fn main() {
                         .about("Creates a new template")
                         .arg(Arg::new("name").required(true))
                 )
-        )
+        );
         .subcommand(
             Command::new("project")
                 .about("Commands related to projects")
