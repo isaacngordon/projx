@@ -1,9 +1,35 @@
 // src/commands/add_template.rs
 use clap::ArgMatches;
+use std::fs;
+use std::path::PathBuf;
+use std::env;
 
 pub fn add_template(matches: &ArgMatches) {
     let name = matches.get_one::<String>("name").unwrap();
-    let file = matches.get_one::<String>("file");
+    let path_to_templates = if cfg!(debug_assertions) {
+        PathBuf::from("src/templates")
+    } else {
+        let mut home_dir = env::home_dir().unwrap();
+        home_dir.push(".projx/templates");
+        home_dir
+    };
+
+    if !path_to_templates.exists() {
+        fs::create_dir_all(&path_to_templates).unwrap();
+    }
+
+    let template_dir = path_to_templates.join(name);
+    let projx_toml = template_dir.join("projx.toml");
+
+    if template_dir.exists() && projx_toml.exists() {
+        eprintln!("Error: Template directory already exists and contains a projx.toml file.");
+        std::process::exit(1);
+    } else if !template_dir.exists() {
+        fs::create_dir(&template_dir).unwrap();
+        fs::File::create(&projx_toml).unwrap();
+    } else if !projx_toml.exists() {
+        fs::File::create(&projx_toml).unwrap();
+    }
     let dir = matches.get_one::<String>("dir");
 
     match (file, dir) {
