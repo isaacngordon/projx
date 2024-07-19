@@ -87,7 +87,27 @@ pub fn add_template(matches: &ArgMatches) {
         );
         std::process::exit(1);
     }
-    // List of sections to prompt for commands.
+    // Prompt the user for the description.
+    println!("Enter a description for the template (optional):");
+    let mut description = String::new();
+    io::stdin().read_line(&mut description).unwrap();
+    let description = description.trim();
+
+    // Prompt the user for the author.
+    println!("Enter the author of the template (optional, default is system user):");
+    let mut author = String::new();
+    io::stdin().read_line(&mut author).unwrap();
+    let author = if author.trim().is_empty() {
+        whoami::realname()
+    } else {
+        author.trim().to_string()
+    };
+
+    // Write the metadata to the projx.toml file.
+    writeln!(file, "name = \"{}\"", name).unwrap();
+    writeln!(file, "description = \"{}\"", description).unwrap();
+    writeln!(file, "version = \"1.0.0\"").unwrap();
+    writeln!(file, "author = \"{}\"\n", author).unwrap();
     let sections = ["preinstall", "install", "start", "build", "deploy"];
     // Create the projx.toml file and write the commands for each section.
     // Create the projx.toml file if the template directory exists but the file does not.
