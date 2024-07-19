@@ -23,7 +23,7 @@ fn main() {
                     Command::new("create")
                         .about("Creates a new template")
                         .arg(Arg::new("name").required(true))
-                )
+                );
         );
         .subcommand(
             Command::new("project")
@@ -34,7 +34,7 @@ fn main() {
                         .arg(Arg::new("template-key").required(true))
                         .arg(Arg::new("project-name").required(true))
                 )
-        )
+        );
         .get_matches();
 
     match matches.subcommand() {
