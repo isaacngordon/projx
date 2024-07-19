@@ -20,7 +20,7 @@ pub fn add_template(matches: &ArgMatches) {
 
     // Validate that either a file or a directory is provided, but not both.
     // If both are provided, print an error message and exit.
-    match (file, dir) {
+    let files_to_copy: Vec<PathBuf> = match (file, dir) {
         (Some(_), Some(_)) => {
             eprintln!("Error: Provide either a file or a directory, not both.");
             std::process::exit(1);
@@ -42,16 +42,30 @@ pub fn add_template(matches: &ArgMatches) {
                 name,
                 current_dir.display()
             );
+            // crawl the directory and add all files to the files_to_copy vector
+            let mut files = Vec::new();
+            crawl_directory(&current_dir, &mut files);
+            files
         }
         (Some(file), None) => {
             // If a file is provided, use it as the template.
             println!("Adding template \"{}\" using file: {}", name, file);
+            println!("Note: Using a file as a template is not yet supported.");
+            let mut files = Vec::new();
+            files.push(PathBuf::from(file));
+            files
         }
         (None, Some(dir)) => {
             // If a directory is provided, use it as the template.
             println!("Adding template \"{}\" using directory: {}", name, dir);
+            // crawl the directory and add all files to the files_to_copy vector
+            let mut files = Vec::new();
+            let dir = PathBuf::from(dir);
+            crawl_directory(&dir, &mut files);
+            files
         }
-    }
+    };
+    println!("Template will consist of {} files.", files_to_copy.len());
 
     // Determine the path to the templates directory based on the build configuration.
     let path_to_templates= get_path_to_templates();
@@ -90,6 +104,19 @@ pub fn add_template(matches: &ArgMatches) {
 pub fn create_template(matches: &ArgMatches) {
     let name = matches.get_one::<String>("name").unwrap();
     println!("create template command executed with name: {}", name);
+}
+
+/// Function to crawl a directory and add all files to a vector.
+fn crawl_directory(dir: &PathBuf, files: &mut Vec<PathBuf>) {
+    for entry in fs::read_dir(dir).unwrap() {
+        let entry = entry.unwrap();
+        let path = entry.path();
+        if path.is_dir() {
+            crawl_directory(&path, files);
+        } else {
+            files.push(path);
+        }
+    }
 }
 
 /// Prompts the user to enter a description for the provided item.
