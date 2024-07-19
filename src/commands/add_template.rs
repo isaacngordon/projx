@@ -6,6 +6,36 @@ use std::fs;
 use std::io::{self, Write};
 use std::path::PathBuf;
 
+/// Prompts the user to enter a description for the provided item.
+/// 
+/// # Arguments
+/// 
+/// * `to_describe` - A String containing the name of the item to describe.
+fn prompt_description(to_describe: String) -> String {
+    println!("Enter a description for the {}: ", to_describe);
+    let mut description = String::new();
+    io::stdin().read_line(&mut description).unwrap();
+    description.trim().to_string()
+}
+
+/// Prompt the user for the author.
+/// 
+/// # Arguments
+/// 
+/// * `of_item` - A String containing the name of the item to describe.
+fn prompt_author(of_item: &str) -> String {
+    println!("Enter the author of the {} (optional, default is system user):", of_item);
+    let mut author = String::new();
+    io::stdin().read_line(&mut author).unwrap();
+    let author = if author.trim().is_empty() {
+        whoami::realname()
+    } else {
+        author.trim().to_string()
+    };
+    author
+}
+
+
 /// Adds a new template based on the provided arguments.
 ///
 /// # Arguments
@@ -53,22 +83,7 @@ pub fn add_template(matches: &ArgMatches) {
     }
 
     // Determine the path to the templates directory based on the build configuration.
-    let path_to_templates = if cfg!(debug_assertions) {
-        PathBuf::from("src/templates")
-    } else {
-        let mut home_dir = dirs::home_dir().unwrap();
-        home_dir.push(".projx/templates");
-        home_dir
-    };
-
-    // Create the templates directory if it does not exist.
-    if !path_to_templates.exists() {
-        fs::create_dir_all(&path_to_templates).unwrap();
-        println!(
-            "Created templates directory at: {}",
-            path_to_templates.display()
-        );
-    }
+    let path_to_templates= get_path_to_templates();
 
     // Create the template directory and projx.toml file if they do not exist.
     let template_dir = path_to_templates.join(name);
@@ -88,23 +103,52 @@ pub fn add_template(matches: &ArgMatches) {
         );
         std::process::exit(1);
     }
+
     // Prompt the user for the description.
-    println!("Enter a description for the template (optional):");
-    let mut description = String::new();
-    io::stdin().read_line(&mut description).unwrap();
-    let description = description.trim();
+    let description = prompt_description("the template".to_string());
 
     // Prompt the user for the author.
-    println!("Enter the author of the template (optional, default is system user):");
-    let mut author = String::new();
-    io::stdin().read_line(&mut author).unwrap();
-    let author = if author.trim().is_empty() {
-        whoami::realname()
-    } else {
-        author.trim().to_string()
-    };
+    let author = prompt_author("template");
 
     // Create the projx.toml file and write the metadata.
+    write_projx_toml_file(&projx_toml, &name, &description, &author);
+
+}
+
+/// Function to get the path to the templates directory.
+/// 
+/// # Returns
+/// 
+/// A PathBuf containing the path to the templates directory.
+fn get_path_to_templates() -> PathBuf {
+    let path_to_templates = if cfg!(debug_assertions) {
+        PathBuf::from("src/templates")
+    } else {
+        let mut home_dir = dirs::home_dir().unwrap();
+        home_dir.push(".projx/templates");
+        home_dir
+    };
+
+    // Create the templates directory if it does not exist.
+    if !path_to_templates.exists() {
+        fs::create_dir_all(&path_to_templates).unwrap();
+        println!(
+            "Created templates directory at: {}",
+            path_to_templates.display()
+        );
+    }
+    path_to_templates
+}
+
+/// Function to write the projx.toml file for the template.
+/// 
+/// # Arguments
+/// 
+/// * `projx_toml` - A reference to a PathBuf containing the path to the projx.toml file.
+/// * `name` - A String containing the name of the template.
+/// * `description` - A String containing the description of the template.
+/// * `author` - A String containing the author of the template.
+fn write_projx_toml_file(projx_toml: &PathBuf, name: &str, description: &str, author: &str) {
     let mut file = fs::File::create(&projx_toml).unwrap();
     writeln!(file, "name = \"{}\"", name).unwrap();
     writeln!(file, "description = \"{}\"", description).unwrap();
@@ -127,7 +171,11 @@ pub fn add_template(matches: &ArgMatches) {
     println!("Created projx.toml file at: {}", projx_toml.display());
 }
 
-// Function to prompt the user for commands for each section.
+/// Function to prompt the user for commands for each section.
+/// 
+/// # Arguments
+/// 
+/// * `section_name` - A String containing the name of the section to prompt for commands.
 fn get_command_list(section_name: &str) -> Vec<String> {
     let mut commands = Vec::new();
     // Prompt the user to enter commands for the given section.
