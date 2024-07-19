@@ -123,8 +123,11 @@ fn crawl_directory(dir: &PathBuf, files: &mut Vec<PathBuf>) {
 
 fn copy_files_to_template(files: &Vec<PathBuf>, template_dir: &PathBuf) {
     for (index, file) in files.iter().enumerate() {
-        let file_name = file.file_name().unwrap();
-        let dest = template_dir.join(file_name);
+        let relative_path = file.strip_prefix(&files[0].parent().unwrap()).unwrap();
+        let dest = template_dir.join(relative_path);
+        if let Some(parent) = dest.parent() {
+            fs::create_dir_all(parent).unwrap();
+        }
         println!("[{} of {}] Copying {} to {}", index + 1, files.len(), file.display(), dest.display());
         fs::copy(file, &dest).unwrap();
         println!("[{} of {}] Copied {} to {}", index + 1, files.len(), file.display(), dest.display());
