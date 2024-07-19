@@ -25,7 +25,6 @@ pub fn add_template(matches: &ArgMatches) {
         }
         (None, None) => {
             // If no file or directory is provided, prompt the user to confirm using the current directory.
-            // If no file or directory is provided, prompt the user to confirm using the current directory.
             let current_dir = std::env::current_dir().unwrap();
             println!("No file or directory provided. Are you sure you want to turn the current directory ({}) into a template? (y/n)", current_dir.display());
             // Read user input to confirm using the current directory.
@@ -49,7 +48,6 @@ pub fn add_template(matches: &ArgMatches) {
     }
 
     // Determine the path to the templates directory based on the build configuration.
-    // Determine the path to the templates directory based on the build configuration.
     let path_to_templates = if cfg!(debug_assertions) {
         PathBuf::from("src/templates")
     } else {
@@ -59,45 +57,23 @@ pub fn add_template(matches: &ArgMatches) {
     };
 
     // Create the templates directory if it does not exist.
-    // Create the templates directory if it does not exist.
     if !path_to_templates.exists() {
         fs::create_dir_all(&path_to_templates).unwrap();
         println!("Created templates directory at: {}", path_to_templates.display());
     }
 
     // Create the template directory and projx.toml file if they do not exist.
-    // Create the template directory and projx.toml file if they do not exist.
     let template_dir = path_to_templates.join(name);
     let projx_toml = template_dir.join("projx.toml");
 
-    // Check if the template directory and projx.toml file already exist.
     // Check if the template directory and projx.toml file already exist.
     if template_dir.exists() && projx_toml.exists() {
         eprintln!("Error: Template directory already exists and contains a projx.toml file.");
         std::process::exit(1);
     } else if !template_dir.exists() {
         // Create the template directory and projx.toml file if the directory does not exist.
-        // Create the template directory and projx.toml file if the directory does not exist.
         fs::create_dir(&template_dir).unwrap();
         println!("Created template directory at: {}", template_dir.display());
-        // Function to prompt the user for commands for each section.
-        fn get_command_list(section_name: &str) -> Vec<String> {
-            let mut commands = Vec::new();
-            // Prompt the user to enter commands for the given section.
-            println!("Enter commands for [{}] section. Press Enter without typing anything to finish.", section_name);
-            loop {
-                // Read user input for commands.
-                let mut input = String::new();
-                io::stdin().read_line(&mut input).unwrap();
-                let command = input.trim().to_string();
-                // Break the loop if the input is empty.
-                if command.is_empty() {
-                    break;
-                }
-                commands.push(command);
-            }
-            commands
-        }
 
         // List of sections to prompt for commands.
         let sections = ["preinstall", "install", "start", "build", "deploy"];
@@ -130,4 +106,23 @@ pub fn add_template(matches: &ArgMatches) {
         println!("Created projx.toml file at: {}", projx_toml.display());
     }
 }
+
+// Function to prompt the user for commands for each section.
+        fn get_command_list(section_name: &str) -> Vec<String> {
+            let mut commands = Vec::new();
+            // Prompt the user to enter commands for the given section.
+            println!("Enter commands for [{}] section. Press Enter without typing anything to finish.", section_name);
+            loop {
+                // Read user input for commands.
+                let mut input = String::new();
+                io::stdin().read_line(&mut input).unwrap();
+                let command = input.trim().to_string();
+                // Break the loop if the input is empty.
+                if command.is_empty() {
+                    break;
+                }
+                commands.push(command);
+            }
+            commands
+        }
 
