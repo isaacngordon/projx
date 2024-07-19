@@ -16,6 +16,7 @@ pub fn add_template(matches: &ArgMatches) {
 
     if !path_to_templates.exists() {
         fs::create_dir_all(&path_to_templates).unwrap();
+        println!("Created templates directory at: {}", path_to_templates.display());
     }
 
     let template_dir = path_to_templates.join(name);
@@ -26,7 +27,10 @@ pub fn add_template(matches: &ArgMatches) {
         std::process::exit(1);
     } else if !template_dir.exists() {
         fs::create_dir(&template_dir).unwrap();
+        println!("Created template directory at: {}", template_dir.display());
         fs::File::create(&projx_toml).unwrap();
+        println!("Created projx.toml file at: {}", projx_toml.display());
+        println!("Created projx.toml file at: {}", projx_toml.display());
     } else if !projx_toml.exists() {
         fs::File::create(&projx_toml).unwrap();
     }
@@ -47,13 +51,13 @@ pub fn add_template(matches: &ArgMatches) {
                 println!("Operation cancelled.");
                 std::process::exit(1);
             }
-            println!("add template command executed with name: {} and directory: {}", name, current_dir.display());
+            println!("Added template with name: {} using current directory: {}", name, current_dir.display());
         }
         (Some(file), None) => {
-            println!("add template command executed with name: {} and file: {}", name, file);
+            println!("Added template with name: {} using file: {}", name, file);
         }
         (None, Some(dir)) => {
-            println!("add template command executed with name: {} and directory: {}", name, dir);
+            println!("Added template with name: {} using directory: {}", name, dir);
         }
     }
 }
