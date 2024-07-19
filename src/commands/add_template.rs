@@ -2,7 +2,6 @@
 use clap::ArgMatches;
 use std::fs;
 use std::path::PathBuf;
-use std::env;
 use dirs;
 
 pub fn add_template(matches: &ArgMatches) {
