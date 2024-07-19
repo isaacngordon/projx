@@ -73,45 +73,38 @@ pub fn add_template(matches: &ArgMatches) {
     let template_dir = path_to_templates.join(name);
     let projx_toml = template_dir.join("projx.toml");
 
-    // Check if the template directory and projx.toml file already exist.
-    if template_dir.exists() && projx_toml.exists() {
-        eprintln!("Error: Template directory already exists and contains a projx.toml file.");
-        std::process::exit(1);
-    } else if !template_dir.exists() {
+    if !template_dir.exists() {
         // Create the template directory and projx.toml file if the directory does not exist.
         fs::create_dir(&template_dir).unwrap();
         println!("Created template directory at: {}", template_dir.display());
-
-        // List of sections to prompt for commands.
-        let sections = ["preinstall", "install", "start", "build", "deploy"];
-        // Create the projx.toml file and write the commands for each section.
-        // Create the projx.toml file if the template directory exists but the file does not.
-        let mut file = fs::File::create(&projx_toml).unwrap();
-        for section in &sections {
-            // Get the list of commands for the current section.
-            let commands = get_command_list(section);
-            // Write the section header and commands to the projx.toml file.
-            writeln!(file, "[{}]\ncommands = [", section).unwrap();
-            for command in commands {
-                writeln!(file, "\"{}\",", command).unwrap();
-            }
-            // Close the commands list for the current section.
-            writeln!(file, "]\n").unwrap();
-        }
-        // Print a message indicating that the projx.toml file was created.
-        println!("Created projx.toml file at: {}", projx_toml.display());
-    } else if !projx_toml.exists() {
-        // Create the projx.toml file if the template directory exists but the file does not.
-        let mut file = fs::File::create(&projx_toml).unwrap();
-        use std::io::Write;
-        // Write empty command lists for each section.
-        writeln!(file, "[preinstall]\ncommands = []\n").unwrap();
-        writeln!(file, "[install]\ncommands = []\n").unwrap();
-        writeln!(file, "[start]\ncommands = []\n").unwrap();
-        writeln!(file, "[build]\ncommands = []\n").unwrap();
-        writeln!(file, "[deploy]\ncommands = []\n").unwrap();
-        println!("Created projx.toml file at: {}", projx_toml.display());
     }
+
+    // Check if the template directory and projx.toml file already exist.
+    if projx_toml.exists() {
+        eprintln!(
+            "Error: Template directory `{}` already contains a projx.toml file.",
+            template_dir.display()
+        );
+        std::process::exit(1);
+    }
+    // List of sections to prompt for commands.
+    let sections = ["preinstall", "install", "start", "build", "deploy"];
+    // Create the projx.toml file and write the commands for each section.
+    // Create the projx.toml file if the template directory exists but the file does not.
+    let mut file = fs::File::create(&projx_toml).unwrap();
+    for section in &sections {
+        // Get the list of commands for the current section.
+        let commands = get_command_list(section);
+        // Write the section header and commands to the projx.toml file.
+        writeln!(file, "[{}]\ncommands = [", section).unwrap();
+        for command in commands {
+            writeln!(file, "\"{}\",", command).unwrap();
+        }
+        // Close the commands list for the current section.
+        writeln!(file, "]\n").unwrap();
+    }
+    // Print a message indicating that the projx.toml file was created.
+    println!("Created projx.toml file at: {}", projx_toml.display());
 }
 
 // Function to prompt the user for commands for each section.
