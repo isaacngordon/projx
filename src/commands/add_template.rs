@@ -1,6 +1,7 @@
 // src/commands/add_template.rs
 use clap::ArgMatches;
 use dirs;
+use whoami;
 use std::fs;
 use std::io::{self, Write};
 use std::path::PathBuf;
@@ -102,6 +103,10 @@ pub fn add_template(matches: &ArgMatches) {
     } else {
         author.trim().to_string()
     };
+
+    // Create the projx.toml file and write the commands for each section.
+    // Create the projx.toml file if the template directory exists but the file does not.
+    let mut file = fs::File::create(&projx_toml).unwrap();
 
     // Write the metadata to the projx.toml file.
     writeln!(file, "name = \"{}\"", name).unwrap();
