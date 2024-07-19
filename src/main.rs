@@ -16,7 +16,8 @@ fn main() {
                     Command::new("add")
                         .about("Adds a new template")
                         .arg(Arg::new("name").required(true))
-                        .arg(Arg::new("file").short('f').long("file").required(true))
+                        .arg(Arg::new("file").short('f').long("file"))
+                        .arg(Arg::new("dir").short('d').long("dir"))
                 )
                 .subcommand(
                     Command::new("create")
