@@ -2,7 +2,7 @@ mod commands;
 
 use clap::{Arg, Command};
 use commands::template::{add_template,create_template};
-use commands::create_project::create_project;
+use commands::project::create_project;
 
 fn main() {
     let matches = Command::new("projx")
