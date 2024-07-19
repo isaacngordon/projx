@@ -23,8 +23,8 @@ fn main() {
                     Command::new("create")
                         .about("Creates a new template")
                         .arg(Arg::new("name").required(true))
-                );
-        );
+                )
+        )
         .subcommand(
             Command::new("project")
                 .about("Commands related to projects")
