@@ -57,13 +57,13 @@ struct CreateProjectArgs {
 fn main() {
     let cli = Cli::parse();
 
-    match cli.command {
+    let cli_result = match cli.command {
         Commands::Template(cmd) => match cmd {
             TemplateCommands::Add(args) => {
-                add_template(&args.name, args.file.as_deref(), args.dir.as_deref());
+                add_template(&args.name, args.file.as_deref(), args.dir.as_deref())
             }
             TemplateCommands::Create(args) => {
-                create_template(&args.name);
+                create_template(&args.name)
             }
         },
         Commands::Project(cmd) => match cmd {
@@ -72,8 +72,12 @@ fn main() {
                     &args.template_key,
                     &args.project_name,
                     args.destination.as_deref(),
-                );
+                )
             }
         },
+    };
+
+    if let Err(e) = cli_result {
+        eprintln!("Error running projx cli command: {}", e);
     }
 }

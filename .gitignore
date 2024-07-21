@@ -1,2 +1,10 @@
+# build artifacts
 /target
+
+# dependencies
 .aider*
+
+# internal
+src/projects
+src/templates/*test*template*
+src/templates/*dummy*template*

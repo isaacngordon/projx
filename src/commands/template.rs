@@ -1,11 +1,13 @@
 // src/commands/add_template.rs
-const DEBUG_TEMPLATES_PATH: &str = "src/templates";
-const RELEASE_TEMPLATES_PATH: &str = ".projx/templates";
 use dirs;
 use whoami;
 use std::fs;
 use std::io::{self, Write};
 use std::path::PathBuf;
+use crate::commands::{copy_files_to_destination, crawl_directory};
+
+pub const DEBUG_TEMPLATES_PATH: &str = "src/templates";
+pub const RELEASE_TEMPLATES_PATH: &str = ".projx/templates";
 
 
 /// Adds a new template based on the provided arguments.
@@ -13,13 +15,12 @@ use std::path::PathBuf;
 /// # Arguments
 ///
 /// * `matches` - A reference to the ArgMatches containing the command line arguments.
-pub fn add_template(name: &str, file: Option<&str>, dir: Option<&str>) {
+pub fn add_template(name: &str, file: Option<&str>, dir: Option<&str>) -> Result<(), String>{
     // Validate that either a file or a directory is provided, but not both.
     // If both are provided, print an error message and exit.
     let files_to_copy: Vec<PathBuf> = match (file, dir) {
         (Some(_), Some(_)) => {
-            eprintln!("Error: Provide either a file or a directory, not both.");
-            std::process::exit(1);
+            return Err("Provide either a file or a directory, not both.".to_string());
         }
         (None, None) => {
             // If no file or directory is provided, prompt the user to confirm using the current directory.
@@ -30,7 +31,7 @@ pub fn add_template(name: &str, file: Option<&str>, dir: Option<&str>) {
             std::io::stdin().read_line(&mut input).unwrap();
             if input.trim().to_lowercase() != "y" {
                 println!("Operation cancelled.");
-                std::process::exit(1);
+                std::process::exit(0);
             }
             // If confirmed, proceed with using the current directory as the template.
             println!(
@@ -61,8 +62,23 @@ pub fn add_template(name: &str, file: Option<&str>, dir: Option<&str>) {
             files
         }
     };
+
+    // Determine the root of the template directory.
+    let template_root = match (file, dir) {
+        (Some(file), None) => {
+            PathBuf::from(file).ancestors().nth(1).unwrap().to_path_buf()
+        }
+        (None, Some(dir)) => {
+            PathBuf::from(dir)
+        }
+        _ => {
+            std::env::current_dir().unwrap()
+        }
+    };
+
     println!("Template will consist of {} files.", files_to_copy.len());
     println!("Files to copy: {:?}", files_to_copy);
+    println!("Template root: {}", template_root.display());
 
     // Determine the path to the templates directory based on the build configuration.
     let path_to_templates= get_path_to_templates();
@@ -79,11 +95,10 @@ pub fn add_template(name: &str, file: Option<&str>, dir: Option<&str>) {
 
     // Check if the template directory and projx.toml file already exist.
     if projx_toml.exists() {
-        eprintln!(
+        return Err(format!(
             "Error: Template directory `{}` already contains a projx.toml file.",
             template_dir.display()
-        );
-        std::process::exit(1);
+        ));
     }
 
     // Prompt the user for the description.
@@ -94,46 +109,19 @@ pub fn add_template(name: &str, file: Option<&str>, dir: Option<&str>) {
 
     // Create the projx.toml file and write the metadata.
     write_projx_toml_file(&projx_toml, &name, &description, &author);
-    copy_files_to_template(&files_to_copy, &template_dir);
+    copy_files_to_destination(&files_to_copy, &template_root, &template_dir);
 
+    Ok(())
 }
 
 /// Creates a new template based on prompts to the user and with an LLM.
-pub fn create_template(name: &str) {
+pub fn create_template(name: &str) -> Result<(), String> {
     println!("create template command executed with name: {}", name);
+    Ok(())
 }
 
-/// Function to crawl a directory and add all files to a vector.
-fn crawl_directory(dir: &PathBuf, files: &mut Vec<PathBuf>) {
-    for entry in fs::read_dir(dir).unwrap() {
-        let entry = entry.unwrap();
-        let path = entry.path();
-        if path.is_dir() {
-            crawl_directory(&path, files);
-        } else {
-            files.push(path);
-        }
-    }
-}
 
-fn copy_files_to_template(files: &Vec<PathBuf>, template_dir: &PathBuf) {
-    for (index, file) in files.iter().enumerate() {
-        let relative_path = if files.len() == 1 {
-            PathBuf::from(file.file_name().unwrap())
-        } else {
-            PathBuf::from(
-                file.strip_prefix(&files[0].ancestors().nth(2).unwrap()).unwrap()
-            )
-        };
-        let dest = template_dir.join(relative_path);
-        if let Some(parent) = dest.parent() {
-            fs::create_dir_all(parent).unwrap();
-        }
-        println!("[{} of {}] Copying {} to {}", index + 1, files.len(), file.display(), dest.display());
-        fs::copy(file, &dest).unwrap();
-        println!("[{} of {}] Copied {} to {}", index + 1, files.len(), file.display(), dest.display());
-    }
-}
+
 
 /// Prompts the user to enter a description for the provided item.
 /// 
