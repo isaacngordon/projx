@@ -1,6 +1,4 @@
 // src/commands/add_template.rs
-use clap::ArgMatches;
-
 const DEBUG_TEMPLATES_PATH: &str = "src/templates";
 const RELEASE_TEMPLATES_PATH: &str = ".projx/templates";
 use dirs;

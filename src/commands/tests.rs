@@ -1,3 +1,6 @@
+use super::template;
+use super::project;
+
 #[cfg(test)]
 mod tests {
     use super::template::add_template;
