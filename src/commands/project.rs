@@ -1,12 +1,7 @@
 // src/commands/create_project.rs
-use clap::ArgMatches;
 use std::path::PathBuf;
 
-pub fn create_project(matches: &ArgMatches) {
-    let template_key = matches.get_one::<String>("template-key").unwrap();
-    let project_name = matches.get_one::<String>("project-name").unwrap();
-    let destination = matches.get_one::<String>("destination");
-
+pub fn create_project(template_key: &str, project_name: &str, destination: Option<&str>) {
     // Ensure the template directory exists
     let path_to_templates = if cfg!(debug_assertions) {
         PathBuf::from("src/templates")

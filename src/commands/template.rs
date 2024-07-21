@@ -12,12 +12,7 @@ use std::path::PathBuf;
 /// # Arguments
 ///
 /// * `matches` - A reference to the ArgMatches containing the command line arguments.
-pub fn add_template(matches: &ArgMatches) {
-    // Retrieve the template name from the command line arguments.
-    let name = matches.get_one::<String>("name").unwrap();
-    let file = matches.get_one::<String>("file");
-    let dir = matches.get_one::<String>("dir");
-
+pub fn add_template(name: &str, file: Option<&str>, dir: Option<&str>) {
     // Validate that either a file or a directory is provided, but not both.
     // If both are provided, print an error message and exit.
     let files_to_copy: Vec<PathBuf> = match (file, dir) {
@@ -103,8 +98,7 @@ pub fn add_template(matches: &ArgMatches) {
 }
 
 /// Creates a new template based on prompts to the user and with an LLM.
-pub fn create_template(matches: &ArgMatches) {
-    let name = matches.get_one::<String>("name").unwrap();
+pub fn create_template(name: &str) {
     println!("create template command executed with name: {}", name);
 }
 
