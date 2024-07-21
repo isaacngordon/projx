@@ -1,5 +1,8 @@
 // src/commands/add_template.rs
 use clap::ArgMatches;
+
+const DEBUG_TEMPLATES_PATH: &str = "src/templates";
+const RELEASE_TEMPLATES_PATH: &str = ".projx/templates";
 use dirs;
 use whoami;
 use std::fs;
@@ -196,10 +199,10 @@ fn prompt_command_list(command_name: &str) -> Vec<String> {
 /// A PathBuf containing the path to the templates directory.
 fn get_path_to_templates() -> PathBuf {
     let path_to_templates = if cfg!(debug_assertions) {
-        PathBuf::from("src/templates")
+        PathBuf::from(DEBUG_TEMPLATES_PATH)
     } else {
         let mut home_dir = dirs::home_dir().unwrap();
-        home_dir.push(".projx/templates");
+        home_dir.push(RELEASE_TEMPLATES_PATH);
         home_dir
     };
 

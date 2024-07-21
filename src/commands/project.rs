@@ -1,13 +1,16 @@
 // src/commands/create_project.rs
 use std::path::PathBuf;
 
+const DEBUG_TEMPLATES_PATH: &str = "src/templates";
+const RELEASE_TEMPLATES_PATH: &str = ".projx/templates";
+
 pub fn create_project(template_key: &str, project_name: &str, destination: Option<&str>) {
     // Ensure the template directory exists
     let path_to_templates = if cfg!(debug_assertions) {
-        PathBuf::from("src/templates")
+        PathBuf::from(DEBUG_TEMPLATES_PATH)
     } else {
         let mut home_dir = dirs::home_dir().unwrap();
-        home_dir.push(".projx/templates");
+        home_dir.push(RELEASE_TEMPLATES_PATH);
         home_dir
     };
 
