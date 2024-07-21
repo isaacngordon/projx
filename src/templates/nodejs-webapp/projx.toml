@@ -1,0 +1,29 @@
+name = "nodejs-webapp"
+description = "A simple express web app"
+version = "1.0.0"
+author = "Isaac Gordon"
+
+[preinstall]
+commands = [
+"echo 'install node'",
+"echo 'install npm'",
+]
+
+[install]
+commands = [
+"npm install",
+]
+
+[start]
+commands = [
+"npm run start",
+]
+
+[build]
+commands = [
+]
+
+[deploy]
+commands = [
+]
+
