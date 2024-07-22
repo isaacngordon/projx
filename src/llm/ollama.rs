@@ -5,7 +5,7 @@ use super::LLM;
 pub struct OllamaLLM; // Ensure this line is present
 
 impl LLM for OllamaLLM {
-    async fn prompt(&self, input: &str) -> String {
+    async fn prompt(&self, input: &str) -> Result<String, String> {
         // By default it will connect to localhost:11434
         let ollama = Ollama::default();
 
@@ -26,6 +26,6 @@ impl LLM for OllamaLLM {
             println!("Error: {:?}", res);
             "".to_string()
         };
-        ret // Return the response
+        Ok(ret) // Return the response
     }
 }

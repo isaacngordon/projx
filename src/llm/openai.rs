@@ -4,7 +4,7 @@ use serde_json;
 pub struct OpenAILLM;
 
 impl LLM for OpenAILLM {
-    async fn prompt(&self, input: &str) -> String {
+    async fn prompt(&self, input: &str) -> Result<String, String> {
         let openai_api_key = &std::env::var("OPENAI_API_KEY")
             .expect("OPENAI_API_KEY not set");
         
@@ -31,8 +31,10 @@ impl LLM for OpenAILLM {
 
         let json: serde_json::Value = response.json().await.unwrap();
         if json["error"].is_object() {
-            panic!("Code: {} Error: {}", json["error"]["code"], json["error"]["message"]);
+            return Err(format!("Code: {} Error: {}", json["error"]["code"], json["error"]["message"]));
         } 
-        json["choices"][0]["message"]["content"].as_str().unwrap_or("").to_string()
+
+        let ret = json["choices"][0]["message"]["content"].as_str().unwrap_or("").to_string();
+        Ok(ret)
     }
 }
