@@ -45,6 +45,19 @@ mod tests {
         fs::copy(&test_template_path, &test_template_file).unwrap();
     }
 
+    #[test]
+    fn test_load_nodejs_template() {
+        let template_path = PathBuf::from("src/templates/nodejs-webapp");
+        let template = template::Template::load(&template_path).expect("Failed to load template");
+
+        assert_eq!(template.name, "nodejs-webapp");
+        assert_eq!(template.description, "A simple express web app");
+        assert_eq!(template.author, "Isaac Gordon");
+        assert!(template.files.iter().any(|file| file.ends_with("projx.toml")));
+        assert!(template.files.iter().any(|file| file.ends_with("app.js")));
+        assert!(template.files.iter().any(|file| file.ends_with("package.json")));
+    }
+
     /// Cleanup a test template after use in tests.
     fn cleanup_test_template(suffix: &str) {
         // Setup
