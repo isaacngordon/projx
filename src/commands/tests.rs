@@ -48,7 +48,7 @@ mod tests {
     #[test]
     fn test_load_nodejs_template() {
         let template_path = PathBuf::from("src/templates/nodejs-webapp");
-        let template = template::Template::load(&template_path).expect("Failed to load template");
+        let template = Template::load(&template_path).expect("Failed to load template");
 
         assert_eq!(template.name, "nodejs-webapp", "Template name does not match.");
         assert_eq!(template.description, "A simple express web app", "Template description does not match.");
