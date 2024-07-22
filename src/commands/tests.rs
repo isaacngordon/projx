@@ -1,7 +1,7 @@
-use super::{project, template::Template, template::DEBUG_TEMPLATES_PATH};
+use super::{project, template};
 
 #[cfg(test)]
-mod tests {
+mod command_tests {
     use super::project::{create_project, DEBUG_PROJECTS_PATH};
     use super::template::DEBUG_TEMPLATES_PATH;
     use std::fs;
@@ -42,19 +42,6 @@ mod tests {
         // Copy the test template file to the test template directory
         let test_template_file = test_template_dir.join(TEST_TEMPLATE_FILE);
         fs::copy(&test_template_path, &test_template_file).unwrap();
-    }
-
-    #[test]
-    fn test_load_nodejs_template() {
-        let template_path = PathBuf::from("src/templates/nodejs-webapp");
-        let template = Template::load(&template_path).expect("Failed to load template");
-
-        assert_eq!(template.name, "nodejs-webapp", "Template name does not match.");
-        assert_eq!(template.description, "A simple express web app", "Template description does not match.");
-        assert_eq!(template.author, "Isaac Gordon", "Template author does not match.");
-        assert!(template.files.iter().any(|file| file.ends_with("projx.toml")), "projx.toml file is missing.");
-        assert!(template.files.iter().any(|file| file.ends_with("app.js")), "app.js file is missing.");
-        assert!(template.files.iter().any(|file| file.ends_with("package.json")), "package.json file is missing.");
     }
 
     /// Cleanup a test template after use in tests.
@@ -179,5 +166,64 @@ mod tests {
 
         cleanup_test_project(&test_suffix);
         cleanup_test_template(&test_suffix);
+    }
+}
+
+#[cfg(test)]
+mod template_tests {
+    use std::{fs, path::PathBuf};
+    use super::template::Template;
+
+
+    /// Test to ensure we can load our first ever template into the Template struct
+    /// 
+    #[test]
+    fn test_load_nodejs_template() {
+        let template_path = PathBuf::from("src/templates/nodejs-webapp");
+        let template = Template::load(&template_path).expect("Failed to load template");
+
+        assert_eq!(template.name, "nodejs-webapp", "Template name does not match.");
+        assert_eq!(template.description, "A simple express web app", "Template description does not match.");
+        assert_eq!(template.author, "Isaac Gordon", "Template author does not match.");
+        assert!(template.files.iter().any(|file| file.ends_with("projx.toml")), "projx.toml file is missing.");
+        assert!(template.files.iter().any(|file| file.ends_with("app.js")), "app.js file is missing.");
+        assert!(template.files.iter().any(|file| file.ends_with("package.json")), "package.json file is missing.");
+    }
+
+    /// Test that any and all templates in the repo's templates directory be loaded.
+    /// We will use this test to ensure that all templates are valid and can be loaded.
+    /// 
+    /// This test will fail if any template fails to load.
+    #[test]
+    fn test_all_templates_load(){
+        let templates_root = PathBuf::from("src/templates");
+        let template_dirs = fs::read_dir(&templates_root)
+            .unwrap()
+            .filter_map(|entry| {
+            let entry = entry.unwrap();
+            let path = entry.path();
+            if path.is_dir() {
+                Some(path)
+            } else {
+                None
+            }
+            })
+            .collect::<Vec<PathBuf>>();
+
+        let mut load_errors = Vec::new();
+        for template_dir in template_dirs {
+            match Template::load(&template_dir) {
+            Ok(template) => {
+                println!("Loaded template: {}", template.name);
+                // Add your assertions or further processing here
+            }
+            Err(err) => {
+                eprintln!("Failed to load template: {:?}", err);
+                load_errors.push(err);
+            }
+            }
+        }
+
+        assert!(load_errors.is_empty(), "Failed to load templates: {:?}", load_errors);
     }
 }
