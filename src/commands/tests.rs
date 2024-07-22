@@ -1,5 +1,5 @@
 use super::project;
-use super::template;
+use super::template::{self, Template};
 
 #[cfg(test)]
 mod tests {
