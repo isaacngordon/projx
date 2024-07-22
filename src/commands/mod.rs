@@ -1,8 +1,8 @@
 use std::{fs, path::PathBuf};
 
 // src/commands/mod.rs
-pub mod template;
 pub mod project;
+pub mod template;
 
 /// Function to crawl a directory and add all files to a vector.
 fn crawl_directory(dir: &PathBuf, files: &mut Vec<PathBuf>) {
@@ -23,9 +23,7 @@ pub fn copy_files_to_destination(files: &Vec<PathBuf>, source_root: &PathBuf, de
         let relative_path = if files.len() == 1 {
             PathBuf::from(file.file_name().unwrap())
         } else {
-            PathBuf::from(
-                file.strip_prefix(source_root).unwrap()
-            )
+            PathBuf::from(file.strip_prefix(source_root).unwrap())
         };
 
         let dest = dest_dir.join(&relative_path);
@@ -34,9 +32,24 @@ pub fn copy_files_to_destination(files: &Vec<PathBuf>, source_root: &PathBuf, de
         }
 
         match fs::copy(file, &dest) {
-            Ok(_) => {println!("[{} of {}] Copied {} to {}", index + 1, files.len(), file.display(), dest.display());}
+            Ok(_) => {
+                println!(
+                    "[{} of {}] Copied {} to {}",
+                    index + 1,
+                    files.len(),
+                    file.display(),
+                    dest.display()
+                );
+            }
             Err(e) => {
-                panic!("[{} of {}] Error copying {} to {}:\n{}", index + 1, files.len(), file.display(), dest.display(), e);
+                panic!(
+                    "[{} of {}] Error copying {} to {}:\n{}",
+                    index + 1,
+                    files.len(),
+                    file.display(),
+                    dest.display(),
+                    e
+                );
             }
         }
     }

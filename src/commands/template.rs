@@ -1,10 +1,10 @@
 // src/commands/add_template.rs
+use crate::commands::{copy_files_to_destination, crawl_directory};
 use dirs;
-use whoami;
 use std::fs;
 use std::io::{self, Write};
 use std::path::PathBuf;
-use crate::commands::{copy_files_to_destination, crawl_directory};
+use whoami;
 
 #[derive(Debug)]
 pub struct Template {
@@ -72,9 +72,21 @@ impl Template {
         let content = fs::read_to_string(&projx_toml_path).map_err(|e| e.to_string())?;
         let value = content.parse::<toml::Value>().map_err(|e| e.to_string())?;
 
-        let name = value.get("name").and_then(|v| v.as_str()).unwrap_or("").to_string();
-        let description = value.get("description").and_then(|v| v.as_str()).unwrap_or("").to_string();
-        let author = value.get("author").and_then(|v| v.as_str()).unwrap_or("").to_string();
+        let name = value
+            .get("name")
+            .and_then(|v| v.as_str())
+            .unwrap_or("")
+            .to_string();
+        let description = value
+            .get("description")
+            .and_then(|v| v.as_str())
+            .unwrap_or("")
+            .to_string();
+        let author = value
+            .get("author")
+            .and_then(|v| v.as_str())
+            .unwrap_or("")
+            .to_string();
 
         let mut files = Vec::new();
         crawl_directory(&template_path, &mut files);
@@ -92,13 +104,12 @@ impl Template {
 pub const DEBUG_TEMPLATES_PATH: &str = "src/templates";
 pub const RELEASE_TEMPLATES_PATH: &str = ".projx/templates";
 
-
 /// Adds a new template based on the provided arguments.
 ///
 /// # Arguments
 ///
 /// * `matches` - A reference to the ArgMatches containing the command line arguments.
-pub fn add_template(name: &str, file: Option<&str>, dir: Option<&str>) -> Result<(), String>{
+pub fn add_template(name: &str, file: Option<&str>, dir: Option<&str>) -> Result<(), String> {
     // Validate that either a file or a directory is provided, but not both.
     // If both are provided, print an error message and exit.
     let files_to_copy: Vec<PathBuf> = match (file, dir) {
@@ -147,7 +158,11 @@ pub fn add_template(name: &str, file: Option<&str>, dir: Option<&str>) -> Result
     };
 
     let template_root = match (file, dir) {
-        (Some(file), None) => PathBuf::from(file).ancestors().nth(1).unwrap().to_path_buf(),
+        (Some(file), None) => PathBuf::from(file)
+            .ancestors()
+            .nth(1)
+            .unwrap()
+            .to_path_buf(),
         (None, Some(dir)) => PathBuf::from(dir),
         _ => std::env::current_dir().unwrap(),
     };
@@ -202,17 +217,17 @@ pub fn create_template(name: &str) -> Result<(), String> {
         root: std::env::current_dir().unwrap(),
     };
 
-    println!("create template command executed with name: {}", template.name);
+    println!(
+        "create template command executed with name: {}",
+        template.name
+    );
     Ok(())
 }
 
-
-
-
 /// Prompts the user to enter a description for the provided item.
-/// 
+///
 /// # Arguments
-/// 
+///
 /// * `to_describe` - A String containing the name of the item to describe.
 fn prompt_description(to_describe: String) -> String {
     println!("Enter a description for the {}: ", to_describe);
@@ -222,12 +237,15 @@ fn prompt_description(to_describe: String) -> String {
 }
 
 /// Prompt the user for the author.
-/// 
+///
 /// # Arguments
-/// 
+///
 /// * `of_item` - A String containing the name of the item to describe.
 fn prompt_author(of_item: &str) -> String {
-    println!("Enter the author of the {} (optional, default is system user):", of_item);
+    println!(
+        "Enter the author of the {} (optional, default is system user):",
+        of_item
+    );
     let mut author = String::new();
     io::stdin().read_line(&mut author).unwrap();
     let author = if author.trim().is_empty() {
@@ -239,9 +257,9 @@ fn prompt_author(of_item: &str) -> String {
 }
 
 /// Function to prompt the user for commands for each section.
-/// 
+///
 /// # Arguments
-/// 
+///
 /// * `section_name` - A String containing the name of the section to prompt for commands.
 fn prompt_command_list(command_name: &str) -> Vec<String> {
     let mut commands = Vec::new();
@@ -265,9 +283,9 @@ fn prompt_command_list(command_name: &str) -> Vec<String> {
 }
 
 /// Function to get the path to the templates directory.
-/// 
+///
 /// # Returns
-/// 
+///
 /// A PathBuf containing the path to the templates directory.
 fn get_path_to_templates() -> PathBuf {
     let path_to_templates = if cfg!(debug_assertions) {

@@ -8,7 +8,11 @@ use std::path::PathBuf;
 pub const DEBUG_PROJECTS_PATH: &str = "src/projects";
 pub const RELEASE_PROJECTS_PATH: &str = ".projx/projects";
 
-pub fn create_project(template_key: &str, project_name: &str, destination: Option<&str>) -> Result<(), String> {
+pub fn create_project(
+    template_key: &str,
+    project_name: &str,
+    destination: Option<&str>,
+) -> Result<(), String> {
     // Ensure the template directory exists (based on the provided template key, and the current environment).
     let path_to_templates = if cfg!(debug_assertions) {
         PathBuf::from(DEBUG_TEMPLATES_PATH)
@@ -28,7 +32,7 @@ pub fn create_project(template_key: &str, project_name: &str, destination: Optio
         return Err(format!(
             "Template directory '{}' does not exist.",
             template_key
-        ))
+        ));
     }
 
     // Determine the destination directory based on the provided argument or default paths.
@@ -52,7 +56,7 @@ pub fn create_project(template_key: &str, project_name: &str, destination: Optio
         return Err(format!(
             "Destination directory '{}' already exists.",
             destination_dir.display()
-        ))
+        ));
     }
 
     // Copy the template directory to the destination directory.

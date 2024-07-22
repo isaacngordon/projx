@@ -62,18 +62,14 @@ fn main() {
             TemplateCommands::Add(args) => {
                 add_template(&args.name, args.file.as_deref(), args.dir.as_deref())
             }
-            TemplateCommands::Create(args) => {
-                create_template(&args.name)
-            }
+            TemplateCommands::Create(args) => create_template(&args.name),
         },
         Commands::Project(cmd) => match cmd {
-            ProjectCommands::Create(args) => {
-                create_project(
-                    &args.template_key,
-                    &args.project_name,
-                    args.destination.as_deref(),
-                )
-            }
+            ProjectCommands::Create(args) => create_project(
+                &args.template_key,
+                &args.project_name,
+                args.destination.as_deref(),
+            ),
         },
     };
 
