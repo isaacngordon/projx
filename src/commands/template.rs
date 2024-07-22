@@ -243,4 +243,4 @@ fn get_path_to_templates() -> PathBuf {
         );
     }
     path_to_templates
-
+}
