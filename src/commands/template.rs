@@ -15,6 +15,36 @@ pub struct Template {
     pub root: PathBuf,
 }
 
+impl Template {
+    /// Writes the projx.toml file for the template.
+    ///
+    /// # Arguments
+    ///
+    /// * `projx_toml` - A reference to a PathBuf containing the path to the projx.toml file.
+    pub fn write_projx_toml_file(&self, projx_toml: &PathBuf) {
+        let mut file = fs::File::create(&projx_toml).unwrap();
+        writeln!(file, "name = \"{}\"", self.name).unwrap();
+        writeln!(file, "description = \"{}\"", self.description).unwrap();
+        writeln!(file, "version = \"1.0.0\"").unwrap();
+        writeln!(file, "author = \"{}\"\n", self.author).unwrap();
+
+        let sections = ["preinstall", "install", "start", "build", "deploy"];
+        for section in &sections {
+            // Get the list of commands for the current section.
+            let commands = prompt_command_list(section);
+            // Write the section header and commands to the projx.toml file.
+            writeln!(file, "[{}]\ncommands = [", section).unwrap();
+            for command in commands {
+                writeln!(file, "\"{}\",", command).unwrap();
+            }
+            // Close the commands list for the current section.
+            writeln!(file, "]\n").unwrap();
+        }
+        // Print a message indicating that the projx.toml file was created.
+        println!("Created projx.toml file at: {}", projx_toml.display());
+    }
+}
+
 pub const DEBUG_TEMPLATES_PATH: &str = "src/templates";
 pub const RELEASE_TEMPLATES_PATH: &str = ".projx/templates";
 
@@ -109,7 +139,7 @@ pub fn add_template(name: &str, file: Option<&str>, dir: Option<&str>) -> Result
         ));
     }
 
-    write_projx_toml_file(&projx_toml, &template.name, &template.description, &template.author);
+    template.write_projx_toml_file(&projx_toml);
     copy_files_to_destination(&template.files, &template.root, &template_dir);
 
     Ok(())
@@ -213,36 +243,4 @@ fn get_path_to_templates() -> PathBuf {
         );
     }
     path_to_templates
-}
-
-/// Function to write the projx.toml file for the template.
-/// 
-/// # Arguments
-/// 
-/// * `projx_toml` - A reference to a PathBuf containing the path to the projx.toml file.
-/// * `name` - A String containing the name of the template.
-/// * `description` - A String containing the description of the template.
-/// * `author` - A String containing the author of the template.
-fn write_projx_toml_file(projx_toml: &PathBuf, name: &str, description: &str, author: &str) {
-    let mut file = fs::File::create(&projx_toml).unwrap();
-    writeln!(file, "name = \"{}\"", name).unwrap();
-    writeln!(file, "description = \"{}\"", description).unwrap();
-    writeln!(file, "version = \"1.0.0\"").unwrap();
-    writeln!(file, "author = \"{}\"\n", author).unwrap();
-
-    let sections = ["preinstall", "install", "start", "build", "deploy"];
-    for section in &sections {
-        // Get the list of commands for the current section.
-        let commands = prompt_command_list(section);
-        // Write the section header and commands to the projx.toml file.
-        writeln!(file, "[{}]\ncommands = [", section).unwrap();
-        for command in commands {
-            writeln!(file, "\"{}\",", command).unwrap();
-        }
-        // Close the commands list for the current section.
-        writeln!(file, "]\n").unwrap();
-    }
-    // Print a message indicating that the projx.toml file was created.
-    println!("Created projx.toml file at: {}", projx_toml.display());
-}
 
