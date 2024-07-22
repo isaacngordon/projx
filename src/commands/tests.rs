@@ -50,12 +50,12 @@ mod tests {
         let template_path = PathBuf::from("src/templates/nodejs-webapp");
         let template = template::Template::load(&template_path).expect("Failed to load template");
 
-        assert_eq!(template.name, "nodejs-webapp");
-        assert_eq!(template.description, "A simple express web app");
-        assert_eq!(template.author, "Isaac Gordon");
-        assert!(template.files.iter().any(|file| file.ends_with("projx.toml")));
-        assert!(template.files.iter().any(|file| file.ends_with("app.js")));
-        assert!(template.files.iter().any(|file| file.ends_with("package.json")));
+        assert_eq!(template.name, "nodejs-webapp", "Template name does not match.");
+        assert_eq!(template.description, "A simple express web app", "Template description does not match.");
+        assert_eq!(template.author, "Isaac Gordon", "Template author does not match.");
+        assert!(template.files.iter().any(|file| file.ends_with("projx.toml")), "projx.toml file is missing.");
+        assert!(template.files.iter().any(|file| file.ends_with("app.js")), "app.js file is missing.");
+        assert!(template.files.iter().any(|file| file.ends_with("package.json")), "package.json file is missing.");
     }
 
     /// Cleanup a test template after use in tests.
