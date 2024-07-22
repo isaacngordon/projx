@@ -1,4 +1,5 @@
 mod commands;
+mod llm;
 
 use clap::{Parser, Subcommand};
 use commands::project::create_project;

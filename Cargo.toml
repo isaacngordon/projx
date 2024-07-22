@@ -10,3 +10,4 @@ ollama-rs = "0.2.0"
 reqwest = {version = "0.12.5", features = ["json"]}
 toml = "0.8.15"
 whoami = "1.5.1"
+tokio = { version = "1.38.1", features = ["full"] }

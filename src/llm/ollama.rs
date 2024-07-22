@@ -1,3 +1,5 @@
+use super::LLM;
+
 pub struct OllamaLLM;
 
 impl LLM for OllamaLLM {

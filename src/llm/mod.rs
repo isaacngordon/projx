@@ -1,3 +1,13 @@
+mod openai;
+mod ollama;
+
+pub use openai::OpenAILLM;
+pub use ollama::OllamaLLM;
+
+pub trait LLM {
+    async fn prompt(&self, input: &str) -> String;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -20,6 +30,4 @@ mod tests {
         // You can add assertions here based on expected output
     }
 }
-pub trait LLM {
-    async fn prompt(&self, input: &str) -> String;
-}
+
