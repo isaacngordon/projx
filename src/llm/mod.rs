@@ -20,5 +20,6 @@ mod tests {
         // You can add assertions here based on expected output
     }
 }
+pub trait LLM {
     async fn prompt(&self, input: &str) -> String;
 }
