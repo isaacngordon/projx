@@ -796,6 +796,7 @@ dependencies = [
  "dirs",
  "ollama-rs",
  "reqwest",
+ "serde_json",
  "tokio",
  "toml",
  "whoami",
