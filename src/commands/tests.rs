@@ -1,5 +1,4 @@
-use super::project;
-use crate::commands::template::Template;
+use super::{project, template::Template, template::DEBUG_TEMPLATES_PATH};
 
 #[cfg(test)]
 mod tests {
