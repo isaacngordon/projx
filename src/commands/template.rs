@@ -6,6 +6,15 @@ use std::io::{self, Write};
 use std::path::PathBuf;
 use crate::commands::{copy_files_to_destination, crawl_directory};
 
+#[derive(Debug)]
+pub struct Template {
+    pub name: String,
+    pub description: String,
+    pub author: String,
+    pub files: Vec<PathBuf>,
+    pub root: PathBuf,
+}
+
 pub const DEBUG_TEMPLATES_PATH: &str = "src/templates";
 pub const RELEASE_TEMPLATES_PATH: &str = ".projx/templates";
 
@@ -63,37 +72,36 @@ pub fn add_template(name: &str, file: Option<&str>, dir: Option<&str>) -> Result
         }
     };
 
-    // Determine the root of the template directory.
     let template_root = match (file, dir) {
-        (Some(file), None) => {
-            PathBuf::from(file).ancestors().nth(1).unwrap().to_path_buf()
-        }
-        (None, Some(dir)) => {
-            PathBuf::from(dir)
-        }
-        _ => {
-            std::env::current_dir().unwrap()
-        }
+        (Some(file), None) => PathBuf::from(file).ancestors().nth(1).unwrap().to_path_buf(),
+        (None, Some(dir)) => PathBuf::from(dir),
+        _ => std::env::current_dir().unwrap(),
     };
 
-    println!("Template will consist of {} files.", files_to_copy.len());
-    println!("Files to copy: {:?}", files_to_copy);
-    println!("Template root: {}", template_root.display());
+    let description = prompt_description("the template".to_string());
+    let author = prompt_author("template");
 
-    // Determine the path to the templates directory based on the build configuration.
-    let path_to_templates= get_path_to_templates();
+    let template = Template {
+        name: name.to_string(),
+        description,
+        author,
+        files: files_to_copy,
+        root: template_root,
+    };
 
-    // Create the template directory and projx.toml file if they do not exist.
-    let template_dir = path_to_templates.join(name);
+    println!("Template will consist of {} files.", template.files.len());
+    println!("Files to copy: {:?}", template.files);
+    println!("Template root: {}", template.root.display());
+
+    let path_to_templates = get_path_to_templates();
+    let template_dir = path_to_templates.join(&template.name);
     let projx_toml = template_dir.join("projx.toml");
 
     if !template_dir.exists() {
-        // Create the template directory and projx.toml file if the directory does not exist.
         fs::create_dir(&template_dir).unwrap();
         println!("Created template directory at: {}", template_dir.display());
     }
 
-    // Check if the template directory and projx.toml file already exist.
     if projx_toml.exists() {
         return Err(format!(
             "Error: Template directory `{}` already contains a projx.toml file.",
@@ -101,22 +109,26 @@ pub fn add_template(name: &str, file: Option<&str>, dir: Option<&str>) -> Result
         ));
     }
 
-    // Prompt the user for the description.
-    let description = prompt_description("the template".to_string());
-
-    // Prompt the user for the author.
-    let author = prompt_author("template");
-
-    // Create the projx.toml file and write the metadata.
-    write_projx_toml_file(&projx_toml, &name, &description, &author);
-    copy_files_to_destination(&files_to_copy, &template_root, &template_dir);
+    write_projx_toml_file(&projx_toml, &template.name, &template.description, &template.author);
+    copy_files_to_destination(&template.files, &template.root, &template_dir);
 
     Ok(())
 }
 
 /// Creates a new template based on prompts to the user and with an LLM.
 pub fn create_template(name: &str) -> Result<(), String> {
-    println!("create template command executed with name: {}", name);
+    let description = prompt_description("the template".to_string());
+    let author = prompt_author("template");
+
+    let template = Template {
+        name: name.to_string(),
+        description,
+        author,
+        files: Vec::new(),
+        root: std::env::current_dir().unwrap(),
+    };
+
+    println!("create template command executed with name: {}", template.name);
     Ok(())
 }
 
