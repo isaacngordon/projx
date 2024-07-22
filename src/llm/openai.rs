@@ -1,3 +1,6 @@
+use crate::llm::LLM;
+use serde_json; // Add this line to import serde_json
+
 pub struct OpenAILLM;
 
 impl LLM for OpenAILLM {
