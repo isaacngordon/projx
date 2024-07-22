@@ -1,5 +1,5 @@
 use super::project;
-use super::template::{self, Template};
+use crate::commands::template::Template;
 
 #[cfg(test)]
 mod tests {
