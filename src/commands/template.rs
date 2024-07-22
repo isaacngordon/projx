@@ -43,6 +43,79 @@ impl Template {
         // Print a message indicating that the projx.toml file was created.
         println!("Created projx.toml file at: {}", projx_toml.display());
     }
+
+    /// Loads a template from the given path.
+    ///
+    /// # Arguments
+    ///
+    /// * `template_path` - A reference to a PathBuf containing the path to the template directory or projx.toml file.
+    ///
+    /// # Returns
+    ///
+    /// * `Result<Template, String>` - A result containing the loaded Template or an error message.
+    pub fn load(template_path: &PathBuf) -> Result<Template, String> {
+        let projx_toml_path = if template_path.is_dir() {
+            template_path.join("projx.toml")
+        } else if template_path.is_file() && template_path.file_name().unwrap() == "projx.toml" {
+            template_path.clone()
+        } else {
+            return Err("Must provide a directory or a projx.toml file.".to_string());
+        };
+
+        if !projx_toml_path.exists() {
+            return Err(format!(
+                "No projx.toml found. {} is not a projx Template",
+                template_path.display()
+            ));
+        }
+
+        let content = fs::read_to_string(&projx_toml_path).map_err(|e| e.to_string())?;
+        let value = content.parse::<toml::Value>().map_err(|e| e.to_string())?;
+
+        let name = value.get("name").and_then(|v| v.as_str()).unwrap_or("").to_string();
+        let description = value.get("description").and_then(|v| v.as_str()).unwrap_or("").to_string();
+        let author = value.get("author").and_then(|v| v.as_str()).unwrap_or("").to_string();
+
+        let mut files = Vec::new();
+        crawl_directory(&template_path, &mut files);
+
+        Ok(Template {
+            name,
+            description,
+            author,
+            files,
+            root: template_path.clone(),
+        })
+    }
+
+impl Template {
+    /// Writes the projx.toml file for the template.
+    ///
+    /// # Arguments
+    ///
+    /// * `projx_toml` - A reference to a PathBuf containing the path to the projx.toml file.
+    pub fn write_projx_toml_file(&self, projx_toml: &PathBuf) {
+        let mut file = fs::File::create(&projx_toml).unwrap();
+        writeln!(file, "name = \"{}\"", self.name).unwrap();
+        writeln!(file, "description = \"{}\"", self.description).unwrap();
+        writeln!(file, "version = \"1.0.0\"").unwrap();
+        writeln!(file, "author = \"{}\"\n", self.author).unwrap();
+
+        let sections = ["preinstall", "install", "start", "build", "deploy"];
+        for section in &sections {
+            // Get the list of commands for the current section.
+            let commands = prompt_command_list(section);
+            // Write the section header and commands to the projx.toml file.
+            writeln!(file, "[{}]\ncommands = [", section).unwrap();
+            for command in commands {
+                writeln!(file, "\"{}\",", command).unwrap();
+            }
+            // Close the commands list for the current section.
+            writeln!(file, "]\n").unwrap();
+        }
+        // Print a message indicating that the projx.toml file was created.
+        println!("Created projx.toml file at: {}", projx_toml.display());
+    }
 }
 
 pub const DEBUG_TEMPLATES_PATH: &str = "src/templates";
