@@ -1,3 +1,3 @@
 pub trait LLM {
-    fn prompt(&self, input: &str) -> String;
+    async fn prompt(&self, input: &str) -> String;
 }

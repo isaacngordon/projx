@@ -1,7 +1,7 @@
 pub struct OpenAILLM;
 
 impl LLM for OpenAILLM {
-    fn prompt(&self, input: &str) -> String {
+    async fn prompt(&self, input: &str) -> String {
         let client = reqwest::Client::new();
         let response = client.post("https://api.openai.com/v1/engines/davinci-codex/completions")
             .header("Authorization", "Bearer YOUR_API_KEY")

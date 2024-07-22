@@ -2,8 +2,8 @@ pub struct OllamaLLM;
 
 impl LLM for OllamaLLM {
     fn prompt(&self, input: &str) -> String {
-        // Assuming the ollama-rs crate is already set up
-        let response = ollama_rs::prompt(input).await.unwrap();
+        // Use the ollama-rs crate to prompt the model
+        let response = ollama_rs::prompt(input).await.unwrap_or_else(|_| "Error prompting Ollama".to_string());
         response
     }
 }
