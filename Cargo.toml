@@ -3,6 +3,12 @@ name = "projx"
 version = "0.1.0"
 edition = "2021"
 
+
+[lints.rust]
+unsafe_code = "forbid"
+unused = { level = "allow", priority = -1 } # For exploratory dev.
+
+
 [dependencies]
 clap = { version = "4.5.9", features = ["derive"] }
 dirs = "4.0"
