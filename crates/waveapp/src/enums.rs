@@ -7,6 +7,72 @@ pub enum AccountNormalBalanceType {
     DEBIT,
 }
 
+/// Options by which customers can be ordered.
+#[derive(Debug)]
+pub enum CustomerSort {
+    /// Ascending by creation time.
+    CREATED_AT_ASC,
+    /// Descending by creation time.
+    CREATED_AT_DESC,
+    /// Ascending by modified time.
+    MODIFIED_AT_ASC,
+    /// Descending by modified time.
+    MODIFIED_AT_DESC,
+    /// Ascending by name.
+    NAME_ASC,
+    /// Descending by name.
+    NAME_DESC,
+}
+
+impl CustomerSort {
+    pub fn to_string(&self) -> String {
+        match self {
+            CustomerSort::CREATED_AT_ASC => "CREATED_AT_ASC".to_string(),
+            CustomerSort::CREATED_AT_DESC => "CREATED_AT_DESC".to_string(),
+            CustomerSort::MODIFIED_AT_ASC => "MODIFIED_AT_ASC".to_string(),
+            CustomerSort::MODIFIED_AT_DESC => "MODIFIED_AT_DESC".to_string(),
+            CustomerSort::NAME_ASC => "NAME_ASC".to_string(),
+            CustomerSort::NAME_DESC => "NAME_DESC".to_string(),
+        }
+    }
+}
+
+/// Status of an invoice.
+#[derive(Debug)]
+pub enum InvoiceCreateStatus {
+    /// The invoice is still a draft.
+    DRAFT,
+    /// The invoice was saved.
+    SAVED,
+}
+
+impl InvoiceCreateStatus {
+    pub fn to_string(&self) -> String {
+        match self {
+            InvoiceCreateStatus::DRAFT => "DRAFT".to_string(),
+            InvoiceCreateStatus::SAVED => "SAVED".to_string(),
+        }
+    }
+}
+
+/// Type of invoice discount.
+#[derive(Debug)]
+pub enum InvoiceDiscountType {
+    /// Fixed dollar amount discount.
+    FIXED,
+    /// Percentage discount.
+    PERCENTAGE,
+}
+
+impl InvoiceDiscountType {
+    pub fn to_string(&self) -> String {
+        match self {
+            InvoiceDiscountType::FIXED => "FIXED".to_string(),
+            InvoiceDiscountType::PERCENTAGE => "PERCENTAGE".to_string(),
+        }
+    }
+}
+
 impl AccountNormalBalanceType {
     pub fn to_string(&self) -> String {
         match self {
