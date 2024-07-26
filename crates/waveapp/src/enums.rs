@@ -521,3 +521,423 @@ impl BusinessTypeValue {
         }
     }
 }
+
+#[derive(Debug)]                                                                                               
+ pub enum CountryCode {                                                                                         
+     AD, // Andorra                                                                                             
+     AE, // United Arab Emirates                                                                                
+     AF, // Afghanistan                                                                                         
+     AG, // Antigua and Barbuda                                                                                 
+     AI, // Anguilla                                                                                            
+     AL, // Albania                                                                                             
+     AM, // Armenia                                                                                             
+     AO, // Angola                                                                                              
+     AQ, // Antarctica                                                                                          
+     AR, // Argentina                                                                                           
+     AS, // American Samoa                                                                                      
+     AT, // Austria                                                                                             
+     AU, // Australia                                                                                           
+     AW, // Aruba                                                                                               
+     AX, // Åland Islands                                                                                       
+     AZ, // Azerbaijan                                                                                          
+     BA, // Bosnia and Herzegovina                                                                              
+     BB, // Barbados                                                                                            
+     BD, // Bangladesh                                                                                          
+     BE, // Belgium                                                                                             
+     BF, // Burkina Faso                                                                                        
+     BG, // Bulgaria                                                                                            
+     BH, // Bahrain                                                                                             
+     BI, // Burundi                                                                                             
+     BJ, // Benin                                                                                               
+     BL, // Saint Barthélemy                                                                                    
+     BM, // Bermuda                                                                                             
+     BN, // Brunei Darussalam                                                                                   
+     BO, // Bolivia, Plurinational State of                                                                     
+     BQ, // Bonaire, Sint Eustatius and Saba                                                                    
+     BR, // Brazil                                                                                              
+     BS, // Bahamas                                                                                             
+     BT, // Bhutan                                                                                              
+     BV, // Bouvet Island                                                                                       
+     BW, // Botswana                                                                                            
+     BY, // Belarus                                                                                             
+     BZ, // Belize                                                                                              
+     CA, // Canada                                                                                              
+     CC, // Cocos (Keeling) Islands                                                                             
+     CD, // Congo, The Democratic Republic of the                                                               
+     CF, // Central African Republic                                                                            
+     CG, // Congo                                                                                               
+     CH, // Switzerland                                                                                         
+     CI, // Côte d'Ivoire                                                                                       
+     CK, // Cook Islands                                                                                        
+     CL, // Chile                                                                                               
+     CM, // Cameroon                                                                                            
+     CN, // China                                                                                               
+     CO, // Colombia                                                                                            
+     CR, // Costa Rica                                                                                          
+     CU, // Cuba                                                                                                
+     CV, // Cape Verde                                                                                          
+     CW, // Curaçao                                                                                             
+     CX, // Christmas Island                                                                                    
+     CY, // Cyprus                                                                                              
+     CZ, // Czech Republic                                                                                      
+     DE, // Germany                                                                                             
+     DJ, // Djibouti                                                                                            
+     DK, // Denmark                                                                                             
+     DM, // Dominica                                                                                            
+     DO, // Dominican Republic                                                                                  
+     DZ, // Algeria                                                                                             
+     EC, // Ecuador                                                                                             
+     EE, // Estonia                                                                                             
+     EG, // Egypt                                                                                               
+     EH, // Western Sahara                                                                                      
+     ER, // Eritrea                                                                                             
+     ES, // Spain                                                                                               
+     ET, // Ethiopia                                                                                            
+     FI, // Finland                                                                                             
+     FJ, // Fiji                                                                                                
+     FK, // Falkland Islands                                                                                    
+     FM, // Micronesia, Federated States of                                                                     
+     FO, // Faroe Islands                                                                                       
+     FR, // France                                                                                              
+     GA, // Gabon                                                                                               
+     GB, // United Kingdom                                                                                      
+     GD, // Grenada                                                                                             
+     GE, // Georgia                                                                                             
+     GF, // French Guiana                                                                                       
+     GG, // Guernsey                                                                                            
+     GH, // Ghana                                                                                               
+     GI, // Gibraltar                                                                                           
+     GL, // Greenland                                                                                           
+     GM, // Gambia                                                                                              
+     GN, // Guinea                                                                                              
+     GP, // Guadeloupe                                                                                          
+     GQ, // Equatorial Guinea                                                                                   
+     GR, // Greece                                                                                              
+     GS, // South Georgia and the South Sandwich Islands                                                        
+     GT, // Guatemala                                                                                           
+     GU, // Guam                                                                                                
+     GW, // Guinea-Bissau                                                                                       
+     GY, // Guyana                                                                                              
+     HK, // Hong Kong                                                                                           
+     HM, // Heard Island and McDonald Islands                                                                   
+     HN, // Honduras                                                                                            
+     HR, // Croatia                                                                                             
+     HT, // Haiti                                                                                               
+     HU, // Hungary                                                                                             
+     ID, // Indonesia                                                                                           
+     IE, // Ireland                                                                                             
+     IL, // Israel                                                                                              
+     IM, // Isle of Man                                                                                         
+     IN, // India                                                                                               
+     IO, // British Indian Ocean Territory                                                                      
+     IQ, // Iraq                                                                                                
+     IR, // Iran                                                                                                
+     IS, // Iceland                                                                                             
+     IT, // Italy                                                                                               
+     JE, // Jersey                                                                                              
+     JM, // Jamaica                                                                                             
+     JO, // Jordan                                                                                              
+     JP, // Japan                                                                                               
+     KE, // Kenya                                                                                               
+     KG, // Kyrgyzstan                                                                                          
+     KH, // Cambodia                                                                                            
+     KI, // Kiribati                                                                                            
+     KM, // Comoros                                                                                             
+     KN, // Saint Kitts and Nevis                                                                               
+     KP, // Korea, Democratic People's Republic of                                                              
+     KR, // Korea, Republic of                                                                                  
+     KW, // Kuwait                                                                                              
+     KY, // Cayman Islands                                                                                      
+     KZ, // Kazakhstan                                                                                          
+     LA, // Lao People's Democratic Republic                                                                    
+     LB, // Lebanon                                                                                             
+     LC, // Saint Lucia                                                                                         
+     LI, // Liechtenstein                                                                                       
+     LK, // Sri Lanka                                                                                           
+     LR, // Liberia                                                                                             
+     LS, // Lesotho                                                                                             
+     LT, // Lithuania                                                                                           
+     LU, // Luxembourg                                                                                          
+     LV, // Latvia                                                                                              
+     LY, // Libya                                                                                               
+     MA, // Morocco                                                                                             
+     MC, // Monaco                                                                                              
+     MD, // Moldova, Republic of                                                                                
+     ME, // Montenegro                                                                                          
+     MF, // Saint Martin                                                                                        
+     MG, // Madagascar                                                                                          
+     MH, // Marshall Islands                                                                                    
+     MK, // North Macedonia                                                                                     
+     ML, // Mali                                                                                                
+     MM, // Myanmar                                                                                             
+     MN, // Mongolia                                                                                            
+     MO, // Macao                                                                                               
+     MP, // Northern Mariana Islands                                                                            
+     MQ, // Martinique                                                                                          
+     MR, // Mauritania                                                                                          
+     MS, // Montserrat                                                                                          
+     MT, // Malta                                                                                               
+     MU, // Mauritius                                                                                           
+     MV, // Maldives                                                                                            
+     MW, // Malawi                                                                                              
+     MX, // Mexico                                                                                              
+     MY, // Malaysia                                                                                            
+     MZ, // Mozambique                                                                                          
+     NA, // Namibia                                                                                             
+     NC, // New Caledonia                                                                                       
+     NE, // Niger                                                                                               
+     NF, // Norfolk Island                                                                                      
+     NG, // Nigeria                                                                                             
+     NI, // Nicaragua                                                                                           
+     NL, // Netherlands                                                                                         
+     NO, // Norway                                                                                              
+     NP, // Nepal                                                                                               
+     NR, // Nauru                                                                                               
+     NU, // Niue                                                                                                
+     NZ, // New Zealand                                                                                         
+     OM, // Oman                                                                                                
+     PA, // Panama                                                                                              
+     PE, // Peru                                                                                                
+     PF, // French Polynesia                                                                                    
+     PG, // Papua New Guinea                                                                                    
+     PH, // Philippines                                                                                         
+     PK, // Pakistan                                                                                            
+     PL, // Poland                                                                                              
+     PM, // Saint Pierre and Miquelon                                                                           
+     PN, // Pitcairn                                                                                            
+     PR, // Puerto Rico                                                                                         
+     PS, // Palestine                                                                                           
+     PT, // Portugal                                                                                            
+     PW, // Palau                                                                                               
+     PY, // Paraguay                                                                                            
+     QA, // Qatar                                                                                               
+     RE, // Réunion                                                                                             
+     RO, // Romania                                                                                             
+     RS, // Serbia                                                                                              
+     RU, // Russian Federation                                                                                  
+     RW, // Rwanda                                                                                              
+     SA, // Saudi Arabia                                                                                        
+     SB, // Solomon Islands                                                                                     
+     SC, // Seychelles                                                                                          
+     SD, // Sudan                                                                                               
+     SE, // Sweden                                                                                              
+     SG, // Singapore                                                                                           
+     SH, // Saint Helena, Ascension and Tristan da Cunha                                                        
+     SI, // Slovenia                                                                                            
+     SJ, // Svalbard and Jan Mayen                                                                              
+     SK, // Slovakia                                                                                            
+     SL, // Sierra Leone                                                                                        
+     SM, // San Marino                                                                                          
+     SN, // Senegal                                                                                             
+     SO, // Somalia                                                                                             
+     SR, // Suriname                                                                                            
+     SS, // South Sudan                                                                                         
+     ST, // Sao Tome and Principe                                                                               
+     SV, // El Salvador                                                                                         
+     SX, // Sint Maarten                                                                                        
+     SY, // Syria                                                                                               
+     SZ, // Eswatini                                                                                            
+     TC, // Turks and Caicos Islands                                                                            
+     TD, // Chad                                                                                                
+     TF, // French Southern Territories                                                                         
+     TG, // Togo                                                                                                
+     TH, // Thailand                                                                                            
+     TJ, // Tajikistan                                                                                          
+     TK, // Tokelau                                                                                             
+     TL, // Timor-Leste                                                                                         
+     TM, // Turkmenistan                                                                                        
+     TN, // Tunisia                                                                                             
+     TO, // Tonga                                                                                               
+     TR, // Turkey                                                                                              
+     TT, // Trinidad and Tobago                                                                                 
+     TV, // Tuvalu                                                                                              
+     TW, // Taiwan                                                                                              
+     TZ, // Tanzania, United Republic of                                                                        
+     UA, // Ukraine                                                                                             
+     UG, // Uganda                                                                                              
+     UM, // United States Minor Outlying Islands                                                                
+     US, // United States                                                                                       
+     UY, // Uruguay                                                                                             
+     UZ, // Uzbekistan                                                                                          
+     VA, // Holy See                                                                                            
+     VC, // Saint Vincent and the Grenadines                                                                    
+     VE, // Venezuela, Bolivarian Republic of                                                                   
+     VG, // Virgin Islands (British)                                                                            
+     VI, // Virgin Islands (U.S)                                                                                
+     VN, // Viet Nam                                                                                            
+     VU, // Vanuatu                                                                                             
+     WF, // Wallis and Futuna                                                                                   
+     WS, // Samoa                                                                                               
+     YE, // Yemen                                                                                               
+     YT, // Mayotte                                                                                             
+     ZA, // South Africa                                                                                        
+     ZM, // Zambia                                                                                              
+     ZW, // Zimbabwe                                                                                            
+ }                                                                                                              
+                                                                                                                
+ impl CountryCode {                                                                                             
+     pub fn to_name(&self) -> String {                                                                        
+         match self {                                                                                           
+             CountryCode::AD => "Andorra".to_string(),                                                          
+             CountryCode::AE => "United Arab Emirates".to_string(),                                             
+             CountryCode::AF => "Afghanistan".to_string(),                                                      
+             CountryCode::AG => "Antigua and Barbuda".to_string(),                                              
+             CountryCode::AI => "Anguilla".to_string(),                                                         
+             CountryCode::AL => "Albania".to_string(),                                                          
+             CountryCode::AM => "Armenia".to_string(),                                                          
+             CountryCode::AO => "Angola".to_string(),                                                           
+             CountryCode::AQ => "Antarctica".to_string(),                                                       
+             CountryCode::AR => "Argentina".to_string(),                                                        
+             CountryCode::AS => "American Samoa".to_string(),                                                   
+             CountryCode::AT => "Austria".to_string(),                                                          
+             CountryCode::AU => "Australia".to_string(),                                                        
+             CountryCode::AW => "Aruba".to_string(),                                                            
+             CountryCode::AX => "Åland Islands".to_string(),                                                    
+             CountryCode::AZ => "Azerbaijan".to_string(),                                                       
+             CountryCode::BA => "Bosnia and Herzegovina".to_string(),                                           
+             CountryCode::BB => "Barbados".to_string(),                                                         
+             CountryCode::BD => "Bangladesh".to_string(),                                                       
+             CountryCode::BE => "Belgium".to_string(),                                                          
+             CountryCode::BF => "Burkina Faso".to_string(),                                                     
+             CountryCode::BG => "Bulgaria".to_string(),                                                         
+             CountryCode::BH => "Bahrain".to_string(),                                                          
+             CountryCode::BI => "Burundi".to_string(),                                                          
+             CountryCode::BJ => "Benin".to_string(),                                                            
+             CountryCode::BL => "Saint Barthélemy".to_string(),                                                 
+             CountryCode::BM => "Bermuda".to_string(),                                                          
+             CountryCode::BN => "Brunei Darussalam".to_string(),                                                
+             CountryCode::BO => "Bolivia, Plurinational State of".to_string(),                                  
+             CountryCode::BQ => "Bonaire, Sint Eustatius and Saba".to_string(),                                 
+             CountryCode::BR => "Brazil".to_string(),                                                           
+             CountryCode::BS => "Bahamas".to_string(),                                                          
+             CountryCode::BT => "Bhutan".to_string(),                                                           
+             CountryCode::BV => "Bouvet Island".to_string(),                                                    
+             CountryCode::BW => "Botswana".to_string(),                                                         
+             CountryCode::BY => "Belarus".to_string(),                                                          
+             CountryCode::BZ => "Belize".to_string(),                                                           
+             CountryCode::CA => "Canada".to_string(),                                                           
+             CountryCode::CC => "Cocos (Keeling) Islands".to_string(),                                          
+             CountryCode::CD => "Congo, The Democratic Republic of the".to_string(),                            
+             CountryCode::CF => "Central African Republic".to_string(),                                         
+             CountryCode::CG => "Congo".to_string(),                                                            
+             CountryCode::CH => "Switzerland".to_string(),                                                      
+             CountryCode::CI => "Côte d'Ivoire".to_string(),                                                    
+             CountryCode::CK => "Cook Islands".to_string(),                                                     
+             CountryCode::CL => "Chile".to_string(),                                                            
+             CountryCode::CM => "Cameroon".to_string(),                                                         
+             CountryCode::CN => "China".to_string(),                                                            
+             CountryCode::CO => "Colombia".to_string(),                                                         
+             CountryCode::CR => "Costa Rica".to_string(),                                                       
+             CountryCode::CU => "Cuba".to_string(),                                                             
+             CountryCode::CV => "Cape Verde".to_string(),                                                       
+             CountryCode::CW => "Curaçao".to_string(),                                                          
+             CountryCode::CX => "Christmas Island".to_string(),                                                 
+             CountryCode::CY => "Cyprus".to_string(),                                                           
+             CountryCode::CZ => "Czech Republic".to_string(),                                                   
+             CountryCode::DE => "Germany".to_string(),                                                          
+             CountryCode::DJ => "Djibouti".to_string(),                                                         
+             CountryCode::DK => "Denmark".to_string(),                                                          
+             CountryCode::DM => "Dominica".to_string(),                                                         
+             CountryCode::DO => "Dominican Republic".to_string(),                                               
+             CountryCode::DZ => "Algeria".to_string(),                                                          
+             CountryCode::EC => "Ecuador".to_string(),                                                          
+             CountryCode::EE => "Estonia".to_string(),                                                          
+             CountryCode::EG => "Egypt".to_string(),                                                            
+             CountryCode::EH => "Western Sahara".to_string(),                                                   
+             CountryCode::ER => "Eritrea".to_string(),                                                          
+             CountryCode::ES => "Spain".to_string(),                                                            
+             CountryCode::ET => "Ethiopia".to_string(),                                                         
+             CountryCode::FI => "Finland".to_string(),                                                          
+             CountryCode::FJ => "Fiji".to_string(),                                                             
+             CountryCode::FK => "Falkland Islands".to_string(),                                                 
+             CountryCode::FM => "Micronesia, Federated States of".to_string(),                                  
+             CountryCode::FO => "Faroe Islands".to_string(),                                                    
+             CountryCode::FR => "France".to_string(),                                                           
+             CountryCode::GA => "Gabon".to_string(),                                                            
+             CountryCode::GB => "United Kingdom".to_string(),                                                   
+             CountryCode::GD => "Grenada".to_string(),                                                          
+             CountryCode::GE => "Georgia".to_string(),                                                          
+             CountryCode::GF => "French Guiana".to_string(),                                                    
+             CountryCode::GG => "Guernsey".to_string(),                                                         
+             CountryCode::GH => "Ghana".to_string(),                                                            
+             CountryCode::GI => "Gibraltar".to_string(),                                                        
+             CountryCode::GL => "Greenland".to_string(),                                                        
+             CountryCode::GM => "Gambia".to_string(),                                                           
+             CountryCode::GN => "Guinea".to_string(),                                                           
+             CountryCode::GP => "Guadeloupe".to_string(),                                                       
+             CountryCode::GQ => "Equatorial Guinea".to_string(),                                                
+             CountryCode::GR => "Greece".to_string(),                                                           
+             CountryCode::GS => "South Georgia and the South Sandwich Islands".to_string(),                     
+             CountryCode::GT => "Guatemala".to_string(),                                                        
+             CountryCode::GU => "Guam".to_string(),                                                             
+             CountryCode::GW => "Guinea-Bissau".to_string(),                                                    
+             CountryCode::GY => "Guyana".to_string(),                                                           
+             CountryCode::HK => "Hong Kong".to_string(),                                                        
+             CountryCode::HM => "Heard Island and McDonald Islands".to_string(),                                
+             CountryCode::HN => "Honduras".to_string(),                                                         
+             CountryCode::HR => "Croatia".to_string(),                                                          
+             CountryCode::HT => "Haiti".to_string(),                                                            
+             CountryCode::HU => "Hungary".to_string(),                                                          
+             CountryCode::ID => "Indonesia".to_string(),                                                        
+             CountryCode::IE => "Ireland".to_string(),                                                          
+             CountryCode::IL => "Israel".to_string(),                                                           
+             CountryCode::IM => "Isle of Man".to_string(),                                                      
+             CountryCode::IN => "India".to_string(),                                                            
+             CountryCode::IO => "British Indian Ocean Territory".to_string(),                                   
+             CountryCode::IQ => "Iraq".to_string(),                                                             
+             CountryCode::IR => "Iran".to_string(),                                                             
+             CountryCode::IS => "Iceland".to_string(),                                                          
+             CountryCode::IT => "Italy".to_string(),                                                            
+             CountryCode::JE => "Jersey".to_string(),                                                           
+             CountryCode::JM => "Jamaica".to_string(),                                                          
+             CountryCode::JO => "Jordan".to_string(),                                                           
+             CountryCode::JP => "Japan".to_string(),                                                            
+             CountryCode::KE => "Kenya".to_string(),                                                            
+             CountryCode::KG => "Kyrgyzstan".to_string(),                                                       
+             CountryCode::KH => "Cambodia".to_string(),                                                         
+             CountryCode::KI => "Kiribati".to_string(),                                                         
+             CountryCode::KM => "Comoros".to_string(),                                                          
+             CountryCode::KN => "Saint Kitts and Nevis".to_string(),                                            
+             CountryCode::KP => "Korea, Democratic People's Republic of".to_string(),                           
+             CountryCode::KR => "Korea, Republic of".to_string(),                                               
+             CountryCode::KW => "Kuwait".to_string(),                                                           
+             CountryCode::KY => "Cayman Islands".to_string(),                                                   
+             CountryCode::KZ => "Kazakhstan".to_string(),                                                       
+             CountryCode::LA => "Lao People's Democratic Republic".to_string(),                                 
+             CountryCode::LB => "Lebanon".to_string(),                                                          
+             CountryCode::LC => "Saint Lucia".to_string(),                                                      
+             CountryCode::LI => "Liechtenstein".to_string(),                                                    
+             CountryCode::LK => "Sri Lanka".to_string(),                                                        
+             CountryCode::LR => "Liberia".to_string(),                                                          
+             CountryCode::LS => "Lesotho".to_string(),                                                          
+             CountryCode::LT => "Lithuania".to_string(),                                                        
+             CountryCode::LU => "Luxembourg".to_string(),                                                       
+             CountryCode::LV => "Latvia".to_string(),                                                           
+             CountryCode::LY => "Libya".to_string(),                                                            
+             CountryCode::MA => "Morocco".to_string(),                                                          
+             CountryCode::MC => "Monaco".to_string(),                                                           
+             CountryCode::MD => "Moldova, Republic of".to_string(),                                             
+             CountryCode::ME => "Montenegro".to_string(),                                                       
+             CountryCode::MF => "Saint Martin".to_string(),                                                     
+             CountryCode::MG => "Madagascar".to_string(),                                                       
+             CountryCode::MH => "Marshall Islands".to_string(),                                                 
+             CountryCode::MK => "North Macedonia".to_string(),                                                  
+             CountryCode::ML => "Mali".to_string(),                                                             
+             CountryCode::MM => "Myanmar".to_string(),                                                          
+             CountryCode::MN => "Mongolia".to_string(),                                                         
+             CountryCode::MO => "Macao".to_string(),                                                            
+             CountryCode::MP => "Northern Mariana Islands".to_string(),                                         
+             CountryCode::MQ => "Martinique".to_string(),                                                       
+             CountryCode::MR => "Mauritania".to_string(),                                                       
+             CountryCode::MS => "Montserrat".to_string(),                                                       
+             CountryCode::MT => "Malta".to_string(),                                                            
+             CountryCode::MU => "Mauritius".to_string(),                                                        
+             CountryCode::MV => "Maldives".to_string(),                                                         
+             CountryCode::MW => "Malawi".to_string(),                                                           
+             CountryCode::MX => "Mexico".to_string(),                                                           
+             CountryCode::MY => "Malaysia".to_string(),                                                         
+             CountryCode::MZ => "Mozambique".to_string(),                                                       
+             CountryCode::NA => "Namibia".to_string(),                                                          
+             CountryCode::NC => "New Caledonia".to_string(),                                                    
+             CountryCode::NE => "Niger".to_string(),                                                            
+             CountryCode::NF => "Norfolk Island".to_string      
