@@ -7,6 +7,156 @@ pub enum AccountNormalBalanceType {
     DEBIT,
 }
 
+/// Invoice send method.
+#[derive(Debug)]
+pub enum InvoiceSendMethod {
+    /// Export PDF.
+    EXPORT_PDF,
+    /// Gmail.
+    GMAIL,
+    /// Marked as sent.
+    MARKED_SENT,
+    /// Not sent.
+    NOT_SENT,
+    /// Outlook.
+    OUTLOOK,
+    /// Shared link.
+    SHARED_LINK,
+    /// Skipped.
+    SKIPPED,
+    /// Wave.
+    WAVE,
+    /// Yahoo.
+    YAHOO,
+}
+
+impl InvoiceSendMethod {
+    pub fn to_string(&self) -> String {
+        match self {
+            InvoiceSendMethod::EXPORT_PDF => "EXPORT_PDF".to_string(),
+            InvoiceSendMethod::GMAIL => "GMAIL".to_string(),
+            InvoiceSendMethod::MARKED_SENT => "MARKED_SENT".to_string(),
+            InvoiceSendMethod::NOT_SENT => "NOT_SENT".to_string(),
+            InvoiceSendMethod::OUTLOOK => "OUTLOOK".to_string(),
+            InvoiceSendMethod::SHARED_LINK => "SHARED_LINK".to_string(),
+            InvoiceSendMethod::SKIPPED => "SKIPPED".to_string(),
+            InvoiceSendMethod::WAVE => "WAVE".to_string(),
+            InvoiceSendMethod::YAHOO => "YAHOO".to_string(),
+        }
+    }
+}
+
+/// Options by which invoices can be ordered.
+#[derive(Debug)]
+pub enum InvoiceSort {
+    /// Ascending by amount due.
+    AMOUNT_DUE_ASC,
+    /// Descending by amount due.
+    AMOUNT_DUE_DESC,
+    /// Ascending by amount paid.
+    AMOUNT_PAID_ASC,
+    /// Descending by amount paid.
+    AMOUNT_PAID_DESC,
+    /// Ascending by creation time.
+    CREATED_AT_ASC,
+    /// Descending by creation time.
+    CREATED_AT_DESC,
+    /// Ascending by customer's name.
+    CUSTOMER_NAME_ASC,
+    /// Descending by customer's name.
+    CUSTOMER_NAME_DESC,
+    /// Ascending by due date.
+    DUE_AT_ASC,
+    /// Descending by due date.
+    DUE_AT_DESC,
+    /// Ascending by invoice date.
+    INVOICE_DATE_ASC,
+    /// Descending by invoice date.
+    INVOICE_DATE_DESC,
+    /// Ascending by invoice number.
+    INVOICE_NUMBER_ASC,
+    /// Descending by invoice number.
+    INVOICE_NUMBER_DESC,
+    /// Ascending by modified date.
+    MODIFIED_AT_ASC,
+    /// Descending by modified date.
+    MODIFIED_AT_DESC,
+    /// Ascending by status.
+    STATUS_ASC,
+    /// Descending by status.
+    STATUS_DESC,
+    /// Ascending by total amount.
+    TOTAL_ASC,
+    /// Descending by total amount.
+    TOTAL_DESC,
+}
+
+impl InvoiceSort {
+    pub fn to_string(&self) -> String {
+        match self {
+            InvoiceSort::AMOUNT_DUE_ASC => "AMOUNT_DUE_ASC".to_string(),
+            InvoiceSort::AMOUNT_DUE_DESC => "AMOUNT_DUE_DESC".to_string(),
+            InvoiceSort::AMOUNT_PAID_ASC => "AMOUNT_PAID_ASC".to_string(),
+            InvoiceSort::AMOUNT_PAID_DESC => "AMOUNT_PAID_DESC".to_string(),
+            InvoiceSort::CREATED_AT_ASC => "CREATED_AT_ASC".to_string(),
+            InvoiceSort::CREATED_AT_DESC => "CREATED_AT_DESC".to_string(),
+            InvoiceSort::CUSTOMER_NAME_ASC => "CUSTOMER_NAME_ASC".to_string(),
+            InvoiceSort::CUSTOMER_NAME_DESC => "CUSTOMER_NAME_DESC".to_string(),
+            InvoiceSort::DUE_AT_ASC => "DUE_AT_ASC".to_string(),
+            InvoiceSort::DUE_AT_DESC => "DUE_AT_DESC".to_string(),
+            InvoiceSort::INVOICE_DATE_ASC => "INVOICE_DATE_ASC".to_string(),
+            InvoiceSort::INVOICE_DATE_DESC => "INVOICE_DATE_DESC".to_string(),
+            InvoiceSort::INVOICE_NUMBER_ASC => "INVOICE_NUMBER_ASC".to_string(),
+            InvoiceSort::INVOICE_NUMBER_DESC => "INVOICE_NUMBER_DESC".to_string(),
+            InvoiceSort::MODIFIED_AT_ASC => "MODIFIED_AT_ASC".to_string(),
+            InvoiceSort::MODIFIED_AT_DESC => "MODIFIED_AT_DESC".to_string(),
+            InvoiceSort::STATUS_ASC => "STATUS_ASC".to_string(),
+            InvoiceSort::STATUS_DESC => "STATUS_DESC".to_string(),
+            InvoiceSort::TOTAL_ASC => "TOTAL_ASC".to_string(),
+            InvoiceSort::TOTAL_DESC => "TOTAL_DESC".to_string(),
+        }
+    }
+}
+
+/// Status of an invoice.
+#[derive(Debug)]
+pub enum InvoiceStatus {
+    /// The invoice is still a draft.
+    DRAFT,
+    /// The invoice is overdue.
+    OVERDUE,
+    /// The invoice was overpaid.
+    OVERPAID,
+    /// The invoice was paid.
+    PAID,
+    /// The invoice was partially paid.
+    PARTIAL,
+    /// The invoice was saved.
+    SAVED,
+    /// The invoice was sent.
+    SENT,
+    /// The invoice is unpaid.
+    UNPAID,
+    /// The invoice was viewed.
+    VIEWED,
+}
+
+impl InvoiceStatus {
+    pub fn to_string(&self) -> String {
+        match self {
+            InvoiceStatus::DRAFT => "DRAFT".to_string(),
+            InvoiceStatus::OVERDUE => "OVERDUE".to_string(),
+            InvoiceStatus::OVERPAID => "OVERPAID".to_string(),
+            InvoiceStatus::PAID => "PAID".to_string(),
+            InvoiceStatus::PARTIAL => "PARTIAL".to_string(),
+            InvoiceStatus::SAVED => "SAVED".to_string(),
+            InvoiceStatus::SENT => "SENT".to_string(),
+            InvoiceStatus::UNPAID => "UNPAID".to_string(),
+            InvoiceStatus::VIEWED => "VIEWED".to_string(),
+        }
+    }
+}
+
 /// Options by which customers can be ordered.
 #[derive(Debug)]
 pub enum CustomerSort {
