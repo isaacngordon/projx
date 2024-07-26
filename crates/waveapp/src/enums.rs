@@ -7,50 +7,6 @@ pub enum AccountNormalBalanceType {
     DEBIT,
 }
 
-impl AccountSubtypeValue {
-    pub fn to_string(&self) -> String {
-        match self {
-            AccountSubtypeValue::CASH_AND_BANK => "CASH_AND_BANK".to_string(),
-            AccountSubtypeValue::COST_OF_GOODS_SOLD => "COST_OF_GOODS_SOLD".to_string(),
-            AccountSubtypeValue::CREDIT_CARD => "CREDIT_CARD".to_string(),
-            AccountSubtypeValue::CUSTOMER_PREPAYMENTS_AND_CREDITS => "CUSTOMER_PREPAYMENTS_AND_CREDITS".to_string(),
-            AccountSubtypeValue::DEPRECIATION_AND_AMORTIZATION => "DEPRECIATION_AND_AMORTIZATION".to_string(),
-            AccountSubtypeValue::DISCOUNTS => "DISCOUNTS".to_string(),
-            AccountSubtypeValue::DUE_FOR_PAYROLL => "DUE_FOR_PAYROLL".to_string(),
-            AccountSubtypeValue::DUE_TO_YOU_AND_OTHER_OWNERS => "DUE_TO_YOU_AND_OTHER_OWNERS".to_string(),
-            AccountSubtypeValue::EXPENSE => "EXPENSE".to_string(),
-            AccountSubtypeValue::GAIN_ON_FOREIGN_EXCHANGE => "GAIN_ON_FOREIGN_EXCHANGE".to_string(),
-            AccountSubtypeValue::INCOME => "INCOME".to_string(),
-            AccountSubtypeValue::INVENTORY => "INVENTORY".to_string(),
-            AccountSubtypeValue::LOANS => "LOANS".to_string(),
-            AccountSubtypeValue::LOSS_ON_FOREIGN_EXCHANGE => "LOSS_ON_FOREIGN_EXCHANGE".to_string(),
-            AccountSubtypeValue::MONEY_IN_TRANSIT => "MONEY_IN_TRANSIT".to_string(),
-            AccountSubtypeValue::NON_RETAINED_EARNINGS => "NON_RETAINED_EARNINGS".to_string(),
-            AccountSubtypeValue::OTHER_CURRENT_ASSETS => "OTHER_CURRENT_ASSETS".to_string(),
-            AccountSubtypeValue::OTHER_CURRENT_LIABILITY => "OTHER_CURRENT_LIABILITY".to_string(),
-            AccountSubtypeValue::OTHER_INCOME => "OTHER_INCOME".to_string(),
-            AccountSubtypeValue::OTHER_LONG_TERM_ASSETS => "OTHER_LONG_TERM_ASSETS".to_string(),
-            AccountSubtypeValue::OTHER_LONG_TERM_LIABILITY => "OTHER_LONG_TERM_LIABILITY".to_string(),
-            AccountSubtypeValue::PAYABLE => "PAYABLE".to_string(),
-            AccountSubtypeValue::PAYABLE_BILLS => "PAYABLE_BILLS".to_string(),
-            AccountSubtypeValue::PAYABLE_OTHER => "PAYABLE_OTHER".to_string(),
-            AccountSubtypeValue::PAYMENT_PROCESSING_FEES => "PAYMENT_PROCESSING_FEES".to_string(),
-            AccountSubtypeValue::PAYROLL_EXPENSES => "PAYROLL_EXPENSES".to_string(),
-            AccountSubtypeValue::PROPERTY_PLANT_EQUIPMENT => "PROPERTY_PLANT_EQUIPMENT".to_string(),
-            AccountSubtypeValue::RECEIVABLE => "RECEIVABLE".to_string(),
-            AccountSubtypeValue::RECEIVABLE_INVOICES => "RECEIVABLE_INVOICES".to_string(),
-            AccountSubtypeValue::RECEIVABLE_OTHER => "RECEIVABLE_OTHER".to_string(),
-            AccountSubtypeValue::RETAINED_EARNINGS => "RETAINED_EARNINGS".to_string(),
-            AccountSubtypeValue::SALES_TAX => "SALES_TAX".to_string(),
-            AccountSubtypeValue::SYSTEM_CUSTOMER_CREDITS => "SYSTEM_CUSTOMER_CREDITS".to_string(),
-            AccountSubtypeValue::TRANSFERS => "TRANSFERS".to_string(),
-            AccountSubtypeValue::UNCATEGORIZED_EXPENSE => "UNCATEGORIZED_EXPENSE".to_string(),
-            AccountSubtypeValue::UNCATEGORIZED_INCOME => "UNCATEGORIZED_INCOME".to_string(),
-            AccountSubtypeValue::UNKNOWN_ACCOUNT => "UNKNOWN_ACCOUNT".to_string(),
-            AccountSubtypeValue::VENDOR_PREPAYMENTS_AND_CREDITS => "VENDOR_PREPAYMENTS_AND_CREDITS".to_string(),
-        }
-    }
-
 impl AccountNormalBalanceType {
     pub fn to_string(&self) -> String {
         match self {
@@ -142,6 +98,50 @@ pub enum AccountSubtypeValue {
 }
 
 
+impl AccountSubtypeValue {
+    pub fn to_string(&self) -> String {
+        match self {
+            AccountSubtypeValue::CASH_AND_BANK => "CASH_AND_BANK".to_string(),
+            AccountSubtypeValue::COST_OF_GOODS_SOLD => "COST_OF_GOODS_SOLD".to_string(),
+            AccountSubtypeValue::CREDIT_CARD => "CREDIT_CARD".to_string(),
+            AccountSubtypeValue::CUSTOMER_PREPAYMENTS_AND_CREDITS => "CUSTOMER_PREPAYMENTS_AND_CREDITS".to_string(),
+            AccountSubtypeValue::DEPRECIATION_AND_AMORTIZATION => "DEPRECIATION_AND_AMORTIZATION".to_string(),
+            AccountSubtypeValue::DISCOUNTS => "DISCOUNTS".to_string(),
+            AccountSubtypeValue::DUE_FOR_PAYROLL => "DUE_FOR_PAYROLL".to_string(),
+            AccountSubtypeValue::DUE_TO_YOU_AND_OTHER_OWNERS => "DUE_TO_YOU_AND_OTHER_OWNERS".to_string(),
+            AccountSubtypeValue::EXPENSE => "EXPENSE".to_string(),
+            AccountSubtypeValue::GAIN_ON_FOREIGN_EXCHANGE => "GAIN_ON_FOREIGN_EXCHANGE".to_string(),
+            AccountSubtypeValue::INCOME => "INCOME".to_string(),
+            AccountSubtypeValue::INVENTORY => "INVENTORY".to_string(),
+            AccountSubtypeValue::LOANS => "LOANS".to_string(),
+            AccountSubtypeValue::LOSS_ON_FOREIGN_EXCHANGE => "LOSS_ON_FOREIGN_EXCHANGE".to_string(),
+            AccountSubtypeValue::MONEY_IN_TRANSIT => "MONEY_IN_TRANSIT".to_string(),
+            AccountSubtypeValue::NON_RETAINED_EARNINGS => "NON_RETAINED_EARNINGS".to_string(),
+            AccountSubtypeValue::OTHER_CURRENT_ASSETS => "OTHER_CURRENT_ASSETS".to_string(),
+            AccountSubtypeValue::OTHER_CURRENT_LIABILITY => "OTHER_CURRENT_LIABILITY".to_string(),
+            AccountSubtypeValue::OTHER_INCOME => "OTHER_INCOME".to_string(),
+            AccountSubtypeValue::OTHER_LONG_TERM_ASSETS => "OTHER_LONG_TERM_ASSETS".to_string(),
+            AccountSubtypeValue::OTHER_LONG_TERM_LIABILITY => "OTHER_LONG_TERM_LIABILITY".to_string(),
+            AccountSubtypeValue::PAYABLE => "PAYABLE".to_string(),
+            AccountSubtypeValue::PAYABLE_BILLS => "PAYABLE_BILLS".to_string(),
+            AccountSubtypeValue::PAYABLE_OTHER => "PAYABLE_OTHER".to_string(),
+            AccountSubtypeValue::PAYMENT_PROCESSING_FEES => "PAYMENT_PROCESSING_FEES".to_string(),
+            AccountSubtypeValue::PAYROLL_EXPENSES => "PAYROLL_EXPENSES".to_string(),
+            AccountSubtypeValue::PROPERTY_PLANT_EQUIPMENT => "PROPERTY_PLANT_EQUIPMENT".to_string(),
+            AccountSubtypeValue::RECEIVABLE => "RECEIVABLE".to_string(),
+            AccountSubtypeValue::RECEIVABLE_INVOICES => "RECEIVABLE_INVOICES".to_string(),
+            AccountSubtypeValue::RECEIVABLE_OTHER => "RECEIVABLE_OTHER".to_string(),
+            AccountSubtypeValue::RETAINED_EARNINGS => "RETAINED_EARNINGS".to_string(),
+            AccountSubtypeValue::SALES_TAX => "SALES_TAX".to_string(),
+            AccountSubtypeValue::SYSTEM_CUSTOMER_CREDITS => "SYSTEM_CUSTOMER_CREDITS".to_string(),
+            AccountSubtypeValue::TRANSFERS => "TRANSFERS".to_string(),
+            AccountSubtypeValue::UNCATEGORIZED_EXPENSE => "UNCATEGORIZED_EXPENSE".to_string(),
+            AccountSubtypeValue::UNCATEGORIZED_INCOME => "UNCATEGORIZED_INCOME".to_string(),
+            AccountSubtypeValue::UNKNOWN_ACCOUNT => "UNKNOWN_ACCOUNT".to_string(),
+            AccountSubtypeValue::VENDOR_PREPAYMENTS_AND_CREDITS => "VENDOR_PREPAYMENTS_AND_CREDITS".to_string(),
+        }
+    }
+}
 
 
 /// Types of accounts, as used in the Chart of Accounts.
