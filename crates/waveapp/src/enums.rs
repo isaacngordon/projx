@@ -7,6 +7,16 @@ pub enum AccountNormalBalanceType {
     DEBIT,
 }
 
+impl BalanceType {
+    pub fn to_string(&self) -> String {
+        match self {
+            BalanceType::CREDIT => "CREDIT".to_string(),
+            BalanceType::DEBIT => "DEBIT".to_string(),
+            BalanceType::DECREASE => "DECREASE".to_string(),
+            BalanceType::INCREASE => "INCREASE".to_string(),
+        }
+    }
+
 
 impl AccountNormalBalanceType {
     pub fn to_string(&self) -> String {
@@ -175,7 +185,9 @@ impl AccountTypeValue {
 /// Balance type that expresses how to change an account.
 #[derive(Debug)]
 pub enum BalanceType {
+    /// Credit.
     CREDIT,
+    /// Debit.
     DEBIT,
     /// Decrease using the inverse of the account's normal balance type. For contra accounts whose subtype is `DISCOUNTS` or `DEPRECIATION_AND_AMORTIZATION`, apply the amount in the account's normal balance type.
     DECREASE,
