@@ -471,6 +471,7 @@ impl BusinessSubtypeValue {
             BusinessSubtypeValue::WHOLESALE_DISTRIBUTION_SALES => "WHOLESALE_DISTRIBUTION_SALES".to_string(),
         }
     }
+}
 
 /// Area of focus of a business.
 #[derive(Debug)]
