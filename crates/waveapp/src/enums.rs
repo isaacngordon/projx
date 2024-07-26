@@ -35,16 +35,6 @@ impl OrganizationalType {
 }
 
 #[derive(Debug)]
-/// Forms of business ownership.
-pub enum OrganizationalType {
-    /// Corporation
-    CORPORATION,
-    /// Partnership
-    PARTNERSHIP,
-    /// Sole Proprietorship
-    SOLE_PROPRIETORSHIP,
-}
-#[derive(Debug)]
 pub enum CustomerStatus {
     /// The customer is active.
     ACTIVE,
@@ -57,16 +47,6 @@ impl CustomerStatus {
         match self {
             CustomerStatus::ACTIVE => "ACTIVE".to_string(),
             CustomerStatus::INACTIVE => "INACTIVE".to_string(),
-        }
-    }
-}
-
-impl OrganizationalType {
-    pub fn to_string(&self) -> String {
-        match self {
-            OrganizationalType::CORPORATION => "CORPORATION".to_string(),
-            OrganizationalType::PARTNERSHIP => "PARTNERSHIP".to_string(),
-            OrganizationalType::SOLE_PROPRIETORSHIP => "SOLE_PROPRIETORSHIP".to_string(),
         }
     }
 }
