@@ -34,7 +34,16 @@ impl OrganizationalType {
     }
 }
 
-/// Status of a customer.
+#[derive(Debug)]
+/// Forms of business ownership.
+pub enum OrganizationalType {
+    /// Corporation
+    CORPORATION,
+    /// Partnership
+    PARTNERSHIP,
+    /// Sole Proprietorship
+    SOLE_PROPRIETORSHIP,
+}
 #[derive(Debug)]
 pub enum CustomerStatus {
     /// The customer is active.
@@ -52,7 +61,31 @@ impl CustomerStatus {
     }
 }
 
-/// Method of payment.
+impl OrganizationalType {
+    pub fn to_string(&self) -> String {
+        match self {
+            OrganizationalType::CORPORATION => "CORPORATION".to_string(),
+            OrganizationalType::PARTNERSHIP => "PARTNERSHIP".to_string(),
+            OrganizationalType::SOLE_PROPRIETORSHIP => "SOLE_PROPRIETORSHIP".to_string(),
+        }
+    }
+}
+
+/// Options by which products can be ordered.
+pub enum ProductSort {
+    /// Ascending by creation time.
+    CREATED_AT_ASC,
+    /// Descending by creation time.
+    CREATED_AT_DESC,
+    /// Ascending by modified time.
+    MODIFIED_AT_ASC,
+    /// Descending by modified time.
+    MODIFIED_AT_DESC,
+    /// Ascending by name.
+    NAME_ASC,
+    /// Descending by name.
+    NAME_DESC,
+}
 #[derive(Debug)]
 pub enum PaymentMethod {
     /// Cash payment.
@@ -79,7 +112,30 @@ impl PaymentMethod {
     }
 }
 
-/// Type of transaction.
+impl ProductSort {
+    pub fn to_string(&self) -> String {
+        match self {
+            ProductSort::CREATED_AT_ASC => "CREATED_AT_ASC".to_string(),
+            ProductSort::CREATED_AT_DESC => "CREATED_AT_DESC".to_string(),
+            ProductSort::MODIFIED_AT_ASC => "MODIFIED_AT_ASC".to_string(),
+            ProductSort::MODIFIED_AT_DESC => "MODIFIED_AT_DESC".to_string(),
+            ProductSort::NAME_ASC => "NAME_ASC".to_string(),
+            ProductSort::NAME_DESC => "NAME_DESC".to_string(),
+        }
+    }
+}
+
+/// Wave's schemas.
+pub enum Schema {
+    /// Available only to HR Block integration.
+    HRBLOCK,
+    /// Available only to Wave.
+    INTERNAL,
+    /// Available to all third parties.
+    PUBLIC,
+    /// Available only to Wave staff.
+    STAFF,
+}
 #[derive(Debug)]
 pub enum TransactionType {
     /// Income transaction.
@@ -100,7 +156,24 @@ impl TransactionType {
     }
 }
 
-/// Invoice send method.
+impl Schema {
+    pub fn to_string(&self) -> String {
+        match self {
+            Schema::HRBLOCK => "HRBLOCK".to_string(),
+            Schema::INTERNAL => "INTERNAL".to_string(),
+            Schema::PUBLIC => "PUBLIC".to_string(),
+            Schema::STAFF => "STAFF".to_string(),
+        }
+    }
+}
+
+/// Represents the direction of a transaction.
+pub enum TransactionDirection {
+    /// To put in.
+    DEPOSIT,
+    /// To remove from.
+    WITHDRAWAL,
+}
 #[derive(Debug)]
 pub enum InvoiceSendMethod {
     /// Export PDF.
@@ -139,7 +212,22 @@ impl InvoiceSendMethod {
     }
 }
 
-/// Options by which invoices can be ordered.
+impl TransactionDirection {
+    pub fn to_string(&self) -> String {
+        match self {
+            TransactionDirection::DEPOSIT => "DEPOSIT".to_string(),
+            TransactionDirection::WITHDRAWAL => "WITHDRAWAL".to_string(),
+        }
+    }
+}
+
+/// Represents the origin of a transaction.
+pub enum TransactionOrigin {
+    /// Manually created transaction.
+    MANUAL,
+    /// Transaction created through Zapier.
+    ZAPIER,
+}
 #[derive(Debug)]
 pub enum InvoiceSort {
     /// Ascending by amount due.
@@ -211,7 +299,14 @@ impl InvoiceSort {
     }
 }
 
-/// Status of an invoice.
+impl TransactionOrigin {
+    pub fn to_string(&self) -> String {
+        match self {
+            TransactionOrigin::MANUAL => "MANUAL".to_string(),
+            TransactionOrigin::ZAPIER => "ZAPIER".to_string(),
+        }
+    }
+}
 #[derive(Debug)]
 pub enum InvoiceStatus {
     /// The invoice is still a draft.
