@@ -475,17 +475,49 @@ impl BusinessSubtypeValue {
 
 /// Area of focus of a business.
 #[derive(Debug)]
+/// Area of focus of a business.
 pub enum BusinessTypeValue {
+    /// Artists, Photographers & Creative Types
     ARTISTS_PHOTOGRAPHERS_CREATIVE,
+    /// Consultants & Professionals
     CONSULTANTS_PROFESSIONALS,
+    /// Financial Services
     FINANCE_INSURANCE,
+    /// Hair, Spa & Aesthetics
     HAIR_SPA_AESTHETICS,
+    /// Medical, Dental, Health
     MEDICAL_DENTAL_HEALTH_SERVICE,
+    /// Non-profits, Associations & Groups
     NONPROFIT_ASSOCIATIONS_GROUPS,
+    /// Other (please specify)
     OTHER(String),
+    /// General: I make or sell a PRODUCT
     PRODUCT_PROVIDER,
+    /// Real Estate, Construction & Home Improvement
     REALESTATE_HOME,
+    /// Retailers, Resellers & Sales
     RETAILERS_AND_RESELLERS,
+    /// General: I provide a SERVICE
     SERVICE_PROVIDER,
+    /// Web, Tech & Media
     WEB_MEDIA_FREELANCER,
+}
+
+impl BusinessTypeValue {
+    pub fn to_string(&self) -> String {
+        match self {
+            BusinessTypeValue::ARTISTS_PHOTOGRAPHERS_CREATIVE => "ARTISTS_PHOTOGRAPHERS_CREATIVE".to_string(),
+            BusinessTypeValue::CONSULTANTS_PROFESSIONALS => "CONSULTANTS_PROFESSIONALS".to_string(),
+            BusinessTypeValue::FINANCE_INSURANCE => "FINANCE_INSURANCE".to_string(),
+            BusinessTypeValue::HAIR_SPA_AESTHETICS => "HAIR_SPA_AESTHETICS".to_string(),
+            BusinessTypeValue::MEDICAL_DENTAL_HEALTH_SERVICE => "MEDICAL_DENTAL_HEALTH_SERVICE".to_string(),
+            BusinessTypeValue::NONPROFIT_ASSOCIATIONS_GROUPS => "NONPROFIT_ASSOCIATIONS_GROUPS".to_string(),
+            BusinessTypeValue::OTHER(value) => format!("OTHER({})", value),
+            BusinessTypeValue::PRODUCT_PROVIDER => "PRODUCT_PROVIDER".to_string(),
+            BusinessTypeValue::REALESTATE_HOME => "REALESTATE_HOME".to_string(),
+            BusinessTypeValue::RETAILERS_AND_RESELLERS => "RETAILERS_AND_RESELLERS".to_string(),
+            BusinessTypeValue::SERVICE_PROVIDER => "SERVICE_PROVIDER".to_string(),
+            BusinessTypeValue::WEB_MEDIA_FREELANCER => "WEB_MEDIA_FREELANCER".to_string(),
+        }
+    }
 }
