@@ -7,6 +7,72 @@ pub enum AccountNormalBalanceType {
     DEBIT,
 }
 
+/// Status of a customer.
+#[derive(Debug)]
+pub enum CustomerStatus {
+    /// The customer is active.
+    ACTIVE,
+    /// The customer is inactive.
+    INACTIVE,
+}
+
+impl CustomerStatus {
+    pub fn to_string(&self) -> String {
+        match self {
+            CustomerStatus::ACTIVE => "ACTIVE".to_string(),
+            CustomerStatus::INACTIVE => "INACTIVE".to_string(),
+        }
+    }
+}
+
+/// Method of payment.
+#[derive(Debug)]
+pub enum PaymentMethod {
+    /// Cash payment.
+    CASH,
+    /// Credit card payment.
+    CREDIT_CARD,
+    /// Bank transfer.
+    BANK_TRANSFER,
+    /// PayPal.
+    PAYPAL,
+    /// Other payment method.
+    OTHER,
+}
+
+impl PaymentMethod {
+    pub fn to_string(&self) -> String {
+        match self {
+            PaymentMethod::CASH => "CASH".to_string(),
+            PaymentMethod::CREDIT_CARD => "CREDIT_CARD".to_string(),
+            PaymentMethod::BANK_TRANSFER => "BANK_TRANSFER".to_string(),
+            PaymentMethod::PAYPAL => "PAYPAL".to_string(),
+            PaymentMethod::OTHER => "OTHER".to_string(),
+        }
+    }
+}
+
+/// Type of transaction.
+#[derive(Debug)]
+pub enum TransactionType {
+    /// Income transaction.
+    INCOME,
+    /// Expense transaction.
+    EXPENSE,
+    /// Transfer transaction.
+    TRANSFER,
+}
+
+impl TransactionType {
+    pub fn to_string(&self) -> String {
+        match self {
+            TransactionType::INCOME => "INCOME".to_string(),
+            TransactionType::EXPENSE => "EXPENSE".to_string(),
+            TransactionType::TRANSFER => "TRANSFER".to_string(),
+        }
+    }
+}
+
 /// Invoice send method.
 #[derive(Debug)]
 pub enum InvoiceSendMethod {
