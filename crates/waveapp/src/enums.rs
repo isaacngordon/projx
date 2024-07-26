@@ -11,7 +11,7 @@ impl AccountNormalBalanceType {
     pub fn to_string(&self) -> String {
         match self {
             AccountNormalBalanceType::CREDIT => "CREDIT".to_string(),
-            AccountNormalBalanceType::DEBIT => "DEBIT".to_string()
+            AccountNormalBalanceType::DEBIT => "DEBIT".to_string(),
         }
     }
 }
@@ -97,18 +97,23 @@ pub enum AccountSubtypeValue {
     VENDOR_PREPAYMENTS_AND_CREDITS,
 }
 
-
 impl AccountSubtypeValue {
     pub fn to_string(&self) -> String {
         match self {
             AccountSubtypeValue::CASH_AND_BANK => "CASH_AND_BANK".to_string(),
             AccountSubtypeValue::COST_OF_GOODS_SOLD => "COST_OF_GOODS_SOLD".to_string(),
             AccountSubtypeValue::CREDIT_CARD => "CREDIT_CARD".to_string(),
-            AccountSubtypeValue::CUSTOMER_PREPAYMENTS_AND_CREDITS => "CUSTOMER_PREPAYMENTS_AND_CREDITS".to_string(),
-            AccountSubtypeValue::DEPRECIATION_AND_AMORTIZATION => "DEPRECIATION_AND_AMORTIZATION".to_string(),
+            AccountSubtypeValue::CUSTOMER_PREPAYMENTS_AND_CREDITS => {
+                "CUSTOMER_PREPAYMENTS_AND_CREDITS".to_string()
+            }
+            AccountSubtypeValue::DEPRECIATION_AND_AMORTIZATION => {
+                "DEPRECIATION_AND_AMORTIZATION".to_string()
+            }
             AccountSubtypeValue::DISCOUNTS => "DISCOUNTS".to_string(),
             AccountSubtypeValue::DUE_FOR_PAYROLL => "DUE_FOR_PAYROLL".to_string(),
-            AccountSubtypeValue::DUE_TO_YOU_AND_OTHER_OWNERS => "DUE_TO_YOU_AND_OTHER_OWNERS".to_string(),
+            AccountSubtypeValue::DUE_TO_YOU_AND_OTHER_OWNERS => {
+                "DUE_TO_YOU_AND_OTHER_OWNERS".to_string()
+            }
             AccountSubtypeValue::EXPENSE => "EXPENSE".to_string(),
             AccountSubtypeValue::GAIN_ON_FOREIGN_EXCHANGE => "GAIN_ON_FOREIGN_EXCHANGE".to_string(),
             AccountSubtypeValue::INCOME => "INCOME".to_string(),
@@ -121,7 +126,9 @@ impl AccountSubtypeValue {
             AccountSubtypeValue::OTHER_CURRENT_LIABILITY => "OTHER_CURRENT_LIABILITY".to_string(),
             AccountSubtypeValue::OTHER_INCOME => "OTHER_INCOME".to_string(),
             AccountSubtypeValue::OTHER_LONG_TERM_ASSETS => "OTHER_LONG_TERM_ASSETS".to_string(),
-            AccountSubtypeValue::OTHER_LONG_TERM_LIABILITY => "OTHER_LONG_TERM_LIABILITY".to_string(),
+            AccountSubtypeValue::OTHER_LONG_TERM_LIABILITY => {
+                "OTHER_LONG_TERM_LIABILITY".to_string()
+            }
             AccountSubtypeValue::PAYABLE => "PAYABLE".to_string(),
             AccountSubtypeValue::PAYABLE_BILLS => "PAYABLE_BILLS".to_string(),
             AccountSubtypeValue::PAYABLE_OTHER => "PAYABLE_OTHER".to_string(),
@@ -138,11 +145,12 @@ impl AccountSubtypeValue {
             AccountSubtypeValue::UNCATEGORIZED_EXPENSE => "UNCATEGORIZED_EXPENSE".to_string(),
             AccountSubtypeValue::UNCATEGORIZED_INCOME => "UNCATEGORIZED_INCOME".to_string(),
             AccountSubtypeValue::UNKNOWN_ACCOUNT => "UNKNOWN_ACCOUNT".to_string(),
-            AccountSubtypeValue::VENDOR_PREPAYMENTS_AND_CREDITS => "VENDOR_PREPAYMENTS_AND_CREDITS".to_string(),
+            AccountSubtypeValue::VENDOR_PREPAYMENTS_AND_CREDITS => {
+                "VENDOR_PREPAYMENTS_AND_CREDITS".to_string()
+            }
         }
     }
 }
-
 
 /// Types of accounts, as used in the Chart of Accounts.
 #[derive(Debug)]
@@ -198,91 +206,177 @@ impl BalanceType {
 /// Granular area of focus of a business.
 #[derive(Debug)]
 pub enum BusinessSubtypeValue {
+    /// Advertising, Public Relations                                                                          
     ADVERTISING_PUBLIC_RELATIONS,
+    /// Agriculture, Ranching and Farming                                                                      
     AGRICULTURE_RANCHING_FARMING,
+    /// Actor                                                                                                  
     ARTISTS_PHOTOGRAPHERS_CREATIVE__ACTOR,
+    /// Audio/Visual Production                                                                                
     ARTISTS_PHOTOGRAPHERS_CREATIVE__AUDIO_VISUAL_PRODUCTION,
+    /// Craftsperson                                                                                           
     ARTISTS_PHOTOGRAPHERS_CREATIVE__CRAFTSPERSON,
+    /// Dancer, Choreographer                                                                                  
     ARTISTS_PHOTOGRAPHERS_CREATIVE__DANCER_CHOREOG,
+    /// Musician                                                                                               
     ARTISTS_PHOTOGRAPHERS_CREATIVE__MUSICIAN,
+    /// Other Creative                                                                                         
     ARTISTS_PHOTOGRAPHERS_CREATIVE__OTHER,
+    /// Performing Arts (acting, music, dance)                                                                 
     ARTISTS_PHOTOGRAPHERS_CREATIVE__PERFORMING_ARTS_ACTING_MUSIC_DANCE,
+    /// Photographer                                                                                           
     ARTISTS_PHOTOGRAPHERS_CREATIVE__PHOTOGRAPHER,
+    /// Visual Artist                                                                                          
     ARTISTS_PHOTOGRAPHERS_CREATIVE__VISUAL_ARTIST,
+    /// Automotive Repair & Sales                                                                              
     AUTOMOTIVE_SALES_AND_REPAIR,
+    /// Church, Religious Organization                                                                         
     CHURCH_RELIGIOUS_ORGANIZATION,
+    /// Contractor                                                                                             
     CONSTRUCTION_HOME_IMPROVEMENT__CONTRACTOR,
+    /// Engineer                                                                                               
     CONSTRUCTION_HOME_IMPROVEMENT__ENGINEER,
+    /// Home Inspector                                                                                         
     CONSTRUCTION_HOME_IMPROVEMENT__HOME_INSPECTOR,
+    /// Trade                                                                                                  
     CONSTRUCTION_HOME_IMPROVEMENT__OTHER_TRADES,
+    /// Accountant, Bookkeeper                                                                                 
     CONSULTANTS_PROFESSIONALS__ACCOUNTANTS_BOOKKEEPERS,
+    /// Communications, Marketing, PR                                                                          
     CONSULTANTS_PROFESSIONALS__COMMUNICATIONS,
+    /// Executive Coach                                                                                        
     CONSULTANTS_PROFESSIONALS__EXECUTIVE_COACH,
+    /// HR, Recruitment, Staffing                                                                              
     CONSULTANTS_PROFESSIONALS__HR_RECRUITMENT_STAFFING,
+    /// IT, Technical                                                                                          
     CONSULTANTS_PROFESSIONALS__IT_TECHNICAL,
+    /// Other Consultant                                                                                       
     CONSULTANTS_PROFESSIONALS__OTHER,
+    /// Sales                                                                                                  
     CONSULTANTS_PROFESSIONALS__SALES,
+    /// Design, Architecture, Engineering                                                                      
     DESIGN_ARCHITECTURE_ENGINEERING,
+    /// Other Financial Service                                                                                
     FINANCIAL_SERVICES,
+    /// Salon, Spa                                                                                             
     HAIR_SPA_AESTHETICS__HAIR_SALON,
+    /// Massage                                                                                                
     HAIR_SPA_AESTHETICS__MASSAGE,
+    /// Nails, Skin, Aesthetics                                                                                
     HAIR_SPA_AESTHETICS__NAIL_SKIN_AESTHETICS,
+    /// Other Aesthetics/Spa                                                                                   
     HAIR_SPA_AESTHETICS__OTHER,
+    /// Insurance Agency, Broker                                                                               
     INSURANCE_AGENCY_BROKER,
+    /// Landlord                                                                                               
     LANDLORD_PROPERTY_MANAGER__LANDLORD,
+    /// Property Manager                                                                                       
     LANDLORD_PROPERTY_MANAGER__PROPERTY_MANAGER,
+    /// Lawn Care, Landscaping                                                                                 
     LAWN_CARE_LANDSCAPING,
+    /// Legal Services                                                                                         
     LEGAL_SERVICES,
+    /// Lodging, Hotel, Motel                                                                                  
     LODGING_HOTEL_MOTEL,
+    /// Manufacturing Representative, Agent                                                                    
     MANUFACTURER_REPRESENTATIVE_AGENT,
+    /// Chiropractor                                                                                           
     MEDICAL_DENTAL_HEALTH_SERVICE__CHIROPRACTOR,
+    /// Dentist                                                                                                
     MEDICAL_DENTAL_HEALTH_SERVICE__DENTIST,
+    /// Fitness                                                                                                
     MEDICAL_DENTAL_HEALTH_SERVICE__FITNESS,
+    /// Massage Therapist                                                                                      
     MEDICAL_DENTAL_HEALTH_SERVICE__MASSAGE_THERAPIST,
+    /// Mental Health                                                                                          
     MEDICAL_DENTAL_HEALTH_SERVICE__MENTAL_HEALTH,
+    /// Nutrition                                                                                              
     MEDICAL_DENTAL_HEALTH_SERVICE__NUTRITION,
+    /// Occupational Therapist                                                                                 
     MEDICAL_DENTAL_HEALTH_SERVICE__OCCUP_THERAPIST,
+    /// Other Health                                                                                           
     MEDICAL_DENTAL_HEALTH_SERVICE__OTHER,
+    /// Physical Therapist                                                                                     
     MEDICAL_DENTAL_HEALTH_SERVICE__PHYSICAL_THERAPIST,
+    /// Association                                                                                            
     NONPROFIT_ASSOCIATIONS_GROUPS__ASSOCIATION,
+    /// Charity                                                                                                
     NONPROFIT_ASSOCIATIONS_GROUPS__CHARITABLE,
+    /// Club                                                                                                   
     NONPROFIT_ASSOCIATIONS_GROUPS__CLUB,
+    /// Condo                                                                                                  
     NONPROFIT_ASSOCIATIONS_GROUPS__CONDO,
+    /// Other Non-Profit                                                                                       
     NONPROFIT_ASSOCIATIONS_GROUPS__OTHER,
+    /// Parent Booster USA                                                                                     
     NONPROFIT_ASSOCIATIONS_GROUPS__PARENT_BOOSTER,
+    /// Other (please specify)                                                                                 
     OTHER__OTHER_PLEASE_SPECIFY,
+    /// Manufacturer                                                                                           
     PRODUCT_PROVIDER__MANUFACTURER,
+    /// Manufacturer and Vendor                                                                                
     PRODUCT_PROVIDER__MANUFACTURER_AND_VENDOR,
+    /// Other Product-based Business                                                                           
     PRODUCT_PROVIDER__OTHER,
+    /// Vendor                                                                                                 
     PRODUCT_PROVIDER__VENDOR,
+    /// Real Estate Agent                                                                                      
     REAL_ESTATE_SALES__AGENT,
+    /// Real Estate Broker                                                                                     
     REAL_ESTATE_SALES__BROKER,
+    /// Other Real Estate                                                                                      
     REAL_ESTATE_SALES__OTHER,
+    /// Real Estate Rental                                                                                     
     RENTAL,
+    /// Repairs/Maintenance                                                                                    
     REPAIR_AND_MAINTENANCE,
+    /// Restaurant, Caterer, Bar                                                                               
     RESTAURANT_CATERER_BAR,
+    /// eBay Resellers                                                                                         
     RETAILERS_AND_RESELLERS__EBAY,
+    /// Etsy Vendors                                                                                           
     RETAILERS_AND_RESELLERS__ETSY,
+    /// Non-Store Retailers                                                                                    
     RETAILERS_AND_RESELLERS__NON_STORE_RETAILER,
+    /// Other Retailers                                                                                        
     RETAILERS_AND_RESELLERS__OTHER,
+    /// Store Retailers                                                                                        
     RETAILERS_AND_RESELLERS__STORE_RETAILER,
+    /// Sales: Independent Agent                                                                               
     SALES_INDEPENDENT_AGENT,
+    /// Cleaning, Janitorial Services                                                                          
     SERVICE_PROVIDER__CLEANING_JANITORIAL_SERVICES,
+    /// Customer Service/Support                                                                               
     SERVICE_PROVIDER__CUSTOMER_SERVICE_SUPPORT,
+    /// Household Employer                                                                                     
     SERVICE_PROVIDER__DOMESTIC_CAREGIVER_EMPLOYER,
+    /// Fitness                                                                                                
     SERVICE_PROVIDER__FITNESS,
+    /// Office Admin/Support                                                                                   
     SERVICE_PROVIDER__OFFICE_ADMIN_SUPPORT,
+    /// Other Service-based Business                                                                           
     SERVICE_PROVIDER__OTHER,
+    /// Personal Care                                                                                          
     SERVICE_PROVIDER__PERSONAL_CARE,
+    /// Telemarketing                                                                                          
     SERVICE_PROVIDER__TELEMARKETING,
+    /// Transcription                                                                                          
     SERVICE_PROVIDER__TRANSCRIPTION,
+    /// Transportation, Trucking, Deliver                                                                      
     TRANSPORTATION_TRUCKING_DELIVERY,
+    /// Designer                                                                                               
     WEB_MEDIA_FREELANCER__DESIGNER,
+    /// Marketing, Social Media                                                                                
     WEB_MEDIA_FREELANCER__MARKETING_SOCIAL_MEDIA,
+    /// Other Media/Tech                                                                                       
     WEB_MEDIA_FREELANCER__OTHER,
+    /// Programmer                                                                                             
     WEB_MEDIA_FREELANCER__PROGRAMMER,
+    /// SEO                                                                                                    
     WEB_MEDIA_FREELANCER__SEO,
+    /// Writer                                                                                                 
     WEB_MEDIA_FREELANCER__WRITER,
+    /// Wholesale Distribution and Sales                                                                       
     WHOLESALE_DISTRIBUTION_SALES,
 }
 
@@ -302,4 +396,3 @@ pub enum BusinessTypeValue {
     SERVICE_PROVIDER,
     WEB_MEDIA_FREELANCER,
 }
-
