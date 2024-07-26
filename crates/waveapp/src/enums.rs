@@ -7,6 +7,33 @@ pub enum AccountNormalBalanceType {
     DEBIT,
 }
 
+/// Type of organization.
+#[derive(Debug)]
+pub enum OrganizationalType {
+    /// Non-profit organization.
+    NON_PROFIT,
+    /// For-profit organization.
+    FOR_PROFIT,
+    /// Government organization.
+    GOVERNMENT,
+    /// Educational institution.
+    EDUCATIONAL,
+    /// Other type of organization.
+    OTHER,
+}
+
+impl OrganizationalType {
+    pub fn to_string(&self) -> String {
+        match self {
+            OrganizationalType::NON_PROFIT => "NON_PROFIT".to_string(),
+            OrganizationalType::FOR_PROFIT => "FOR_PROFIT".to_string(),
+            OrganizationalType::GOVERNMENT => "GOVERNMENT".to_string(),
+            OrganizationalType::EDUCATIONAL => "EDUCATIONAL".to_string(),
+            OrganizationalType::OTHER => "OTHER".to_string(),
+        }
+    }
+}
+
 /// Status of a customer.
 #[derive(Debug)]
 pub enum CustomerStatus {
