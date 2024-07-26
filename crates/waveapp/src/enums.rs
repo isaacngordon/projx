@@ -7,16 +7,6 @@ pub enum AccountNormalBalanceType {
     DEBIT,
 }
 
-impl AccountTypeValue {
-    pub fn to_string(&self) -> String {
-        match self {
-            AccountTypeValue::ASSET => "ASSET".to_string(),
-            AccountTypeValue::EQUITY => "EQUITY".to_string(),
-            AccountTypeValue::EXPENSE => "EXPENSE".to_string(),
-            AccountTypeValue::INCOME => "INCOME".to_string(),
-            AccountTypeValue::LIABILITY => "LIABILITY".to_string(),
-        }
-    }
 
 impl AccountNormalBalanceType {
     pub fn to_string(&self) -> String {
@@ -168,6 +158,18 @@ pub enum AccountTypeValue {
     INCOME,
     /// Represents the different types of economic obligations of an entity.
     LIABILITY,
+}
+
+impl AccountTypeValue {
+    pub fn to_string(&self) -> String {
+        match self {
+            AccountTypeValue::ASSET => "ASSET".to_string(),
+            AccountTypeValue::EQUITY => "EQUITY".to_string(),
+            AccountTypeValue::EXPENSE => "EXPENSE".to_string(),
+            AccountTypeValue::INCOME => "INCOME".to_string(),
+            AccountTypeValue::LIABILITY => "LIABILITY".to_string(),
+        }
+    }
 }
 
 /// Balance type that expresses how to change an account.
