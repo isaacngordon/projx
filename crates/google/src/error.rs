@@ -7,11 +7,11 @@ pub enum Error {
     GraphQL {
         url: String,
         status_code: i32,
-        message: String
+        message: String,
     },
 
     #[from]
-    SerdeJson(serde_json::Error)
+    SerdeJson(serde_json::Error),
 }
 
 // end boilerplate

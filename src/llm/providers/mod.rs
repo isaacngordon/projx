@@ -1,8 +1,8 @@
-mod openai;
 mod ollama;
+mod openai;
 
-pub use openai::*;
 pub use ollama::*;
+pub use openai::*;
 
 pub trait LLM {
     async fn prompt(&self, input: &str) -> Result<String, String>;
@@ -10,9 +10,9 @@ pub trait LLM {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use super::openai::OpenAILLM;
     use super::ollama::OllamaLLM;
+    use super::openai::OpenAILLM;
+    use super::*;
     use tokio; // Ensure you have the tokio runtime for async tests
 
     #[tokio::test]

@@ -15,9 +15,7 @@ impl LLM for OllamaLLM {
         let model = "llama2:latest".to_string();
         let prompt = input.to_string();
 
-        let res = ollama.generate(
-            GenerationRequest::new(model, prompt)
-        ).await;
+        let res = ollama.generate(GenerationRequest::new(model, prompt)).await;
 
         let ret = if let Ok(res) = res {
             println!("{}", res.response);

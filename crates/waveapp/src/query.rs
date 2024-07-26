@@ -3,23 +3,23 @@ use super::scalar;
 
 pub enum Query {
     OAuthApplication,
-    Currencies, 
-    Currency{
-        code: CurrencyCode
-    }, 
+    Currencies,
+    Currency {
+        code: CurrencyCode,
+    },
     Countries,
     Country {
-        code: CountryCode
-    }, 
-    Province(String), 
-    Businesses{
+        code: CountryCode,
+    },
+    Province(String),
+    Businesses {
         page: scalar::Int,
-        pageSize: scalar::Int
-    }, 
+        pageSize: scalar::Int,
+    },
     Business {
-        id: scalar::ID
-    }, 
-    User, 
-    AccountTypes, 
-    AccountSubTypes
+        id: scalar::ID,
+    },
+    User,
+    AccountTypes,
+    AccountSubTypes,
 }
