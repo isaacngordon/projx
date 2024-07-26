@@ -940,4 +940,4 @@ impl BusinessTypeValue {
              CountryCode::NA => "Namibia".to_string(),                                                          
              CountryCode::NC => "New Caledonia".to_string(),                                                    
              CountryCode::NE => "Niger".to_string(),                                                            
-             CountryCode::NF => "Norfolk Island".to_string      
+             CountryCode::NF => "Norfolk Island".to_string
