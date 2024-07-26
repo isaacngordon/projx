@@ -1,3 +1,4 @@
+use super::enums::{CountryCode, CurrencyCode};
 use super::scalar;
 
 pub enum Query {
