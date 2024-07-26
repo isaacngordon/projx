@@ -7,17 +7,6 @@ pub enum AccountNormalBalanceType {
     DEBIT,
 }
 
-impl BalanceType {
-    pub fn to_string(&self) -> String {
-        match self {
-            BalanceType::CREDIT => "CREDIT".to_string(),
-            BalanceType::DEBIT => "DEBIT".to_string(),
-            BalanceType::DECREASE => "DECREASE".to_string(),
-            BalanceType::INCREASE => "INCREASE".to_string(),
-        }
-    }
-
-
 impl AccountNormalBalanceType {
     pub fn to_string(&self) -> String {
         match self {
@@ -193,6 +182,17 @@ pub enum BalanceType {
     DECREASE,
     /// Increase using the account's normal balance type. For contra accounts whose subtype is `DISCOUNTS` or `DEPRECIATION_AND_AMORTIZATION`, apply the amount in the inverse of the account's normal balance type.
     INCREASE,
+}
+
+impl BalanceType {
+    pub fn to_string(&self) -> String {
+        match self {
+            BalanceType::CREDIT => "CREDIT".to_string(),
+            BalanceType::DEBIT => "DEBIT".to_string(),
+            BalanceType::DECREASE => "DECREASE".to_string(),
+            BalanceType::INCREASE => "INCREASE".to_string(),
+        }
+    }
 }
 
 /// Granular area of focus of a business.
