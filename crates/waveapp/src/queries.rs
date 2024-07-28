@@ -1,5 +1,5 @@
-use super::enums::{CountryCode, CurrencyCode};
-use super::scalar;
+use crate::enums::{CountryCode, CurrencyCode};
+use crate::scalar;
 
 pub enum Query {
     /// Get the current OAuth application.
