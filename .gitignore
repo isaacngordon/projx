@@ -8,3 +8,6 @@
 src/projects
 src/templates/*test*template*
 src/templates/*dummy*template*
+
+# config
+**/.env

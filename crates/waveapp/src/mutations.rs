@@ -125,47 +125,47 @@ pub enum WaveAppMutation {
 
 
 // TODO: Implement new and default for WaveAppMutation
-impl WaveAppMutation {
-    fn to_payload(self) -> String {
+// impl WaveAppMutation {
+//     fn to_payload(self) -> String {
         
-        let operation_variables = 
-        r#"
-        {{
-            businessId: "{}",
-            name: "{} {}",
-            firstName: "{}",
-            lastName: "{}",
-            email: "{}",
-            phone: "{}",
-            address: "{}"
-            currency {{
-                code: "{}"
-            }}
-        }}"#;
+//         let operation_variables = 
+//         r#"
+//         {{
+//             businessId: "{}",
+//             name: "{} {}",
+//             firstName: "{}",
+//             lastName: "{}",
+//             email: "{}",
+//             phone: "{}",
+//             address: "{}"
+//             currency {{
+//                 code: "{}"
+//             }}
+//         }}"#;
 
-        let mutation_spec = 
-        r#"customer {{
-                id
-                name
-                email
-                phone
-                address
-            }}"#;
+//         let mutation_spec = 
+//         r#"customer {{
+//                 id
+//                 name
+//                 email
+//                 phone
+//                 address
+//             }}"#;
 
-        let mutation = format!(
-            r#"
-            mutation(input: {}) {{
-                {}(input: $input) {{
-                    {}
-                }}
-            }}
-            "#,
-            input_type, 
-            mutation_name,
-            mutation_spec
-        );
+//         let mutation = format!(
+//             r#"
+//             mutation(input: {}) {{
+//                 {}(input: $input) {{
+//                     {}
+//                 }}
+//             }}
+//             "#,
+//             input_type, 
+//             mutation_name,
+//             mutation_spec
+//         );
 
 
-        payload
-   }
-}
+//         payload
+//    }
+// }
