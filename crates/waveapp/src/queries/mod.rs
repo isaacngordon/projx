@@ -1,5 +1,3 @@
-
-
 pub(super) mod businesses {
     use crate::{client::schema, WaveAppClient};
     use cynic::{GraphQlResponse, QueryBuilder};
@@ -51,7 +49,8 @@ pub(super) mod businesses {
         async fn test_build_query() {
             let query = Query::build(());
             let client = WaveAppClient::default();
-            let query_result: crate::error::Result<GraphQlResponse<Query>> = client.query_raw(query).await;
+            let query_result: crate::error::Result<GraphQlResponse<Query>> =
+                client.query_raw(query).await;
             println!("{:?}", query_result);
             assert!(query_result.is_ok());
         }
@@ -66,7 +65,6 @@ pub(super) mod businesses {
         }
     }
 }
-
 
 // #[derive(Serialize, Deserialize)]
 // pub enum Query {
@@ -108,5 +106,3 @@ pub(super) mod businesses {
 //     // /// List subtypes of accounts
 //     // AccountSubTypes,
 // }
-
-

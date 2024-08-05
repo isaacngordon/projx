@@ -13,7 +13,7 @@ pub enum Error {
     #[from]
     SerdeJson(serde_json::Error),
 
-    CustomError(String)
+    CustomError(String),
 }
 
 // end boilerplate

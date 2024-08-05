@@ -1,5 +1,5 @@
 pub trait Input {
-    fn foo(){}
+    fn foo() {}
 }
 pub trait Output {}
 
@@ -36,14 +36,10 @@ pub struct CustomerCreateInput {
     /// Details for shipping to the customer.
     shippingDetails: Option<CustomerShippingDetailsInput>,
 }
-impl Input for CustomerCreateInput {
-    
-}
+impl Input for CustomerCreateInput {}
 
 pub struct CustomerCreateOutput {}
-impl Output for CustomerCreateOutput {
-
-}
+impl Output for CustomerCreateOutput {}
 
 /// An address.
 pub struct AddressInput {
@@ -61,8 +57,7 @@ pub struct AddressInput {
     postalCode: String,
 }
 
-
-pub struct CustomerShippingDetailsInput{
+pub struct CustomerShippingDetailsInput {
     /// Name or business name of the customer.
     name: String,
     /// Address of the customer.

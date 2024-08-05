@@ -84,6 +84,7 @@ impl WaveAppClient {
             .text()
             .await
             .map_err(|e| Error::CustomError(e.to_string()))?;
+
         if status_code.is_success() {
             // Use a generic lifetime `'de` for deserialization
             let result: GraphQlResponse<T> = serde_json::from_str(&data)?;
