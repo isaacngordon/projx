@@ -2132,12 +2132,14 @@ name = "waveapp"
 version = "0.1.0"
 dependencies = [
  "cynic",
+ "cynic-codegen",
  "derive_more",
  "reqwest",
  "rust_decimal",
  "rust_decimal_macros",
  "serde",
  "serde_json",
+ "tokio",
 ]
 
 [[package]]

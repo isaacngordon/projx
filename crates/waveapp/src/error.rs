@@ -6,12 +6,14 @@ pub type Result<T> = core::result::Result<T, Error>;
 pub enum Error {
     GraphQL {
         url: String,
-        status_code: i32,
+        status_code: u16,
         message: String,
     },
 
     #[from]
     SerdeJson(serde_json::Error),
+
+    CustomError(String)
 }
 
 // end boilerplate
