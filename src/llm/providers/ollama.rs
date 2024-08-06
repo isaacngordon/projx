@@ -1,11 +1,10 @@
 use ollama_rs::{generation::completion::request::GenerationRequest, Ollama};
-
-use super::LLM;
+use super::{error, LLM};
 
 pub struct OllamaLLM; // Ensure this line is present
 
 impl LLM for OllamaLLM {
-    async fn prompt(&self, input: &str) -> Result<String, String> {
+    async fn prompt(&self, input: &str) -> super::error::Result<String> {
         // By default it will connect to localhost:11434
         let ollama = Ollama::default();
 
@@ -17,13 +16,9 @@ impl LLM for OllamaLLM {
 
         let res = ollama.generate(GenerationRequest::new(model, prompt)).await;
 
-        let ret = if let Ok(res) = res {
-            println!("{}", res.response);
-            res.response
-        } else {
-            println!("Error: {:?}", res);
-            "".to_string()
-        };
-        Ok(ret) // Return the response
+        match res {
+            Ok(res) => Ok(res.response),
+            Err(e) => Err(error::LLMProviderError::OllamaError(e))
+        }
     }
 }

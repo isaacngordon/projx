@@ -18,6 +18,7 @@ toml = "0.8.15"
 whoami = "1.5.1"
 tokio = { version = "1.38.1", features = ["full"] }
 serde_json = "1.0.120"
+derive_more = {version = "0.99.18", features = ["from"]}
 
 [workspace]
 members = [ "crates/google","crates/waveapp"]

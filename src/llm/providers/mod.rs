@@ -1,3 +1,4 @@
+mod error;
 mod ollama;
 mod openai;
 
@@ -5,7 +6,7 @@ pub use ollama::*;
 pub use openai::*;
 
 pub trait LLM {
-    async fn prompt(&self, input: &str) -> Result<String, String>;
+    async fn prompt(&self, input: &str) -> error::Result<String>;
 }
 
 #[cfg(test)]
@@ -18,8 +19,10 @@ mod tests {
     #[tokio::test]
     async fn test_openai_llm() {
         let model = OpenAILLM;
-        let response = model.prompt("Who is Marc?").await;
+        let prompt = "Who is Marc?";
+        let response = model.prompt(prompt).await;
         assert!(response.is_ok(), "Response: {:?}", response.unwrap_err());
+        println!("Test Prompt: {}\nOpenAI: {:?}", prompt, response.unwrap());
     }
 
     #[tokio::test]
@@ -27,5 +30,6 @@ mod tests {
         let model = OllamaLLM;
         let response = model.prompt("Who is Marc?").await;
         assert!(response.is_ok(), "Response: {:?}", response.unwrap_err());
+        println!("Test Prompt: {}\nOllama: {:?}", "Who is Marc?", response.unwrap());
     }
 }

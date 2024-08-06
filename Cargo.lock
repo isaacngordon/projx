@@ -1195,6 +1195,7 @@ name = "projx"
 version = "0.1.0"
 dependencies = [
  "clap",
+ "derive_more",
  "dirs",
  "ollama-rs",
  "reqwest",

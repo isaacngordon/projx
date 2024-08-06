@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use crate::{client::schema, WaveAppClient};
 use cynic::{GraphQlResponse, QueryBuilder};
 
