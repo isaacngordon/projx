@@ -4,7 +4,7 @@ pub type Result<T> = core::result::Result<T, Error>;
 
 #[derive(Debug, From)]
 pub enum Error {
-    GraphQL {
+    GraphQLCustomError {
         url: String,
         status_code: u16,
         message: String,
@@ -12,6 +12,12 @@ pub enum Error {
 
     #[from]
     SerdeJson(serde_json::Error),
+
+    #[from]
+    ReqwestError(reqwest::Error),
+
+    #[from]
+    CynicGraphQlError(cynic::GraphQlError),
 
     CustomError(String),
 }
