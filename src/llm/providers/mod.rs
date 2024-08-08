@@ -30,6 +30,10 @@ mod tests {
         let model = OllamaLLM;
         let response = model.prompt("Who is Marc?").await;
         assert!(response.is_ok(), "Response: {:?}", response.unwrap_err());
-        println!("Test Prompt: {}\nOllama: {:?}", "Who is Marc?", response.unwrap());
+        println!(
+            "Test Prompt: {}\nOllama: {:?}",
+            "Who is Marc?",
+            response.unwrap()
+        );
     }
 }

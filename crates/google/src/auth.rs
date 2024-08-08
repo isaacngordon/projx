@@ -3,10 +3,13 @@
 // isaacgordon@Isaacs-Mac-Studio config % ls
 // google_service_account.json
 
-use std::{io::{BufRead, BufReader, Write}, net::TcpListener};
 use oauth2::{basic::BasicClient, AuthUrl, ClientId, ClientSecret, TokenUrl};
 use reqwest::Url;
 use serde::Deserialize;
+use std::{
+    io::{BufRead, BufReader, Write},
+    net::TcpListener,
+};
 
 const GOOGLE_ACCESS_TOKEN_SAVE_PATH: &str = "./config/access_token";
 const GOOGLE_REFRESH_TOKEN_SAVE_PATH: &str = "./config/refresh_token";
@@ -62,16 +65,17 @@ pub async fn example_raw_get_access_and_refresh_tokens() -> crate::error::Result
     let service_account = GoogleServiceAccount::default();
     let oauth_client = BasicClient::new(
         ClientId::new(service_account.client_id),
-        None, 
+        None,
         // Some(ClientSecret::new(service_account.client_secret.ok_or(
         //     crate::error::Error::CustomError("No client secret".to_owned()),
         // )?))
         AuthUrl::new(service_account.auth_uri).unwrap(),
         Some(TokenUrl::new(service_account.token_uri).unwrap()),
-    ).set_revocation_uri(
+    )
+    .set_revocation_uri(
         oauth2::RevocationUrl::new("https://oauth2.googleapis.com/revoke".to_string())
             .expect("Invalid revocation endpoint URL"),
-    );;
+    );
 
     let http_client = reqwest::ClientBuilder::new()
         // Following redirects opens the client up to SSRF vulnerabilities.
@@ -162,9 +166,6 @@ pub async fn example_raw_get_access_and_refresh_tokens() -> crate::error::Result
     //     .unwrap()
     //     .request(&http_client)
     //     .expect("Failed to revoke token");
-
-
-
 
     let access_token = "dummy".to_string();
     let refresh_token = "dummy".to_string();

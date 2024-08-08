@@ -33,9 +33,15 @@ impl LLM for OpenAILLM {
 
         if json["error"].is_object() {
             return Err(error::LLMProviderError::Other(format!(
-                "Code: {} Error: {}", 
-                json["error"]["message"].as_str().unwrap_or("<no message>").to_string(),
-                json["error"]["code"].as_str().unwrap_or("<no code>").to_string()
+                "Code: {} Error: {}",
+                json["error"]["message"]
+                    .as_str()
+                    .unwrap_or("<no message>")
+                    .to_string(),
+                json["error"]["code"]
+                    .as_str()
+                    .unwrap_or("<no code>")
+                    .to_string()
             )));
         }
 

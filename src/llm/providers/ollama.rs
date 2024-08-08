@@ -1,5 +1,5 @@
-use ollama_rs::{generation::completion::request::GenerationRequest, Ollama};
 use super::{error, LLM};
+use ollama_rs::{generation::completion::request::GenerationRequest, Ollama};
 
 pub struct OllamaLLM; // Ensure this line is present
 
@@ -18,7 +18,7 @@ impl LLM for OllamaLLM {
 
         match res {
             Ok(res) => Ok(res.response),
-            Err(e) => Err(error::LLMProviderError::OllamaError(e))
+            Err(e) => Err(error::LLMProviderError::OllamaError(e)),
         }
     }
 }

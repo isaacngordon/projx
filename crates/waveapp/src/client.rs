@@ -23,7 +23,7 @@ impl Default for WaveAppClient {
     fn default() -> Self {
         let wave_tkn = std::env::var("WAVEAPP_FULL_ACCESS_TOKEN")
             .expect("Could not find env variable WAVEAPP_FULL_ACCESS_TOKEN");
-        
+
         let headers = vec![
             format!("Authorization: Bearer {}", wave_tkn),
             "Content-Type: application/json".to_string(),
@@ -42,7 +42,8 @@ impl Default for WaveAppClient {
                 .collect::<HeaderMap>(),
             business_id: None,
         }
-    }}
+    }
+}
 
 impl WaveAppClient {
     pub fn new(business_id: String) -> Self {
@@ -52,7 +53,7 @@ impl WaveAppClient {
             business_id: Some(business_id),
         }
     }
-    
+
     pub async fn query_raw<T>(
         &self,
         operation: impl Serialize + Sized,
@@ -69,9 +70,7 @@ impl WaveAppClient {
         let res = req.await?;
         let status_code = res.status();
 
-        let data = res
-            .text()
-            .await?;
+        let data = res.text().await?;
 
         if status_code.is_success() {
             // Use a generic lifetime `'de` for deserialization

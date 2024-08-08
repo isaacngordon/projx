@@ -1,5 +1,5 @@
-mod error;
 mod auth;
+mod error;
 mod google_oauth;
 pub use error::{Error, Result};
 
