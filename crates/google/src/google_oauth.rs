@@ -44,7 +44,7 @@ impl GoogleOAuth {
     pub async fn obtain_access_token(
         &self,
         scopes: &[&str],
-    ) -> Result<String, Box<dyn std::error::Error>> {
+    ) -> crate::error::Result<String> {
         let now = SystemTime::now().duration_since(UNIX_EPOCH)?.as_secs() as usize;
         let exp = now + 3600; // Token valid for 1 hour
         let claims = Claims {
@@ -69,29 +69,33 @@ impl GoogleOAuth {
             .send()
             .await?;
 
+        if !response.status().is_success() {
+            return Err(crate::error::Error::CustomError(format!(
+                "Failed to obtain access token: {}",
+                response.text().await?
+            )));
+        }
+
         let json: HashMap<String, String> = response.json().await?;
         let access_token = json
             .get("access_token")
-            .ok_or("Access token not found")?
-            .clone();
+            .ok_or(crate::error::Error::CustomError("No access token found in response".to_string()))?;
 
-        Ok(access_token)
+        Ok(access_token.to_owned())
     }
 }
 
-mod tests {
+mod googl_oauth_tests {
 
     use super::*;
 
     #[tokio::test]
-    async fn test_auth_works() {
-        let oauth = GoogleOAuth::new("crates/google/config/service-account.json");
+    async fn test_auth_works() -> Result<(), crate::error::Error> {
+        let oauth = GoogleOAuth::new("./config/google_service_account.json");
         let scopes = vec!["https://www.googleapis.com/auth/cloud-platform"]; // Define your scopes here
 
-        match oauth.obtain_access_token(&scopes).await {
-            Ok(token) => println!("Access Token: {}", token),
-
-            Err(e) => eprintln!("Error obtaining access token: {}", e),
-        }
+        let res = oauth.obtain_access_token(&scopes).await?;
+        println!("Access token: {}", res);
+        Ok(())
     }
 }

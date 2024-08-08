@@ -58,11 +58,26 @@ impl GoogleServiceAccount {
         service_account.client_secret = Some(client_secret.to_string());
         Ok(service_account)
     }
+
+    pub fn loaded(&self) -> bool {
+        self.client_id.len() > 0
+            && self.client_email.len() > 0
+            && self.private_key.len() > 0
+            && self.auth_uri.len() > 0
+            && self.token_uri.len() > 0
+    }
 }
 
 pub async fn example_raw_get_access_and_refresh_tokens() -> crate::error::Result<Vec<String>> {
     // Load the service account file
     let service_account = GoogleServiceAccount::default();
+    if !service_account.loaded() {
+        return Err(crate::error::Error::CustomError(
+            "Service account not loaded".to_owned(),
+        ));
+    }
+    println!("Service Account Email: {}", service_account.client_email);
+
     let oauth_client = BasicClient::new(
         ClientId::new(service_account.client_id),
         None,
