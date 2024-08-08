@@ -1,5 +1,4 @@
 use std::fs;
-
 use jsonwebtoken::{encode, EncodingKey, Header};
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
@@ -20,33 +19,30 @@ struct Claims {
     iss: String,
     scope: String,
     aud: String,
-    exp: String, // Changed from usize to String
+    exp: String,
     iat: usize,
 }
 
-pub struct GoogleOAuth {
+pub struct JwtHandler {
     client: Client,
     service_account: ServiceAccount,
 }
 
-impl GoogleOAuth {
+impl JwtHandler {
     pub fn new(service_account_path: &str) -> Self {
         let service_account: ServiceAccount =
             serde_json::from_str(&fs::read_to_string(service_account_path).unwrap()).unwrap();
         let client = Client::new();
 
-        GoogleOAuth {
+        JwtHandler {
             client,
             service_account,
         }
     }
 
-    pub async fn obtain_access_token(
-        &self,
-        scopes: &[&str],
-    ) -> crate::error::Result<String> {
+    pub async fn obtain_access_token(&self, scopes: &[&str]) -> crate::error::Result<String> {
         let now = SystemTime::now().duration_since(UNIX_EPOCH)?.as_secs() as usize;
-        let exp = (now + 3600).to_string(); // Convert to String
+        let exp = (now + 3600).to_string();
         let claims = Claims {
             iss: self.service_account.client_email.clone(),
             scope: scopes.join(" "),
@@ -82,20 +78,5 @@ impl GoogleOAuth {
             .ok_or(crate::error::Error::CustomError("No access token found in response".to_string()))?;
 
         Ok(access_token.to_owned())
-    }
-}
-
-mod googl_oauth_tests {
-
-    use super::*;
-
-    #[tokio::test]
-    async fn test_auth_works() -> Result<(), crate::error::Error> {
-        let oauth = GoogleOAuth::new("./config/google_service_account.json");
-        let scopes = vec!["https://www.googleapis.com/auth/cloud-platform"]; // Define your scopes here
-
-        let res = oauth.obtain_access_token(&scopes).await?;
-        println!("Access token: {}", res);
-        Ok(())
     }
 }
