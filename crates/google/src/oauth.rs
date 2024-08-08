@@ -3,6 +3,7 @@ use std::fs;
 use jsonwebtoken::{encode, EncodingKey, Header};
 use reqwest::{Client, ClientBuilder};
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use std::collections::HashMap;
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -13,6 +14,13 @@ struct ServiceAccount {
     private_key: String,
     client_email: String,
     token_uri: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct AccessToken {
+    access_token: String,
+    token_type: String,
+    expires_in: usize,
 }
 
 #[derive(Debug, Serialize)]
@@ -47,7 +55,7 @@ impl GoogleOAuth {
     pub async fn obtain_access_token(
         &self,
         scopes: &[&str],
-    ) -> crate::error::Result<String> {
+    ) -> crate::error::Result<AccessToken> {
         let now = SystemTime::now().duration_since(UNIX_EPOCH)?.as_secs() as usize;
         let exp = (now + 3600).to_string(); // Convert to String
         let claims = Claims {
@@ -62,8 +70,6 @@ impl GoogleOAuth {
         let encoding_key = EncodingKey::from_rsa_pem(self.service_account.private_key.as_bytes())?;
         let jwt = encode(&header, &claims, &encoding_key)?;
 
-        println!("jwt: {}", jwt);
-
         let response = self
             .client
             .post(&self.service_account.token_uri)
@@ -74,23 +80,16 @@ impl GoogleOAuth {
             .send()
             .await?;
 
-        println!("send request to google oauth");
 
         if !response.status().is_success() {
             return Err(crate::error::Error::CustomError(format!(
-                "Failed to obtain access token: {}",
+                "HTTP status not success: {}",
                 response.text().await?
             )));
         }
 
-        let json: HashMap<String, String> = response.json().await?;
-        println!("json: {:?}", json);
-
-        let access_token = json
-            .get("access_token")
-            .ok_or(crate::error::Error::CustomError("No access token found in response".to_string()))?;
-
-        Ok(access_token.to_owned())
+        let access_token: AccessToken = response.json().await?;
+        Ok(access_token)
     }
 }
 
@@ -104,7 +103,7 @@ mod googl_oauth_tests {
         let scopes = vec!["https://www.googleapis.com/auth/calendar"]; // Define your scopes here
 
         let res = oauth.obtain_access_token(&scopes).await?;
-        println!("Access token: {}", res);
+        println!("\n\n[[[   Access token expires in {} seconds   ]]]\n\n", res.expires_in);
         Ok(())
     }
 }
