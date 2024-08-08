@@ -11,3 +11,5 @@ src/templates/*dummy*template*
 
 # config
 **/.env
+# config directory at the root of any crate
+crates/*/config/** 

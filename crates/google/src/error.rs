@@ -4,14 +4,15 @@ pub type Result<T> = core::result::Result<T, Error>;
 
 #[derive(Debug, From)]
 pub enum Error {
-    GraphQL {
-        url: String,
-        status_code: i32,
-        message: String,
-    },
 
     #[from]
-    SerdeJson(serde_json::Error),
+    ReqwestError(reqwest::Error),
+    #[from]
+    IoError(std::io::Error),
+    #[from]
+    SerdeJsonError(serde_json::Error),
+
+    CustomError(String),
 }
 
 // end boilerplate
