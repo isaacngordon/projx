@@ -1,7 +1,7 @@
 use std::fs;
 
 use jsonwebtoken::{encode, EncodingKey, Header};
-use reqwest::Client;
+use reqwest::{Client, ClientBuilder};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::time::{SystemTime, UNIX_EPOCH};
@@ -33,7 +33,10 @@ impl GoogleOAuth {
     pub fn new(service_account_path: &str) -> Self {
         let service_account: ServiceAccount =
             serde_json::from_str(&fs::read_to_string(service_account_path).unwrap()).unwrap();
-        let client = Client::new();
+        let client = ClientBuilder::new()
+            // Following redirects opens the client up to SSRF vulnerabilities.
+            .redirect(reqwest::redirect::Policy::none())
+            .build().unwrap();
 
         GoogleOAuth {
             client,
@@ -59,6 +62,8 @@ impl GoogleOAuth {
         let encoding_key = EncodingKey::from_rsa_pem(self.service_account.private_key.as_bytes())?;
         let jwt = encode(&header, &claims, &encoding_key)?;
 
+        println!("jwt: {}", jwt);
+
         let response = self
             .client
             .post(&self.service_account.token_uri)
@@ -69,6 +74,8 @@ impl GoogleOAuth {
             .send()
             .await?;
 
+        println!("send request to google oauth");
+
         if !response.status().is_success() {
             return Err(crate::error::Error::CustomError(format!(
                 "Failed to obtain access token: {}",
@@ -77,6 +84,8 @@ impl GoogleOAuth {
         }
 
         let json: HashMap<String, String> = response.json().await?;
+        println!("json: {:?}", json);
+
         let access_token = json
             .get("access_token")
             .ok_or(crate::error::Error::CustomError("No access token found in response".to_string()))?;
@@ -92,7 +101,7 @@ mod googl_oauth_tests {
     #[tokio::test]
     async fn test_auth_works() -> Result<(), crate::error::Error> {
         let oauth = GoogleOAuth::new("./config/google_service_account.json");
-        let scopes = vec!["https://www.googleapis.com/auth/cloud-platform"]; // Define your scopes here
+        let scopes = vec!["https://www.googleapis.com/auth/calendar"]; // Define your scopes here
 
         let res = oauth.obtain_access_token(&scopes).await?;
         println!("Access token: {}", res);
