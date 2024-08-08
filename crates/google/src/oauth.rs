@@ -1,10 +1,7 @@
-use std::fs;
-
 use jsonwebtoken::{encode, EncodingKey, Header};
 use reqwest::{Client, ClientBuilder};
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
-use std::collections::HashMap;
+use std::fs;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Debug, Deserialize)]
@@ -17,7 +14,7 @@ struct ServiceAccount {
 }
 
 #[derive(Debug, Deserialize)]
-struct AccessToken {
+pub struct AccessToken {
     access_token: String,
     token_type: String,
     expires_in: usize,
@@ -32,30 +29,28 @@ struct Claims {
     iat: usize,
 }
 
-pub struct GoogleOAuth {
+pub struct ServiceAccountOAuthManager {
     client: Client,
     service_account: ServiceAccount,
 }
 
-impl GoogleOAuth {
+impl ServiceAccountOAuthManager {
     pub fn new(service_account_path: &str) -> Self {
         let service_account: ServiceAccount =
             serde_json::from_str(&fs::read_to_string(service_account_path).unwrap()).unwrap();
         let client = ClientBuilder::new()
             // Following redirects opens the client up to SSRF vulnerabilities.
             .redirect(reqwest::redirect::Policy::none())
-            .build().unwrap();
+            .build()
+            .unwrap();
 
-        GoogleOAuth {
+        ServiceAccountOAuthManager {
             client,
             service_account,
         }
     }
 
-    pub async fn obtain_access_token(
-        &self,
-        scopes: &[&str],
-    ) -> crate::error::Result<AccessToken> {
+    pub async fn obtain_access_token(&self, scopes: &[&str]) -> crate::error::Result<AccessToken> {
         let now = SystemTime::now().duration_since(UNIX_EPOCH)?.as_secs() as usize;
         let exp = (now + 3600).to_string(); // Convert to String
         let claims = Claims {
@@ -80,7 +75,6 @@ impl GoogleOAuth {
             .send()
             .await?;
 
-
         if !response.status().is_success() {
             return Err(crate::error::Error::CustomError(format!(
                 "HTTP status not success: {}",
@@ -93,17 +87,20 @@ impl GoogleOAuth {
     }
 }
 
+#[cfg(test)]
 mod googl_oauth_tests {
-
-    use super::*;
+    use super::ServiceAccountOAuthManager;
 
     #[tokio::test]
     async fn test_auth_works() -> Result<(), crate::error::Error> {
-        let oauth = GoogleOAuth::new("./config/google_service_account.json");
+        let oauth = ServiceAccountOAuthManager::new("./config/google_service_account.json");
         let scopes = vec!["https://www.googleapis.com/auth/calendar"]; // Define your scopes here
 
         let res = oauth.obtain_access_token(&scopes).await?;
-        println!("\n\n[[[   Access token expires in {} seconds   ]]]\n\n", res.expires_in);
+        println!(
+            "\n\n[[[   Access token expires in {} seconds   ]]]\n\n",
+            res.expires_in
+        );
         Ok(())
     }
 }
