@@ -48,16 +48,22 @@ pub struct DiscoveryDocument {
     pub description: String,
     pub icons: Icons,
     pub documentation_link: String,
+    #[serde(default)]
     pub labels: Vec<String>,
     pub protocol: String,
     pub root_url: String,
     pub service_path: String,
     pub batch_path: String,
+    #[serde(default)]
     pub parameters: HashMap<String, JsonSchema>,
     pub auth: Auth,
+    #[serde(default)]
     pub features: Vec<String>,
+    #[serde(default)]
     pub schemas: HashMap<String, JsonSchema>,
+    #[serde(default)]
     pub methods: HashMap<String, Method>,
+    #[serde(default)]
     pub resources: HashMap<String, Resource>
 }
 
@@ -70,6 +76,7 @@ pub struct Auth {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct OAuth2 {
+    #[serde(default)]
     pub scopes: HashMap<String, Scope>
 }
 
@@ -93,12 +100,16 @@ pub struct JsonSchema {
     pub pattern: Option<String>,
     pub minimum: Option<String>,
     pub maximum: Option<String>,
+    #[serde(default)]
     pub enum_: Option<Vec<String>>,
+    #[serde(default)]
     pub enum_descriptions: Option<Vec<String>>,
+    #[serde(default)]
     pub enum_deprecated: Option<Vec<bool>>,
     pub repeated: Option<bool>,
     pub location: Option<String>,
-    pub properties: Option<HashMap<String, JsonSchema>>,
+    #[serde(default)]
+    pub properties: HashMap<String, JsonSchema>,
     pub additional_properties: Option<Box<JsonSchema>>,
     pub items: Option<Box<JsonSchema>>,
     pub annotations: Option<Annotations>
@@ -118,6 +129,7 @@ pub struct Method {
     pub http_method: String,
     pub description: String,
     pub deprecated: Option<bool>,
+    #[serde(default)]
     pub parameters: HashMap<String, JsonSchema>,
     pub parameter_order: Vec<String>,
     pub request: Option<Reference>,
@@ -147,7 +159,7 @@ pub struct MediaUpload {
 #[serde(rename_all = "camelCase")]
 pub struct MediaProtocols {
     pub simple: Protocol,
-    pub resumable: Protocol
+    pub resumable: Option<Protocol>
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -160,7 +172,9 @@ pub struct Protocol {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Resource {
+    #[serde(default)]
     pub methods: HashMap<String, Method>,
     pub deprecated: Option<bool>,
+    #[serde(default)]
     pub resources: HashMap<String, Resource>
 }
