@@ -13,7 +13,7 @@ pub struct DiscoveryItem {
     pub description: String,
     pub discovery_rest_url: String,
     pub icons: Icons,
-    pub documentation_link: Option<String>,
+    pub documentation_link: String,
     pub preferred: bool,
 }
 
@@ -89,30 +89,30 @@ struct Scope {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct JsonSchema {
-    pub id: Option<String>,
-    pub type_: Option<String>,
-    pub ref_: Option<String>,
-    pub description: Option<String>,
-    pub default: Option<String>,
-    pub required: Option<bool>,
-    pub deprecated: Option<bool>,
-    pub format: Option<String>,
-    pub pattern: Option<String>,
-    pub minimum: Option<String>,
-    pub maximum: Option<String>,
+    pub id: String,
+    pub type_: String,
+    pub ref_: String,
+    pub description: String,
+    pub default: String,
+    pub required: bool,
+    pub deprecated: bool,
+    pub format: String,
+    pub pattern: String,
+    pub minimum: String,
+    pub maximum: String,
     #[serde(default)]
-    pub enum_: Option<Vec<String>>,
+    pub enum_: Vec<String>,
     #[serde(default)]
-    pub enum_descriptions: Option<Vec<String>>,
+    pub enum_descriptions: Vec<String>,
     #[serde(default)]
-    pub enum_deprecated: Option<Vec<bool>>,
-    pub repeated: Option<bool>,
-    pub location: Option<String>,
+    pub enum_deprecated: Vec<bool>,
+    pub repeated: bool,
+    pub location: String,
     #[serde(default)]
     pub properties: HashMap<String, JsonSchema>,
-    pub additional_properties: Option<Box<JsonSchema>>,
-    pub items: Option<Box<JsonSchema>>,
-    pub annotations: Option<Annotations>
+    pub additional_properties: Box<JsonSchema>,
+    pub items: Box<JsonSchema>,
+    pub annotations: Annotations
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -128,23 +128,23 @@ pub struct Method {
     pub path: String,
     pub http_method: String,
     pub description: String,
-    pub deprecated: Option<bool>,
+    pub deprecated: bool,
     #[serde(default)]
     pub parameters: HashMap<String, JsonSchema>,
     pub parameter_order: Vec<String>,
-    pub request: Option<Reference>,
-    pub response: Option<Reference>,
+    pub request: Reference,
+    pub response: Reference,
     pub scopes: Vec<String>,
-    pub supports_media_download: Option<bool>,
-    pub supports_media_upload: Option<bool>,
-    pub media_upload: Option<MediaUpload>,
-    pub supports_subscription: Option<bool>
+    pub supports_media_download: bool,
+    pub supports_media_upload: bool,
+    pub media_upload: MediaUpload,
+    pub supports_subscription: bool
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Reference {
-    pub ref_: Option<String>
+    pub ref_: String
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -159,7 +159,7 @@ pub struct MediaUpload {
 #[serde(rename_all = "camelCase")]
 pub struct MediaProtocols {
     pub simple: Protocol,
-    pub resumable: Option<Protocol>
+    pub resumable: Protocol
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -174,7 +174,7 @@ pub struct Protocol {
 pub struct Resource {
     #[serde(default)]
     pub methods: HashMap<String, Method>,
-    pub deprecated: Option<bool>,
+    pub deprecated: bool,
     #[serde(default)]
     pub resources: HashMap<String, Resource>
 }
