@@ -2,12 +2,6 @@
 name = "google"
 version = "0.1.0"
 edition = "2021"
-build = "build.rs"
-
-[build-dependencies]
-
-[build-dependencies]
-tokio = { version = "1.38.1", features = ["full"] }
 
 [dependencies]
 derive_more = {version = "0.99.18", features = ["from"]}
