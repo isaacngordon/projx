@@ -7,7 +7,7 @@ fn main() {
 
     let rt = Runtime::new().unwrap();
     rt.block_on(async {
-        match crates::google::codegen::discovery::discover_apis().await {
+        match google::discover_apis().await {
             Ok(apis) => println!("Discovered APIs: {:?}", apis),
             Err(e) => eprintln!("Error discovering APIs: {:?}", e),
         }
