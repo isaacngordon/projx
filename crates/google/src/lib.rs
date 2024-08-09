@@ -1,5 +1,7 @@
 mod error;
 mod oauth;
-pub use error::{Error, Result};
+mod codegen;
 
-pub const DISCOVERY_API_ENDPOINT: &str = "https://discovery.googleapis.com/discovery/v1/apis";
+pub use error::{Error, Result};
+pub use oauth::ServiceAccountOAuthManager;
+

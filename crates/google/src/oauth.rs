@@ -1,3 +1,4 @@
+#![allow(unused)]
 use jsonwebtoken::{encode, EncodingKey, Header};
 use reqwest::{Client, ClientBuilder};
 use serde::{Deserialize, Serialize};
@@ -63,7 +64,7 @@ impl ServiceAccountOAuthManager {
 
         let header = Header::new(jsonwebtoken::Algorithm::RS256);
         let encoding_key = EncodingKey::from_rsa_pem(self.service_account.private_key.as_bytes())?;
-        let jwt = encode(&header, &claims, &encoding_key)?;
+        let jwt: String = encode(&header, &claims, &encoding_key)?;
 
         let response = self
             .client
