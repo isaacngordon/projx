@@ -1,5 +1,6 @@
 
 use tokio::runtime::Runtime;
+use google::discover_apis;
 
 fn main() {
     println!("----------------------------\nStarting API discovery...\n----------------------------");
