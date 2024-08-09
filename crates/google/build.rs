@@ -3,7 +3,9 @@ use tokio::runtime::Runtime;
 use google::discover_apis;
 
 fn main() {
-    println!("----------------------------\nStarting API discovery...\n----------------------------");
+    println!("----------------------------");
+    println!("Starting API discovery...");
+    println!("----------------------------");
 
     let rt = Runtime::new().unwrap();
     rt.block_on(async {
@@ -12,5 +14,7 @@ fn main() {
             Err(e) => eprintln!("Error discovering APIs: {:?}", e),
         }
     });
-    println!("----------------------------\nStarting API discovery...\n----------------------------");
+    println!("----------------------------");
+    println!("Finished API discovery.");
+    println!("----------------------------");
 }
