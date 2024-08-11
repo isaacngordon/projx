@@ -6,13 +6,16 @@ use std::collections::HashMap;
 #[serde(rename_all = "camelCase")]
 pub struct DiscoveryItem {
     pub kind: String,
+    #[serde(default)]
     pub id: String,
     pub name: String,
     pub version: String,
     pub title: String,
+    #[serde(default)]
     pub description: String,
     pub discovery_rest_url: String,
     pub icons: Icons,
+    #[serde(default)]
     pub documentation_link: String,
     pub preferred: bool,
 }
@@ -41,10 +44,12 @@ pub struct DiscoveryDocument {
     pub discovery_version: String,
     pub id: String,
     pub name: String,
+    #[serde(default)]
     pub canonical_name: String,
     pub version: String,
     pub revision: String,
     pub title: String,
+    #[serde(default)]
     pub description: String,
     pub icons: Icons,
     pub documentation_link: String,
@@ -56,7 +61,7 @@ pub struct DiscoveryDocument {
     pub batch_path: String,
     #[serde(default)]
     pub parameters: HashMap<String, JsonSchema>,
-    pub auth: Auth,
+    pub auth: Option<Auth>,
     #[serde(default)]
     pub features: Vec<String>,
     #[serde(default)]
@@ -70,6 +75,7 @@ pub struct DiscoveryDocument {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Auth {
+    #[serde(default)]
     oauth2: OAuth2
 }
 
@@ -83,22 +89,34 @@ struct OAuth2 {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct Scope {
+    #[serde(default)]
     pub description: String
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct JsonSchema {
+    #[serde(default)]
     pub id: String,
+    #[serde(default)]
     pub type_: String,
+    #[serde(default)]
     pub ref_: String,
+    #[serde(default)]
     pub description: String,
+    #[serde(default)]
     pub default: String,
+    #[serde(default)]
     pub required: bool,
+    #[serde(default)]
     pub deprecated: bool,
+    #[serde(default)]
     pub format: String,
+    #[serde(default)]
     pub pattern: String,
+    #[serde(default)]
     pub minimum: String,
+    #[serde(default)]
     pub maximum: String,
     #[serde(default)]
     pub enum_: Vec<String>,
@@ -106,18 +124,22 @@ pub struct JsonSchema {
     pub enum_descriptions: Vec<String>,
     #[serde(default)]
     pub enum_deprecated: Vec<bool>,
+    #[serde(default)]
     pub repeated: bool,
+    #[serde(default)]
     pub location: String,
     #[serde(default)]
     pub properties: HashMap<String, JsonSchema>,
-    pub additional_properties: Box<JsonSchema>,
-    pub items: Box<JsonSchema>,
+    pub additional_properties: Option<Box<JsonSchema>>,
+    pub items: Option<Box<JsonSchema>>,
+    #[serde(default)]
     pub annotations: Annotations
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Annotations {
+    #[serde(default)]
     pub required: Vec<String>
 }
 
@@ -127,39 +149,50 @@ pub struct Method {
     pub id: String,
     pub path: String,
     pub http_method: String,
+    #[serde(default)]
     pub description: String,
+    #[serde(default)]
     pub deprecated: bool,
     #[serde(default)]
     pub parameters: HashMap<String, JsonSchema>,
+    #[serde(default)]
     pub parameter_order: Vec<String>,
-    pub request: Reference,
-    pub response: Reference,
+    pub request: Option<Reference>,
+    pub response: Option<Reference>,
+    #[serde(default)]
     pub scopes: Vec<String>,
+    #[serde(default)]
     pub supports_media_download: bool,
+    #[serde(default)]
     pub supports_media_upload: bool,
-    pub media_upload: MediaUpload,
+    pub media_upload: Option<MediaUpload>,
+    #[serde(default)]
     pub supports_subscription: bool
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Reference {
+    #[serde(default)]
     pub ref_: String
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct MediaUpload {
+    #[serde(default)]
     pub accept: Vec<String>,
+    #[serde(default)]
     pub max_size: String,
+    #[serde(default)]
     pub protocols: MediaProtocols
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct MediaProtocols {
-    pub simple: Protocol,
-    pub resumable: Protocol
+    pub simple: Option<Protocol>,
+    pub resumable: Option<Protocol>
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -174,6 +207,7 @@ pub struct Protocol {
 pub struct Resource {
     #[serde(default)]
     pub methods: HashMap<String, Method>,
+    #[serde(default)]
     pub deprecated: bool,
     #[serde(default)]
     pub resources: HashMap<String, Resource>

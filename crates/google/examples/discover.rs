@@ -10,22 +10,19 @@ async fn main () -> Result<(), Error> {
     let mut success = 0;
     let mut failure = 0;
 
-    for api in apis {
-        println!("API: {}", api.name);
+    for i in 0..apis.len() {
+        let api = &apis[i];
+        println!("{}/{} API: {}", i+1, apis.len(), api.name);
         match api.get_discovery_document().await {
-            Ok(doc) => {
-                println!("  ==> Title: {}\nDescription: {}", doc.title, doc.description);
-                success += 1;
-            },
+            Ok(_) => success += 1,
             Err(e) => {
                 println!("  ==> Error: {}", e);
                 failure += 1;
             }
         }
-        // if failure > 50 || success > 50 {
-        //     break;
-        // }
     }
+
+    println!("Success: {}\nFailure: {}", success, failure);
 
     Ok(())
 }
