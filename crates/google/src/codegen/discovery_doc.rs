@@ -21,8 +21,7 @@ pub struct DiscoveryItem {
 }
 
 impl DiscoveryItem {
-    pub async fn get_discovery_document(&self) -> crate::error::Result<DiscoveryDocument> {
-        let client = reqwest::Client::new();
+    pub async fn get_discovery_document(&self, client: &reqwest::Client) -> crate::error::Result<DiscoveryDocument> {
         let response = client.get(&self.discovery_rest_url).send().await?;
         let json = response.json::<serde_json::Value>().await?;
         let doc = serde_json::from_value(json)?;

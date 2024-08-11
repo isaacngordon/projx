@@ -5,7 +5,8 @@ use std::sync::Arc; // For shared ownership of the Mutex
 
 #[tokio::main]
 async fn main () -> Result<(), Error> {
-    let apis = discover_apis().await?;
+    let client = reqwest::Client::new();
+    let apis = discover_apis(&client).await?;
     println!("Number of APIs: {}", apis.len());
 
     let start_time = std::time::Instant::now();
@@ -31,7 +32,8 @@ async fn main () -> Result<(), Error> {
             async move {
                 println!("Starting task {}/{} - API: {}", i + 1, api_count, api.name);
                 
-                match api.get_discovery_document().await {
+                let inner_client = reqwest::Client::new();
+                match api.get_discovery_document(&inner_client).await {
                     Ok(doc) => {
                         // Request a lock on the shared data. We do not need to explicitly unlock it,
                         // because the MutexGuard is dropped at the end of the scope.
