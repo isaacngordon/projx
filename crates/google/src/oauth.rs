@@ -21,6 +21,18 @@ pub struct AccessToken {
     expires_in: usize,
 }
 
+#[cfg(target_env = "test")]
+impl Default for AccessToken {
+    fn default() -> Self {
+        println!("WARNING: Default AccessToken is being used. This is only a mock and should not be used in production.");
+        AccessToken {
+            access_token: String::new(),
+            token_type: String::new(),
+            expires_in: 0,
+        }
+    }
+}
+
 #[derive(Debug, Serialize)]
 struct Claims {
     iss: String,

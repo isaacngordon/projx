@@ -1,6 +1,10 @@
 #[allow(dead_code,unused)]
 use super::DiscoveryItem;
 
+pub fn create_http_client() -> reqwest::Client {
+    reqwest::Client::new()
+}
+
 const DISCOVERY_API_ENDPOINT: &str = "https://discovery.googleapis.com/discovery/v1/apis";
 
 pub fn get_discovery_api_endpoint() -> String {

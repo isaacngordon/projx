@@ -1,9 +1,8 @@
 use google::discover_apis;
 use google::Error;
 
-
 #[tokio::main]
-async fn main () -> Result<(), Error> {
+async fn main() -> Result<(), Error> {
     let client = reqwest::Client::new();
     let apis = discover_apis(&client).await?;
     println!("Number of APIs: {}", apis.len());
@@ -13,7 +12,7 @@ async fn main () -> Result<(), Error> {
 
     for i in 0..apis.len() {
         let api = &apis[i];
-        println!("{}/{} API: {}", i+1, apis.len(), api.name);
+        println!("{}/{} API: {}", i + 1, apis.len(), api.name);
         match api.get_discovery_document(&client).await {
             Ok(_) => success += 1,
             Err(e) => {

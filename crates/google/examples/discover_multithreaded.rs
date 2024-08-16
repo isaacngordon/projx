@@ -1,10 +1,10 @@
-use google::{discover_apis, Error};
 use futures::stream::{self, StreamExt};
-use tokio::sync::Mutex; // For safe concurrent access to shared data
-use std::sync::Arc; // For shared ownership of the Mutex
+use google::{discover_apis, Error};
+use std::sync::Arc;
+use tokio::sync::Mutex; // For safe concurrent access to shared data // For shared ownership of the Mutex
 
 #[tokio::main]
-async fn main () -> Result<(), Error> {
+async fn main() -> Result<(), Error> {
     let client = reqwest::Client::new();
     let apis = discover_apis(&client).await?;
     println!("Number of APIs: {}", apis.len());
@@ -13,14 +13,14 @@ async fn main () -> Result<(), Error> {
 
     // A shared vector to store successful DiscoveryDocs, wrapped in Arc and Mutex for thread safety
     let discovery_docs = Arc::new(Mutex::new(Vec::new()));
-    // Even for the counters we need Arc and Mutex because unlike in previous examples, 
+    // Even for the counters we need Arc and Mutex because unlike in previous examples,
     // there is no definite order in the runtime of the tasks, nor a guarantee that they will not overlap.
     let success_counter = Arc::new(Mutex::new(0));
     let failure_counter = Arc::new(Mutex::new(0));
 
     // Process APIs concurrently with a limit on the number of concurrent tasks
     let concurrency_limit = 4; // Adjust this as needed
-    
+
     let api_count = apis.len();
     stream::iter(apis)
         .enumerate()
@@ -31,7 +31,7 @@ async fn main () -> Result<(), Error> {
             let failure_counter = Arc::clone(&failure_counter);
             async move {
                 println!("Starting task {}/{} - API: {}", i + 1, api_count, api.name);
-                
+
                 let inner_client = reqwest::Client::new();
                 match api.get_discovery_document(&inner_client).await {
                     Ok(doc) => {
@@ -43,14 +43,25 @@ async fn main () -> Result<(), Error> {
                         // Increment success counter
                         let mut success = success_counter.lock().await;
                         *success += 1;
-                        println!("Task {}/{} succeeded. Success count: {}", i + 1, api_count, *success);
+                        println!(
+                            "Task {}/{} succeeded. Success count: {}",
+                            i + 1,
+                            api_count,
+                            *success
+                        );
                         Ok::<(), Error>(())
-                    },
+                    }
                     Err(e) => {
                         // Increment failure counter
                         let mut failure = failure_counter.lock().await;
                         *failure += 1;
-                        println!("Task {}/{} failed. Failure count: {}. Error: {}", i + 1, api_count, *failure, e);
+                        println!(
+                            "Task {}/{} failed. Failure count: {}. Error: {}",
+                            i + 1,
+                            api_count,
+                            *failure,
+                            e
+                        );
                         Err::<(), Error>(e)
                     }
                 }
@@ -68,7 +79,7 @@ async fn main () -> Result<(), Error> {
     let success_count = Arc::try_unwrap(success_counter)
         .expect("Failed to unwrap Arc")
         .into_inner();
-    
+
     let failure_count = Arc::try_unwrap(failure_counter)
         .expect("Failed to unwrap Arc")
         .into_inner();
@@ -79,7 +90,11 @@ async fn main () -> Result<(), Error> {
     println!("Collected {} DiscoveryDocs", discovery_docs.len());
 
     let elapsed = start_time.elapsed();
-    println!("Elapsed time: {}.{:03} seconds", elapsed.as_secs(), elapsed.subsec_millis());
+    println!(
+        "Elapsed time: {}.{:03} seconds",
+        elapsed.as_secs(),
+        elapsed.subsec_millis()
+    );
 
     Ok(())
 }

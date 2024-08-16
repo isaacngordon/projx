@@ -2,6 +2,11 @@
 name = "google"
 version = "0.1.0"
 edition = "2021"
+build = "build.rs"
+
+[build-dependencies]
+syn = "1.0"
+quote = "1.0"
 
 [dependencies]
 derive_more = {version = "0.99.18", features = ["from"]}
@@ -12,3 +17,6 @@ tokio = { version = "1.38.1", features = ["full"] }
 oauth2 = "4.4.2"
 jsonwebtoken = "9.3.0"
 futures = "0.3.30"
+syn = "1.0"
+quote = "1.0"
+proc-macro2 = "1.0.86"

@@ -735,9 +735,12 @@ dependencies = [
  "futures",
  "jsonwebtoken",
  "oauth2",
+ "proc-macro2",
+ "quote",
  "reqwest 0.12.5",
  "serde",
  "serde_json",
+ "syn 1.0.109",
  "tokio",
 ]
 

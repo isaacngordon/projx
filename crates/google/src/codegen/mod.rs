@@ -1,6 +1,9 @@
 mod discovery_doc;
-mod discovery;
 mod builder;
+mod traits;
+mod client;
+
+pub mod utils;
 
 pub use discovery_doc::*;
-pub use discovery::*;
+pub use builder::GoogleServicesAPIBuilder;
